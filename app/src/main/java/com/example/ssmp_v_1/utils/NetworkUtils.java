@@ -11,7 +11,8 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    private static final String BASE_URL = "http://85.172.11.152:9871/ssmp";
+//    private static final String BASE_URL = "http://85.172.11.152:9872/ssmp";
+    private static final String BASE_URL = "http://85.172.11.152:9871/ssmp11";
     private static final String NUMBER = "number";
     private static final String DATE = "date";
     private static final String FIO = "fio";

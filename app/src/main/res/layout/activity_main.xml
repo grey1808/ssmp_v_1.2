@@ -20,15 +20,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
                 <TextView
-
                     android:id="@+id/et_search_result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/found_call"
                     android:padding="10dp"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    />
+
+                <TextView
+                    android:id="@+id/et_search_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/error_message"
+                    android:padding="10dp"
+                    android:textSize="25sp"
+                    android:visibility="invisible"/>
             </LinearLayout>
 
             <LinearLayout
@@ -47,46 +55,31 @@
                 </ListView>
             </LinearLayout>
 
-            <TableLayout
-                android:id="@+id/tableLayout"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:stretchColumns="*"
-                android:background="#7FC342"
+                android:orientation="vertical">
                 >
-<!--                <TableRow-->
-<!--                    android:id="@+id/tr_row"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_t1"-->
-<!--                        android:clickable="false"-->
-<!--                        android:textColor="#fff"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:gravity="center_horizontal"-->
-<!--                        android:background="#7fc342"-->
-<!--                        android:text="123"-->
-<!--                        android:padding="3dip" />-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_t2"-->
-<!--                        android:clickable="false"-->
-<!--                        android:textColor="#fff"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:gravity="center_horizontal"-->
-<!--                        android:background="#7fc342"-->
-<!--                        android:text="Иванов Иван Иванович"-->
-<!--                        android:padding="3dip" />-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_t3"-->
-<!--                        android:clickable="false"-->
-<!--                        android:textColor="#fff"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:gravity="center_horizontal"-->
-<!--                        android:background="#7fc342"-->
-<!--                        android:text="Жалобы"-->
-<!--                        android:padding="3dip" />-->
-<!--                </TableRow>-->
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-            </TableLayout>
+                        <TableLayout
+                            android:id="@+id/tableLayout"
+                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:stretchColumns="*"
+                            android:background="#7FC342"
+                            android:textSize="45sp"
+                            >
+                        </TableLayout>
+                    </ScrollView>
+                </HorizontalScrollView>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

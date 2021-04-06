@@ -39,7 +39,17 @@ public class MainActivity extends AppCompatActivity {
     private Button b_search_clear; // Кнопка очистить
     private Button b_search_send; // Кнопка отправить
     private TextView et_search_result; // Список вызовов
+    private TextView et_search_error; // поле для ошибки
     String[] search_ssmp_list = { "Все", "Активные", "Завершенные"}; // Выпадающие список в форме
+
+    private void showResultTextView(){
+        et_search_result.setVisibility(View.VISIBLE);
+        et_search_error.setVisibility(View.INVISIBLE);
+    } // Скрывает текст с ошибкой, показывает результат запроса
+    private void showErrorTextView(){
+        et_search_result.setVisibility(View.INVISIBLE);
+        et_search_error.setVisibility(View.VISIBLE);
+    } // Показывает текст с ошибкой, скрыватет результат запроса
 
     class QueryTask extends AsyncTask<URL, Void, String> {
 
@@ -56,60 +66,92 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String response){
-            et_search_result.setText(response);
-          try {
-                JSONArray jsonArray = new JSONArray(response); // получаем ответ от сервера
+//            et_search_result.setText(response);
+            if (response != null && !response.equals("")){
+            try {
+                JSONObject list = new JSONObject(response);
 
-                TableLayout tblLayout = null;
-                tblLayout = (TableLayout) findViewById(R.id.tableLayout);
+                Integer status = (Integer) list.get("status");
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject list = jsonArray.getJSONObject(i);
-                    TableRow tableRow = new TableRow(MainActivity.this);
-                    tableRow.setLayoutParams(new TableLayout.LayoutParams(
-                            TableLayout.LayoutParams.MATCH_PARENT,
-                            TableLayout.LayoutParams.WRAP_CONTENT));
-                    TextView textView1 = new TextView(MainActivity.this);
-                    TextView textView2 = new TextView(MainActivity.this);
-                    TextView textView3 = new TextView(MainActivity.this);
-                    TextView textView4 = new TextView(MainActivity.this);
-                    textView1.setTextColor(Color.WHITE);
-                    textView2.setTextColor(Color.WHITE);
-                    textView3.setTextColor(Color.WHITE);
-                    textView4.setTextColor(Color.WHITE);
-                    textView1.setPadding(5, 5, 5, 5);
-                    textView2.setPadding(5, 5, 5, 5);
-                    textView3.setPadding(5, 5, 5, 5);
-                    textView4.setPadding(5, 5, 5, 5);
-                    textView1.setText(list.getString("name"));
-                    textView2.setText(list.getString("content"));
-                    textView3.setText(list.getString("text"));
-                    textView4.setText(list.getString("like"));
-
-                    tableRow.addView(textView1);
-                    tableRow.addView(textView2);
-                    tableRow.addView(textView3);
-                    tableRow.addView(textView4);
-                    tblLayout.addView(tableRow, i);
-                    tableRow.setClickable(true);
-                    tableRow.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-//                            et_search_result.setText("dsdsd");
-                            TableRow t = (TableRow) v;
-                            TextView firstTextView = (TextView) t.getChildAt(0);
-                            TextView secondTextView = (TextView) t.getChildAt(1);
-                            String firstText = firstTextView.getText().toString();
-                            String secondText = secondTextView.getText().toString();
-                            et_search_result.setText(secondText + " " + firstText);
-                        }
-                    });
+                if(status != 0){
+                    String jsonArray = list.getString("result");
+                    printListTable(jsonArray);
+                    showResultTextView();
+                }else {
+                    TableLayout tblLayout = null;
+                    tblLayout = (TableLayout) findViewById(R.id.tableLayout);
+                    tblLayout.removeAllViews();
+                    showErrorTextView();
                 }
+
             } catch (JSONException e) {
+                showResultTextView();
                 e.printStackTrace();
+            }
+            }else {
+                showErrorTextView();
             }
 
           }
+
+          /*Распечатать response*/
+          protected void printListTable(String response){
+              try {
+                  JSONArray jsonArray = new JSONArray(response); // получаем ответ от сервера
+                  TableLayout tblLayout = null;
+                  tblLayout = (TableLayout) findViewById(R.id.tableLayout);
+                  tblLayout.removeAllViews();
+
+                  for (int i = 0; i < jsonArray.length(); i++) {
+                      JSONObject list = jsonArray.getJSONObject(i);
+                      TableRow tableRow = new TableRow(MainActivity.this);
+                      tableRow.setLayoutParams(new TableLayout.LayoutParams(
+                              TableLayout.LayoutParams.MATCH_PARENT,
+                              TableLayout.LayoutParams.WRAP_CONTENT));
+                      TextView textView1 = new TextView(MainActivity.this);
+                      TextView textView2 = new TextView(MainActivity.this);
+                      TextView textView3 = new TextView(MainActivity.this);
+                      TextView textView4 = new TextView(MainActivity.this);
+                      textView1.setTextColor(Color.WHITE);
+                      textView2.setTextColor(Color.WHITE);
+                      textView3.setTextColor(Color.WHITE);
+                      textView4.setTextColor(Color.WHITE);
+                      textView1.setPadding(10, 10, 10, 10);
+                      textView2.setPadding(10, 10, 10, 10);
+                      textView3.setPadding(10, 10, 10, 10);
+                      textView4.setPadding(10, 10, 10, 10);
+                      textView1.setTextSize(20);
+                      textView2.setTextSize(20);
+                      textView3.setTextSize(20);
+                      textView4.setTextSize(20);
+                      textView1.setText(list.getString("fio"));
+                      textView2.setText(list.getString("address"));
+                      textView3.setText(list.getString("contact"));
+                      textView4.setText(list.getString("result"));
+                      tableRow.addView(textView1);
+                      tableRow.addView(textView2);
+                      tableRow.addView(textView3);
+                      tableRow.addView(textView4);
+                      tblLayout.addView(tableRow, i);
+                      tableRow.setClickable(true);
+                      tableRow.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+//                            et_search_result.setText("dsdsd");
+                              TableRow t = (TableRow) v;
+                              TextView firstTextView = (TextView) t.getChildAt(0);
+                              TextView secondTextView = (TextView) t.getChildAt(1);
+                              String firstText = firstTextView.getText().toString();
+                              String secondText = secondTextView.getText().toString();
+                              et_search_result.setText(secondText + " " + firstText);
+                          }
+                      });
+                  }
+              } catch (JSONException e) {
+                  e.printStackTrace();
+              }
+          }
+
         }
 
     @Override
@@ -131,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         b_search_clear = findViewById(R.id.b_search_clear);
         b_search_send = findViewById(R.id.b_search_send);
         et_search_result = findViewById(R.id.et_search_result);
+        et_search_error = findViewById(R.id.et_search_error);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -146,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-                et_search_result.setText(generatedURL.toString());
+//                et_search_result.setText(generatedURL.toString());
                 // master
                 new QueryTask().execute(generatedURL);
             }
