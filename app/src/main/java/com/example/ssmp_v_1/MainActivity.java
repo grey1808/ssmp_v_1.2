@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 et_search_result.setText(generatedURL.toString());
+                // master
                 new QueryTask().execute(generatedURL);
             }
         };
