@@ -57,49 +57,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String response){
             et_search_result.setText(response);
-            //TableLayout tblLayout = null;
-            //tblLayout = (TableLayout) findViewById(R.id.tableLayout);
-//            TableRow tableRow = new TableRow(MainActivity.this);
-//            tableRow.setLayoutParams(new TableLayout.LayoutParams(
-//                    TableLayout.LayoutParams.MATCH_PARENT,
-//                    TableLayout.LayoutParams.WRAP_CONTENT));
-//
-//            TextView textView1 = new TextView(MainActivity.this);
-//            textView1.setTextColor(Color.WHITE);
-//            textView1.setPadding(5, 5, 5, 5);
-//
-//            TextView textView2 = new TextView(MainActivity.this);
-//            textView1.setTextColor(Color.WHITE);
-//            textView1.setPadding(5, 5, 5, 5);
-//
-//            textView1.setText("one");
-//            textView2.setText("two");
-//            tableRow.addView(textView1);
-//            tableRow.addView(textView2);
-//            tblLayout.addView(tableRow);
-//            tableRow.setId(View.generateViewId());
-//            textView2.setId(View.generateViewId());
-//            et_search_result.setText(""+tableRow.getId()+"--"+textView2.getId());
-            //tableRow.setOnClickListener(findViewById(tableRow.getId()));
-
-//            tableRow.setOnClickListener(new View.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(View v) {
-//                                                et_search_result.setText("dsdsd");
-
-//                TableRow tablerow = (TableRow)v.getParent();
-//                TextView items = (TextView) tablerow.getChildAt(2);
-//                String myText = items.getText().toString();
-//                TableRow t = (TableRow) v;
-//                TextView firstTextView = (TextView) t.getChildAt(0);
-//                TextView secondTextView = (TextView) t.getChildAt(1);
-//                String firstText = firstTextView.getText().toString();
-//                String secondText = secondTextView.getText().toString();
-//                et_search_result.setText(firstText);
-//                                            }
-//                                        }
-//            );
-
           try {
                 JSONArray jsonArray = new JSONArray(response); // получаем ответ от сервера
 
@@ -144,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                             TextView secondTextView = (TextView) t.getChildAt(1);
                             String firstText = firstTextView.getText().toString();
                             String secondText = secondTextView.getText().toString();
-                            et_search_result.setText(secondText);
+                            et_search_result.setText(secondText + " " + firstText);
                         }
                     });
                 }
@@ -196,106 +153,7 @@ public class MainActivity extends AppCompatActivity {
         };
         b_search_send.setOnClickListener(onClickListener);
 
-//        TableRow tableRow = new TableRow(this);
-//        new tableRow()
-//        tableRow.findViewById(tableRow.getId());
-//        tableRow.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                et_search_result.setText("dsdsd");
-
-//                TableRow tablerow = (TableRow)v.getParent();
-//                TextView items = (TextView) tablerow.getChildAt(2);
-//                String myText = items.getText().toString();
-//                TableRow t = (TableRow) v;
-//                TextView firstTextView = (TextView) t.getChildAt(0);
-//                TextView secondTextView = (TextView) t.getChildAt(1);
-//                String firstText = firstTextView.getText().toString();
-//                String secondText = secondTextView.getText().toString();
-//                et_search_result.setText(firstText);
-//            }
-//        }
-//        );
-
-
-//        TableRow tableRow = new TableRow(this);
-//        tableRow.setClickable(true);
-//        tableRow.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                et_search_result.setText("dsdsd");
-//////                TableRow t = (TableRow) v;
-//////                TextView firstTextView = (TextView) t.getChildAt(0);
-//////                TextView secondTextView = (TextView) t.getChildAt(1);
-//////                String firstText = firstTextView.getText().toString();
-//////                String secondText = secondTextView.getText().toString();
-//////
-////                et_search_result.setText(tblLayout.toString());
-//            }
-//        });
-
-
-//        ((TableRow) findViewById(R.id.tr_row)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                et_search_result.setText("dsdsd");
-//                TableRow tablerow = (TableRow)v.getParent();
-//                TextView items = (TextView) tablerow.getChildAt(2);
-//                String myText = items.getText().toString();
-//                TableRow t = (TableRow) v;
-//                TextView firstTextView = (TextView) t.getChildAt(0);
-//                TextView secondTextView = (TextView) t.getChildAt(1);
-//                String firstText = firstTextView.getText().toString();
-//                String secondText = secondTextView.getText().toString();
-//                et_search_result.setText(firstText);
-//            }
-//        });
 
     }
 
 }
-//            try {
-//                JSONArray jsonArray = new JSONArray(response); // получаем ответ от сервера
-//
-//                TableLayout tblLayout = null;
-//                tblLayout = (TableLayout) findViewById(R.id.tableLayout);
-//
-//                for (int i = 0; i < jsonArray.length(); i++) {
-//                    JSONObject list = jsonArray.getJSONObject(i);
-//                    TableRow tableRow = new TableRow(MainActivity.this);
-//                    tableRow.setLayoutParams(new TableLayout.LayoutParams(
-//                            TableLayout.LayoutParams.MATCH_PARENT,
-//                            TableLayout.LayoutParams.WRAP_CONTENT));
-//
-//                    TextView textView1 = new TextView(MainActivity.this);
-//                    TextView textView2 = new TextView(MainActivity.this);
-//                    TextView textView3 = new TextView(MainActivity.this);
-//                    TextView textView4 = new TextView(MainActivity.this);
-//                    textView1.setTextColor(Color.WHITE);
-//                    textView2.setTextColor(Color.WHITE);
-//                    textView3.setTextColor(Color.WHITE);
-//                    textView4.setTextColor(Color.WHITE);
-//                    textView1.setPadding(5, 5, 5, 5);
-//                    textView2.setPadding(5, 5, 5, 5);
-//                    textView3.setPadding(5, 5, 5, 5);
-//                    textView4.setPadding(5, 5, 5, 5);
-//
-//                    textView1.setText(list.getString("name"));
-//                    textView2.setText(list.getString("content"));
-//                    textView3.setText(list.getString("text"));
-//                    textView4.setText(list.getString("like"));
-//
-//
-//                    tableRow.addView(textView1);
-//                    tableRow.addView(textView2);
-//                    tableRow.addView(textView3);
-//                    tableRow.addView(textView4);
-////                    tableRow.generateLayoutParams(id)
-//                    tblLayout.addView(tableRow, i);
-//                }
-//
-//
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
