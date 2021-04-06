@@ -146,8 +146,9 @@ public class MainActivity extends AppCompatActivity {
                 new QueryTask().execute(generatedURL);
             }
         };
-        b_search_send.setOnClickListener(onClickListener);
 
+
+        b_search_send.setOnClickListener(onClickListener);
 
 
 
