@@ -81,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
                     TableLayout tblLayout = null;
                     tblLayout = (TableLayout) findViewById(R.id.tableLayout);
                     tblLayout.removeAllViews();
-                    showErrorTextView();
+                    showResultTextView();
                 }
 
             } catch (JSONException e) {
-                showResultTextView();
+                showErrorTextView();
                 e.printStackTrace();
             }
             }else {
