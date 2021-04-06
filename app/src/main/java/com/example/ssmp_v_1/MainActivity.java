@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -24,12 +25,13 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.BreakIterator;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.ssmp_v_1.utils.NetworkUtils.generateURL;
 import static com.example.ssmp_v_1.utils.NetworkUtils.getResponseFromURL;
 
 public class MainActivity extends AppCompatActivity {
-
     private EditText et_search_number_call; // Номер вызова
     private EditText et_search_date; // Дата вызова
     private EditText et_search_fio; // Фио в вызове
@@ -38,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private Button b_search_send; // Кнопка отправить
     private TextView et_search_result; // Список вызовов
     String[] search_ssmp_list = { "Все", "Активные", "Завершенные"}; // Выпадающие список в форме
-
-
 
     class QueryTask extends AsyncTask<URL, Void, String> {
 
@@ -57,8 +57,52 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String response){
             et_search_result.setText(response);
-            try {
+            //TableLayout tblLayout = null;
+            //tblLayout = (TableLayout) findViewById(R.id.tableLayout);
+//            TableRow tableRow = new TableRow(MainActivity.this);
+//            tableRow.setLayoutParams(new TableLayout.LayoutParams(
+//                    TableLayout.LayoutParams.MATCH_PARENT,
+//                    TableLayout.LayoutParams.WRAP_CONTENT));
+//
+//            TextView textView1 = new TextView(MainActivity.this);
+//            textView1.setTextColor(Color.WHITE);
+//            textView1.setPadding(5, 5, 5, 5);
+//
+//            TextView textView2 = new TextView(MainActivity.this);
+//            textView1.setTextColor(Color.WHITE);
+//            textView1.setPadding(5, 5, 5, 5);
+//
+//            textView1.setText("one");
+//            textView2.setText("two");
+//            tableRow.addView(textView1);
+//            tableRow.addView(textView2);
+//            tblLayout.addView(tableRow);
+//            tableRow.setId(View.generateViewId());
+//            textView2.setId(View.generateViewId());
+//            et_search_result.setText(""+tableRow.getId()+"--"+textView2.getId());
+            //tableRow.setOnClickListener(findViewById(tableRow.getId()));
+
+//            tableRow.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) {
+//                                                et_search_result.setText("dsdsd");
+
+//                TableRow tablerow = (TableRow)v.getParent();
+//                TextView items = (TextView) tablerow.getChildAt(2);
+//                String myText = items.getText().toString();
+//                TableRow t = (TableRow) v;
+//                TextView firstTextView = (TextView) t.getChildAt(0);
+//                TextView secondTextView = (TextView) t.getChildAt(1);
+//                String firstText = firstTextView.getText().toString();
+//                String secondText = secondTextView.getText().toString();
+//                et_search_result.setText(firstText);
+//                                            }
+//                                        }
+//            );
+
+          try {
                 JSONArray jsonArray = new JSONArray(response); // получаем ответ от сервера
+
                 TableLayout tblLayout = null;
                 tblLayout = (TableLayout) findViewById(R.id.tableLayout);
 
@@ -68,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                     tableRow.setLayoutParams(new TableLayout.LayoutParams(
                             TableLayout.LayoutParams.MATCH_PARENT,
                             TableLayout.LayoutParams.WRAP_CONTENT));
-
                     TextView textView1 = new TextView(MainActivity.this);
                     TextView textView2 = new TextView(MainActivity.this);
                     TextView textView3 = new TextView(MainActivity.this);
@@ -81,35 +124,41 @@ public class MainActivity extends AppCompatActivity {
                     textView2.setPadding(5, 5, 5, 5);
                     textView3.setPadding(5, 5, 5, 5);
                     textView4.setPadding(5, 5, 5, 5);
-
                     textView1.setText(list.getString("name"));
                     textView2.setText(list.getString("content"));
                     textView3.setText(list.getString("text"));
                     textView4.setText(list.getString("like"));
 
-
                     tableRow.addView(textView1);
                     tableRow.addView(textView2);
                     tableRow.addView(textView3);
                     tableRow.addView(textView4);
-//                    tableRow.generateLayoutParams(id)
                     tblLayout.addView(tableRow, i);
+                    tableRow.setClickable(true);
+                    tableRow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            et_search_result.setText("dsdsd");
+                            TableRow t = (TableRow) v;
+                            TextView firstTextView = (TextView) t.getChildAt(0);
+                            TextView secondTextView = (TextView) t.getChildAt(1);
+                            String firstText = firstTextView.getText().toString();
+                            String secondText = secondTextView.getText().toString();
+                            et_search_result.setText(secondText);
+                        }
+                    });
                 }
-
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+          }
         }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Spinner spinner = (Spinner) findViewById(R.id.et_search_close_event);
         // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, search_ssmp_list);
@@ -117,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Применяем адаптер к элементу spinner
         spinner.setAdapter(adapter);
-
         // получаем значение из формы
         et_search_number_call = findViewById(R.id.et_search_number_call);
         et_search_date = findViewById(R.id.et_search_date);
@@ -126,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
         b_search_clear = findViewById(R.id.b_search_clear);
         b_search_send = findViewById(R.id.b_search_send);
         et_search_result = findViewById(R.id.et_search_result);
-
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -147,17 +194,31 @@ public class MainActivity extends AppCompatActivity {
                 new QueryTask().execute(generatedURL);
             }
         };
-
-
         b_search_send.setOnClickListener(onClickListener);
 
+//        TableRow tableRow = new TableRow(this);
+//        new tableRow()
+//        tableRow.findViewById(tableRow.getId());
+//        tableRow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                et_search_result.setText("dsdsd");
+
+//                TableRow tablerow = (TableRow)v.getParent();
+//                TextView items = (TextView) tablerow.getChildAt(2);
+//                String myText = items.getText().toString();
+//                TableRow t = (TableRow) v;
+//                TextView firstTextView = (TextView) t.getChildAt(0);
+//                TextView secondTextView = (TextView) t.getChildAt(1);
+//                String firstText = firstTextView.getText().toString();
+//                String secondText = secondTextView.getText().toString();
+//                et_search_result.setText(firstText);
+//            }
+//        }
+//        );
 
 
-
-
-
-
-//
+//        TableRow tableRow = new TableRow(this);
 //        tableRow.setClickable(true);
 //        tableRow.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -173,6 +234,68 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+
+//        ((TableRow) findViewById(R.id.tr_row)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                et_search_result.setText("dsdsd");
+//                TableRow tablerow = (TableRow)v.getParent();
+//                TextView items = (TextView) tablerow.getChildAt(2);
+//                String myText = items.getText().toString();
+//                TableRow t = (TableRow) v;
+//                TextView firstTextView = (TextView) t.getChildAt(0);
+//                TextView secondTextView = (TextView) t.getChildAt(1);
+//                String firstText = firstTextView.getText().toString();
+//                String secondText = secondTextView.getText().toString();
+//                et_search_result.setText(firstText);
+//            }
+//        });
+
     }
 
 }
+//            try {
+//                JSONArray jsonArray = new JSONArray(response); // получаем ответ от сервера
+//
+//                TableLayout tblLayout = null;
+//                tblLayout = (TableLayout) findViewById(R.id.tableLayout);
+//
+//                for (int i = 0; i < jsonArray.length(); i++) {
+//                    JSONObject list = jsonArray.getJSONObject(i);
+//                    TableRow tableRow = new TableRow(MainActivity.this);
+//                    tableRow.setLayoutParams(new TableLayout.LayoutParams(
+//                            TableLayout.LayoutParams.MATCH_PARENT,
+//                            TableLayout.LayoutParams.WRAP_CONTENT));
+//
+//                    TextView textView1 = new TextView(MainActivity.this);
+//                    TextView textView2 = new TextView(MainActivity.this);
+//                    TextView textView3 = new TextView(MainActivity.this);
+//                    TextView textView4 = new TextView(MainActivity.this);
+//                    textView1.setTextColor(Color.WHITE);
+//                    textView2.setTextColor(Color.WHITE);
+//                    textView3.setTextColor(Color.WHITE);
+//                    textView4.setTextColor(Color.WHITE);
+//                    textView1.setPadding(5, 5, 5, 5);
+//                    textView2.setPadding(5, 5, 5, 5);
+//                    textView3.setPadding(5, 5, 5, 5);
+//                    textView4.setPadding(5, 5, 5, 5);
+//
+//                    textView1.setText(list.getString("name"));
+//                    textView2.setText(list.getString("content"));
+//                    textView3.setText(list.getString("text"));
+//                    textView4.setText(list.getString("like"));
+//
+//
+//                    tableRow.addView(textView1);
+//                    tableRow.addView(textView2);
+//                    tableRow.addView(textView3);
+//                    tableRow.addView(textView4);
+////                    tableRow.generateLayoutParams(id)
+//                    tblLayout.addView(tableRow, i);
+//                }
+//
+//
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
