@@ -20,15 +20,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                >
                 <TextView
                     android:id="@+id/et_search_result"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/found_call"
+                    android:layout_height="match_parent"
+                    android:hint="@string/et_search_result"
                     android:padding="10dp"
                     android:textSize="25sp"
+                    android:visibility="visible"
                     />
-
                 <TextView
                     android:id="@+id/et_search_error"
                     android:layout_width="wrap_content"
@@ -36,23 +37,7 @@
                     android:hint="@string/error_message"
                     android:padding="10dp"
                     android:textSize="25sp"
-                    android:visibility="invisible"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ListView
-                    android:id="@+id/callList"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-                </ListView>
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <LinearLayout
@@ -66,33 +51,42 @@
                     <ScrollView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-
                         <TableLayout
                             android:id="@+id/tableLayout"
                             android:layout_height="wrap_content"
                             android:layout_width="fill_parent"
                             android:stretchColumns="*"
-                            android:background="#7FC342"
+                            android:background="#75890c"
                             android:textSize="45sp"
+                            android:padding="10dp"
+                            android:showDividers="middle"
                             >
                         </TableLayout>
                     </ScrollView>
                 </HorizontalScrollView>
             </LinearLayout>
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    >
+                </TextView>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/tv_search_name_form"
                     android:padding="10dp"
                     android:textSize="25sp"/>
-
                 <EditText
                     android:id="@+id/et_search_number_call"
                     android:layout_width="match_parent"
@@ -100,7 +94,6 @@
                     android:hint="@string/et_search_number_call"
                     android:ems="10"
                     android:inputType="number" />
-
                 <EditText
                     android:id="@+id/et_search_date"
                     android:layout_width="match_parent"
@@ -124,7 +117,6 @@
                     android:hint="@string/et_search_close_event"
                     android:ems="10"
                     />
-
                 <Button
                     android:id="@+id/b_search_clear"
                     android:layout_width="match_parent"
@@ -138,7 +130,6 @@
                     android:textColor="#fff"
                     android:hint="@string/b_search_send" />
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 

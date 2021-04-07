@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Неотложная помощь</string>
-    <string name="found_call"><strong>Нет переданных вызовов.</strong> Скорая еще не передала вызовы в неотложную помощь. </string>
+    <string name="et_search_result">Нет переданных вызовов. Скорая еще не передала вызовы в неотложную помощь.  </string>
     <string name="tv_search_name_form">ВЫБЕРИТЕ ПАРАМЕТРЫ</string>
     <string name="et_search_number_call">Номер вызова</string>
     <string name="et_search_date">Дата вызова</string>
@@ -9,4 +9,6 @@
     <string name="b_search_send">Поиск</string>
     <string name="b_search_clear">Очистить</string>
     <string name="error_message">Что то пошло не так, поробуйте еще раз!</string>
+    <string name="ssmp_text">Получение данных о вызове</string>
+    <string name="about_title">Подробновсти вызова</string>
 </resources>

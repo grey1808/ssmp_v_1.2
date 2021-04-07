@@ -9,16 +9,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class NetworkUtils {
+public class NetworkUtils extends AppNetworkUtis {
 
-//    private static final String BASE_URL = "http://85.172.11.152:9872/ssmp";
-    private static final String BASE_URL = "http://85.172.11.152:9871/ssmp11";
     private static final String NUMBER = "number";
     private static final String DATE = "date";
     private static final String FIO = "fio";
     private static final String STATUS = "status";
 
-    public static URL generateURL(
+    public static URL generateURLGetList(
             String et_search_number_call,
             String et_search_date,
             String et_search_fio,
@@ -38,23 +36,7 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         return url;
-    }
+    } // Генерация URL
 
-    public static String getResponseFromURL(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        try {
-            InputStream in = urlConnection.getInputStream();
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
 
-            boolean hasInput = scanner.hasNext();
-            if (hasInput){
-                return scanner.next();
-            }else {
-                return null;
-            }
-        }finally {
-            urlConnection.disconnect();
-        }
-    }
 }
