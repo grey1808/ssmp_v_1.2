@@ -26,8 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CallInfoActivity"
-            android:label="@string/about_title">
+        <activity
+            android:name=".CallInfoActivity"
+            android:label="@string/about_title"
+            android:windowSoftInputMode="stateHidden"
+            >
         </activity>
     </application>
 

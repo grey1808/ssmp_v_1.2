@@ -165,38 +165,43 @@ public class MainActivity extends AppCompatActivity {
                               TableLayout.LayoutParams.MATCH_PARENT,
                               TableLayout.LayoutParams.WRAP_CONTENT
                       );
-                      String isDone = list.getString("isDone");
-                      if (isDone == "1"){
+                      Integer isDone = list.getInt("isDone");
+                      if (isDone == 1){
                           tableRow.setBackgroundResource(R.drawable.cell_shape_new_yellow);
                       }else {
-                          tableRow.setBackgroundResource(R.drawable.cell_shape_new_yellow);
+                          tableRow.setBackgroundResource(R.drawable.call_shape_new_red);
                       }
-
 
                       TextView textView1 = new TextView(MainActivity.this);
                       TextView textView2 = new TextView(MainActivity.this);
                       TextView textView3 = new TextView(MainActivity.this);
                       TextView textView4 = new TextView(MainActivity.this);
+                      TextView textView5 = new TextView(MainActivity.this);
                       textView1.setTextColor(Color.WHITE);
                       textView2.setTextColor(Color.WHITE);
                       textView3.setTextColor(Color.WHITE);
                       textView4.setTextColor(Color.WHITE);
+                      textView5.setTextColor(Color.WHITE);
                       textView1.setPadding(10, 10, 10, 10);
                       textView2.setPadding(10, 10, 10, 10);
                       textView3.setPadding(10, 10, 10, 10);
                       textView4.setPadding(10, 10, 10, 10);
+                      textView5.setPadding(10, 10, 10, 10);
                       textView1.setTextSize(20);
                       textView2.setTextSize(20);
                       textView3.setTextSize(20);
                       textView4.setTextSize(20);
+                      textView5.setTextSize(20);
                       textView1.setText(list.getString("fio"));
                       textView2.setText(list.getString("callNumberId"));
                       textView3.setText(list.getString("contact"));
                       textView4.setText(list.getString("result"));
+                      textView5.setText(list.getString("eventId"));
                       tableRow.addView(textView1);
                       tableRow.addView(textView3);
                       tableRow.addView(textView4);
                       tableRow.addView(textView2);
+                      tableRow.addView(textView5);
 
                       tblLayout.addView(tableRow, i);
                       tableRow.setClickable(true);
@@ -205,10 +210,13 @@ public class MainActivity extends AppCompatActivity {
                           public void onClick(View v) {
                               TableRow t = (TableRow) v;
                               TextView firstTextView = (TextView) t.getChildAt(3);
+                              TextView fourText = (TextView) t.getChildAt(4);
                               String callNumberId = firstTextView.getText().toString();
+                              String eventId = fourText.getText().toString();
 //                              tv_result.setText(callNumberId);
                               Intent intent = new Intent(MainActivity.this, CallInfoActivity.class);
                               intent.putExtra("callNumberId", callNumberId);
+                              intent.putExtra("eventId", eventId);
                               startActivity(intent);
                           }
                       });
@@ -261,29 +269,36 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                URL generatedURL = null;
-                try {
-                    String number = et_search_number_call.getText().toString();
-                    String date = et_search_date.getText().toString();
-                    String fio = et_search_fio.getText().toString();
-                    Spinner mySpinner=(Spinner) findViewById(R.id.et_search_close_event);
-//                    String text = mySpinner.getSelectedItem().toString(); // получить значение
-                    String text = ("" + mySpinner.getSelectedItemPosition()); // получить порядковый номер
-
-//                    String status = (String)et_search_close_event.getItemAtPosition();
-//                    String status = et_search_close_event.getText().toString();
-                    generatedURL = generateURLGetList(number,date,fio,text);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-//                et_search_result.setText(generatedURL.toString());
-                // master
-                new QueryTask().execute(generatedURL);
+                getList();
             }
         };
         b_search_send.setOnClickListener(onClickListener);
+        getList();
 
 
+
+    }
+
+    // получить список
+    protected void getList(){
+        URL generatedURL = null;
+        try {
+            String number = et_search_number_call.getText().toString();
+            String date = et_search_date.getText().toString();
+            String fio = et_search_fio.getText().toString();
+            Spinner mySpinner=(Spinner) findViewById(R.id.et_search_close_event);
+//                    String text = mySpinner.getSelectedItem().toString(); // получить значение
+            String text = ("" + mySpinner.getSelectedItemPosition()); // получить порядковый номер
+
+//                    String status = (String)et_search_close_event.getItemAtPosition();
+//                    String status = et_search_close_event.getText().toString();
+            generatedURL = generateURLGetList(number,date,fio,text);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+//                et_search_result.setText(generatedURL.toString());
+        // master
+        new QueryTask().execute(generatedURL);
     }
 
 }

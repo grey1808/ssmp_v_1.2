@@ -12,8 +12,8 @@
     <string name="about_title">Подробности вызова</string>
     <string name="tv_ssmp_text_message">Получение данных о вызове...</string>
     <string name="tv_ssmp_text_error">Что то пошло не так! Попробуйте еще раз!</string>
-    <string name="s_ssmp_resoult">Результат вызова</string>
-    <string name="et_ssmp_note">Примечание</string>
+    <string name="s_ssmp_resoult">Результат вызова *</string>
+    <string name="et_ssmp_note">Примечание к событию</string>
     <string name="et_ssmp_add_event_ssmp_local">Добавить событие к вызову</string>
     <string name="b_to_accept_call">Принять вызов</string>
     <string name="b_datePicker_enter">Применить дату</string>

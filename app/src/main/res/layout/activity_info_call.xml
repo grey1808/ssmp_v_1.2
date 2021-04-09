@@ -35,7 +35,7 @@
                 android:background="#d9edf7"
                 android:padding="10dp"
                 android:text="@string/tv_ssmp_text_message"
-                android:textSize="20sp"
+                android:textSize="25sp"
 
                 />
 
@@ -53,16 +53,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#dff0d8"
+                android:textColor="#3c763d"
+                android:padding="12dp"
+                android:textSize="25sp"
+                android:visibility="gone"
 
+                />
+            <TextView
+                android:id="@+id/tv_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#333333"
+                android:textColor="#f2dede"
+                android:padding="12dp"
+                android:textSize="25sp"
+                android:hint="@string/tv_ssmp_text_error"
+                android:visibility="gone"
+                />
             <Button
                 android:id="@+id/b_to_accept_call"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#8259b8"
-                tools:text="@string/b_to_accept_call" />
+                android:textColor="#FFFFFF"
+                android:text="@string/b_to_accept_call" />
 
             <Spinner
                 android:id="@+id/s_ssmp_resoult"
+                android:padding="12dp"
+                android:textSize="25sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/s_ssmp_resoult"
@@ -74,9 +98,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/et_ssmp_note"
-
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:textColor="#333333"
+                android:padding="12dp"
+                android:textSize="25sp"
                 android:inputType="text" />
 
             <Button
@@ -84,7 +110,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#530000"
-                android:hint="@string/et_ssmp_add_event_ssmp_local"
+                android:textColor="#FFFFFF"
+                android:text="@string/et_ssmp_add_event_ssmp_local"
                 />
         </LinearLayout>
     </LinearLayout>

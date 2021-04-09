@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="ssmp_result">
-        <item>Принят звонок от пациента</item>
-        <item>Пациент отказался от вызова</item>
+        <item>Выберите статус вызова</item>
         <item>Отказ от ПНПМ</item>
-        <item>Принят звонок от ПНПМ</item>
-        <item>Изменился адрес</item>
         <item>Вызов выполнен </item>
-        <item>Вызов передан на 03</item>
         <item>Вызов безрезультатный (снят с ПНПМ)</item>
         <item>Назначен ошибочный ПНМП</item>
     </string-array>
