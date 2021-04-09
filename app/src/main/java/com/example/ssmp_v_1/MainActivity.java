@@ -6,20 +6,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,12 +25,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.BreakIterator;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 
-import static com.example.ssmp_v_1.utils.NetworkUtils.generateURLGetList;
-import static com.example.ssmp_v_1.utils.NetworkUtils.getResponseFromURL;
+import static com.example.ssmp_v_1.utils.NetworkUtilsGetSsmp.generateURLGetList;
+import static com.example.ssmp_v_1.utils.NetworkUtilsGetSsmp.getResponseFromURL;
 
 public class MainActivity extends AppCompatActivity {
     private EditText et_search_number_call; // Номер вызова
@@ -47,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private TableLayout tableLayout; // Таблица начало
     private TextView tv_result; // поле для результата клика на таблицу
     String[] search_ssmp_list = { "Все", "Активные", "Завершенные"}; // Выпадающие список в форме
+    private ProgressBar loadingIndicator;
+    private DatePicker mDatePicker;
+    private LinearLayout ll_calendar;
 
     private void showResultTextView(){
         et_search_result.setVisibility(View.GONE);
@@ -55,13 +53,44 @@ public class MainActivity extends AppCompatActivity {
     private void showErrorTextView(){
         et_search_result.setVisibility(View.GONE);
         et_search_error.setVisibility(View.VISIBLE);
-    } // П
+    } // Показывает результат запроса, крывает текст с ошибкой
     private void showMessTextView(){
         et_search_result.setVisibility(View.VISIBLE);
         et_search_error.setVisibility(View.GONE);
     } // Скрыватет сообщение ошибки
 
+
+
+
+    // Календарь
+    protected void setCalendar() {
+        mDatePicker = (DatePicker) findViewById(R.id.datePicker);
+
+        Calendar today = Calendar.getInstance();
+
+        mDatePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+                today.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+                    @Override
+                    public void onDateChanged(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+                        et_search_date.setText(new StringBuilder()
+                                // Месяц отсчитывается с 0, поэтому добавляем 1
+                                .append(mDatePicker.getDayOfMonth()).append(".")
+                                .append(mDatePicker.getMonth() + 1).append(".")
+                                .append(mDatePicker.getYear()));
+                        ll_calendar.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+
     class QueryTask extends AsyncTask<URL, Void, String> {
+
+        @Override
+        protected void onPreExecute(){
+            loadingIndicator.setVisibility(View.VISIBLE);
+        }
+
 
         @Override
         protected String doInBackground(URL... urls) {
@@ -99,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             }else {
                 showErrorTextView();
             }
-
+            loadingIndicator.setVisibility(View.GONE);
           }
 
           /*Распечатать response*/
@@ -132,19 +161,16 @@ public class MainActivity extends AppCompatActivity {
                   for (int i = 0; i < jsonArray.length(); i++) {
                       JSONObject list = jsonArray.getJSONObject(i);
                       TableRow tableRow = new TableRow(MainActivity.this);
-//                      tableRow.setLayoutParams(new TableLayout.LayoutParams(
-//                              TableLayout.LayoutParams.MATCH_PARENT,
-//                              TableLayout.LayoutParams.WRAP_CONTENT
-//                      ));
                       TableRow.LayoutParams llp = new TableRow.LayoutParams(
                               TableLayout.LayoutParams.MATCH_PARENT,
                               TableLayout.LayoutParams.WRAP_CONTENT
                       );
-
-//                      llp.setMargins(0, 0, 2, 0);//2px right-margin
-//                      tableRow.setBackgroundColor(Color.BLACK);
-//                      tableRow.setPadding(0, 0, 0, 2); //Border between rows
-                      tableRow.setBackgroundResource(R.drawable.cell_shape_new);
+                      String isDone = list.getString("isDone");
+                      if (isDone == "1"){
+                          tableRow.setBackgroundResource(R.drawable.cell_shape_new_yellow);
+                      }else {
+                          tableRow.setBackgroundResource(R.drawable.cell_shape_new_yellow);
+                      }
 
 
                       TextView textView1 = new TextView(MainActivity.this);
@@ -177,11 +203,10 @@ public class MainActivity extends AppCompatActivity {
                       tableRow.setOnClickListener(new View.OnClickListener() {
                           @Override
                           public void onClick(View v) {
-//                            et_search_result.setText("dsdsd");
                               TableRow t = (TableRow) v;
-                              TextView firstTextView = (TextView) t.getChildAt(4);
+                              TextView firstTextView = (TextView) t.getChildAt(3);
                               String callNumberId = firstTextView.getText().toString();
-                              tv_result.setText(callNumberId);
+//                              tv_result.setText(callNumberId);
                               Intent intent = new Intent(MainActivity.this, CallInfoActivity.class);
                               intent.putExtra("callNumberId", callNumberId);
                               startActivity(intent);
@@ -206,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Применяем адаптер к элементу spinner
         spinner.setAdapter(adapter);
+
         // получаем значение из формы
         et_search_number_call = findViewById(R.id.et_search_number_call);
         et_search_date = findViewById(R.id.et_search_date);
@@ -217,6 +243,20 @@ public class MainActivity extends AppCompatActivity {
         et_search_error = findViewById(R.id.et_search_error);
         tableLayout = findViewById(R.id.tableLayout);
         tv_result = findViewById(R.id.tv_result);
+        loadingIndicator = findViewById(R.id.pb_loader_indicator);
+        mDatePicker = findViewById(R.id.datePicker);
+        ll_calendar = findViewById(R.id.ll_calendar);
+
+        // Календарь
+        et_search_date.setOnClickListener(new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            ll_calendar.setVisibility(View.VISIBLE);
+            setCalendar();
+            }
+        });
+
+
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -226,9 +266,13 @@ public class MainActivity extends AppCompatActivity {
                     String number = et_search_number_call.getText().toString();
                     String date = et_search_date.getText().toString();
                     String fio = et_search_fio.getText().toString();
+                    Spinner mySpinner=(Spinner) findViewById(R.id.et_search_close_event);
+//                    String text = mySpinner.getSelectedItem().toString(); // получить значение
+                    String text = ("" + mySpinner.getSelectedItemPosition()); // получить порядковый номер
+
 //                    String status = (String)et_search_close_event.getItemAtPosition();
 //                    String status = et_search_close_event.getText().toString();
-                    generatedURL = generateURLGetList(number,date,fio,"spinner");
+                    generatedURL = generateURLGetList(number,date,fio,text);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }

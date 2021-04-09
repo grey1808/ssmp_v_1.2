@@ -15,7 +15,11 @@
         android:theme="@style/Theme.Ssmp_v_1">
 
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="stateHidden"
+
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

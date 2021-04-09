@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-public class AppNetworkUtis {
+public class NetworkAppUtis {
 
     //    private static final String BASE_URL = "http://85.172.11.152:9872/ssmp";
     protected static final String BASE_URL = "http://85.172.11.152:9871/ssmp11";

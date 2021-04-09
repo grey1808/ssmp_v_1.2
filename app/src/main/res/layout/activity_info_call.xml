@@ -1,9 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/ssmp_text"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/ssmp_text"/>
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/pb_loader_indicator"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:visibility="gone"></ProgressBar>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tv_ssmp_text_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#d9edf7"
+                android:padding="10dp"
+                android:text="@string/tv_ssmp_text_message"
+                android:textSize="20sp"
+
+                />
+
+            <TextView
+                android:id="@+id/tv_ssmp_text_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/tv_ssmp_text_error"
+                android:textSize="25sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/b_to_accept_call"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#8259b8"
+                tools:text="@string/b_to_accept_call" />
+
+            <Spinner
+                android:id="@+id/s_ssmp_resoult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/s_ssmp_resoult"
+
+                />
+
+            <EditText
+                android:id="@+id/et_ssmp_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/et_ssmp_note"
+
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/b_add_event_ssmp_local"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#530000"
+                android:hint="@string/et_ssmp_add_event_ssmp_local"
+                />
+        </LinearLayout>
+    </LinearLayout>
 </ScrollView>
