@@ -165,12 +165,7 @@ public class MainActivity extends AppCompatActivity {
                               TableLayout.LayoutParams.MATCH_PARENT,
                               TableLayout.LayoutParams.WRAP_CONTENT
                       );
-                      Integer isDone = list.getInt("isDone");
-                      if (isDone == 1){
-                          tableRow.setBackgroundResource(R.drawable.cell_shape_new_yellow);
-                      }else {
-                          tableRow.setBackgroundResource(R.drawable.call_shape_new_red);
-                      }
+
 
                       TextView textView1 = new TextView(MainActivity.this);
                       TextView textView2 = new TextView(MainActivity.this);
@@ -202,7 +197,17 @@ public class MainActivity extends AppCompatActivity {
                       tableRow.addView(textView4);
                       tableRow.addView(textView2);
                       tableRow.addView(textView5);
-
+                      Integer isDone = list.getInt("isDone");
+                      if (isDone == 1){
+                          textView1.setTextColor(Color.parseColor("#333333"));
+                          textView2.setTextColor(Color.parseColor("#333333"));
+                          textView3.setTextColor(Color.parseColor("#333333"));
+                          textView4.setTextColor(Color.parseColor("#333333"));
+                          textView5.setTextColor(Color.parseColor("#333333"));
+                          tableRow.setBackgroundResource(R.drawable.cell_shape_new_yellow);
+                      }else {
+                          tableRow.setBackgroundResource(R.drawable.call_shape_new_red);
+                      }
                       tblLayout.addView(tableRow, i);
                       tableRow.setClickable(true);
                       tableRow.setOnClickListener(new View.OnClickListener() {
@@ -234,11 +239,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Spinner spinner = (Spinner) findViewById(R.id.et_search_close_event);
         // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, search_ssmp_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spiner, search_ssmp_list);
         // Определяем разметку для использования при выборе элемента
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         // Применяем адаптер к элементу spinner
         spinner.setAdapter(adapter);
+        spinner.setSelection(1); // установить индекс выпадающего списка по умолчанию
 
         // получаем значение из формы
         et_search_number_call = findViewById(R.id.et_search_number_call);
@@ -273,7 +279,17 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         b_search_send.setOnClickListener(onClickListener);
-        getList();
+        getList(); // получить список автоматически
+        b_search_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                et_search_number_call.setText("");
+                et_search_date.setText("");
+                et_search_fio.setText("");
+                et_search_close_event.setSelection(1);
+            }
+        });
+
 
 
 
