@@ -17,6 +17,7 @@
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity
             android:name=".MainActivity"
+            android:label="@string/ssmp"
             android:windowSoftInputMode="stateHidden"
 
             >
@@ -29,6 +30,24 @@
         <activity
             android:name=".CallInfoActivity"
             android:label="@string/about_title"
+            android:windowSoftInputMode="stateHidden"
+            >
+        </activity>
+        <activity
+            android:name=".SearchClientActivity"
+            android:label="@string/search_client_title"
+            android:windowSoftInputMode="stateHidden"
+            >
+        </activity>
+        <activity
+            android:name=".ClientInfoActivity"
+            android:label="@string/client_info"
+            android:windowSoftInputMode="stateHidden"
+            >
+        </activity>
+        <activity
+            android:name=".NewAppealActivity"
+            android:label="@string/new_appeal"
             android:windowSoftInputMode="stateHidden"
             >
         </activity>

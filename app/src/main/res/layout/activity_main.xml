@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +9,7 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -16,19 +17,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                >
+
 
                 <ProgressBar
                     android:id="@+id/pb_loader_indicator"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
-                    android:visibility="gone"></ProgressBar>
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/et_search_result"
@@ -49,36 +49,32 @@
                     android:visibility="gone" />
             </LinearLayout>
 
-            <LinearLayout
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                >
+                android:layout_height="wrap_content">
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
+                <ScrollView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <ScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    <TableLayout
+                        android:id="@+id/tableLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#75890c"
+                        android:padding="10dp"
+                        android:showDividers="middle"
+                        android:stretchColumns="*"
+                        android:textSize="45sp" />
 
-                        <TableLayout
-                            android:id="@+id/tableLayout"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#75890c"
-                            android:padding="10dp"
-                            android:showDividers="middle"
-                            android:stretchColumns="*"
-                            android:textSize="45sp"></TableLayout>
-                    </ScrollView>
-                </HorizontalScrollView>
-            </LinearLayout>
+                </ScrollView>
+            </HorizontalScrollView>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_result"
                     android:layout_width="match_parent"
@@ -103,24 +99,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:padding="12dp"
-                    android:textSize="25sp"
-                    android:hint="@string/et_search_number_call"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:inputType="number" />
+                    android:hint="@string/et_search_number_call"
+                    android:inputType="number"
+                    android:padding="12dp"
+                    android:textSize="25sp" />
 
                 <EditText
                     android:id="@+id/et_search_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:padding="12dp"
-                    android:textSize="25sp"
-                    android:hint="@string/et_search_date"
                     android:focusable="false"
                     android:focusableInTouchMode="true"
+                    android:hint="@string/et_search_date"
                     android:inputType="date"
+                    android:padding="12dp"
+                    android:textSize="25sp"
 
 
                     />
@@ -130,8 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:visibility="gone"
-                    >
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -152,28 +147,28 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <EditText
                         android:id="@+id/et_search_fio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:padding="12dp"
-                        android:textSize="25sp"
-                        android:hint="@string/et_search_fio"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:inputType="text" />
+                        android:hint="@string/et_search_fio"
+                        android:inputType="text"
+                        android:padding="12dp"
+                        android:textSize="25sp" />
 
                     <Spinner
                         android:id="@+id/et_search_close_event"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
+                        android:hint="@string/et_search_close_event"
                         android:padding="12dp"
                         android:textSize="25sp"
-                        android:hint="@string/et_search_close_event"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -181,77 +176,29 @@
                         android:id="@+id/b_search_clear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="#ececec"
-                        android:textColor="#333333"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:textSize="30sp"
-                        android:text="@string/b_search_clear" />
+                        android:backgroundTint="#ececec"
+                        android:text="@string/b_search_clear"
+                        android:textColor="#333333" />
 
                     <Button
                         android:id="@+id/b_search_send"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="#337AB7"
-                        android:textColor="#FFFFFF"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
-                        android:textSize="30sp"
-                        android:text="@string/b_search_send" />
+                        android:layout_marginEnd="8dp"
+                        android:backgroundTint="#337AB7"
+                        android:text="@string/b_search_send"
+                        android:textColor="#FFFFFF"
+                        android:textSize="30sp" />
                 </LinearLayout>
-
 
 
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center|bottom"
-        >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_launcher_background" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/cell_shape_new_yellow" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/imageButton3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/call_shape_new_red" />
-        </LinearLayout>
-    </LinearLayout>
-
-
-</FrameLayout>
+</RelativeLayout>

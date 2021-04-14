@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -294,6 +297,36 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    } // Для меню
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id){
+            case R.id.main_activity :
+                Intent intent1 = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent1);
+                return true;
+            case R.id.main_search_client:
+                Intent intent2 = new Intent(MainActivity.this, SearchClientActivity.class);
+                startActivity(intent2);
+                return true;
+//            case R.id.save_settings:
+//                toast = Toast.makeText(getApplicationContext(),
+//                        "Сохранить", Toast.LENGTH_SHORT);
+//                toast.show();
+//                return true;
+        }
+        //headerView.setText(item.getTitle());
+        return super.onOptionsItemSelected(item);
+    } // переход на пункт меню
 
     // получить список
     protected void getList(){

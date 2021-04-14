@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/tv_search_name_form"
+            android:padding="10dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_lastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/et_lastName"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_firstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/et_firstName"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_patrName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/et_patrName"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_birthDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            android:hint="@string/et_birthDate"
+            android:inputType="date"
+            android:padding="12dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_snils"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            android:hint="@string/et_snils"
+            android:inputType="number"
+            android:padding="12dp"
+            android:textSize="20sp" />
+
+
+        <Button
+            android:id="@+id/b_search_clear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#ececec"
+            android:text="@string/b_search_clear"
+            android:textColor="#333333"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/b_search_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#337AB7"
+            android:text="@string/b_search_send"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/pb_loader_indicator"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_result_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/tv_result_search"
+            android:padding="10dp"
+            android:background="#dff0d8"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/et_search_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/error_message"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <ListView
+
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp" />
+    </LinearLayout>
+
+</LinearLayout>

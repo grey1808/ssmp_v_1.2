@@ -7,7 +7,7 @@ import java.net.URL;
 
 public class NetworkUpdEvent extends NetworkAppUtis {
     private static final String ADDRESS = "/upd-event";
-    private static final String EVENTID = "eventId";
+    private static final String EVENTID = "lastName";
 
     public static URL generateURLUpdEvent(
             String eventId

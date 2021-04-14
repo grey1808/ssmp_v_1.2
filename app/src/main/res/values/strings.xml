@@ -17,4 +17,15 @@
     <string name="et_ssmp_add_event_ssmp_local">Добавить событие к вызову</string>
     <string name="b_to_accept_call">Принять вызов</string>
     <string name="b_datePicker_enter">Применить дату</string>
+    <string name="search_client_title">Поиск пациента в БД</string>
+    <string name="ssmp">Cписок вызовов ССМП</string>
+    <string name="et_birthDate">Дата рожнения</string>
+    <string name="et_lastName">Фамилия</string>
+    <string name="et_firstName">Имя</string>
+    <string name="et_patrName">Отчество</string>
+    <string name="et_snils">СНИЛС</string>
+    <string name="tv_result_search">По вашему запросу ничего не найдено!</string>
+    <string name="client_info">Подробности о пациенте</string>
+    <string name="new_appeal">Создать новое обращение</string>
+    <string name="b_to_send">Сохранить</string>
 </resources>
