@@ -28,4 +28,6 @@
     <string name="client_info">Подробности о пациенте</string>
     <string name="new_appeal">Создать новое обращение</string>
     <string name="b_to_send">Сохранить</string>
+    <string name="portal">Портал врача</string>
+    <string name="auth">Неотложная помощь | Авторизация</string>
 </resources>

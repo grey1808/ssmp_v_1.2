@@ -2,7 +2,9 @@ package com.example.ssmp_v_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +31,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import static com.example.ssmp_v_1.utils.NetworkUtilsGetSsmp.generateURLGetList;
 import static com.example.ssmp_v_1.utils.NetworkUtilsGetSsmp.getResponseFromURL;
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar loadingIndicator;
     private DatePicker mDatePicker;
     private LinearLayout ll_calendar;
+    private Menu menu;
 
     private void showResultTextView(){
         et_search_result.setVisibility(View.GONE);
@@ -226,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
                               intent.putExtra("callNumberId", callNumberId);
                               intent.putExtra("eventId", eventId);
                               startActivity(intent);
+                              finish();
                           }
                       });
                   }
@@ -236,10 +243,15 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        test_auth();
         setContentView(R.layout.activity_main);
+
         Spinner spinner = (Spinner) findViewById(R.id.et_search_close_event);
         // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spiner, search_ssmp_list);
@@ -295,16 +307,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+        String login = auth.getString("login", "");
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem dsd = menu.findItem(R.id.main_login);
+        dsd.setTitle(login);
         return true;
     } // Для меню
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -313,20 +327,27 @@ public class MainActivity extends AppCompatActivity {
             case R.id.main_activity :
                 Intent intent1 = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent1);
+                finish();
                 return true;
             case R.id.main_search_client:
                 Intent intent2 = new Intent(MainActivity.this, SearchClientActivity.class);
                 startActivity(intent2);
+                finish();
                 return true;
-//            case R.id.save_settings:
-//                toast = Toast.makeText(getApplicationContext(),
-//                        "Сохранить", Toast.LENGTH_SHORT);
-//                toast.show();
-//                return true;
+            case R.id.main_exit:
+                SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+                auth.edit().remove("person_id").commit();
+                String savedText = auth.getString("person_id", "");
+                Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
         }
         //headerView.setText(item.getTitle());
         return super.onOptionsItemSelected(item);
     } // переход на пункт меню
+
+
 
     // получить список
     protected void getList(){
@@ -345,9 +366,31 @@ public class MainActivity extends AppCompatActivity {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-//                et_search_result.setText(generatedURL.toString());
-        // master
         new QueryTask().execute(generatedURL);
     }
+
+    // проверка авторизации
+    private void test_auth(){
+
+
+
+
+
+        // проверка переменной
+        SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+        String savedText = auth.getString("person_id", "");
+        if (savedText == null || savedText.equals("")){
+            Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+
+
+
+    }
+
+
+
 
 }

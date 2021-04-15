@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity">
 
+
+    <ProgressBar
+        android:id="@+id/pb_loader_indicator"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,7 +20,7 @@
         tools:ignore="MissingConstraints">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -22,13 +29,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
-                <ProgressBar
-                    android:id="@+id/pb_loader_indicator"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/et_search_result"
@@ -178,10 +178,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:textSize="30sp"
                         android:backgroundTint="#ececec"
                         android:text="@string/b_search_clear"
-                        android:textColor="#333333" />
+                        android:textColor="#333333"
+                        android:textSize="30sp" />
 
                     <Button
                         android:id="@+id/b_search_send"

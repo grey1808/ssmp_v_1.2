@@ -17,6 +17,7 @@
             android:hint="@string/tv_result_search"
             android:background="#d9edf7"
             android:padding="10dp"
+            android:layout_margin="10dp"
             android:textSize="20sp"
             android:visibility="visible" />
 
@@ -27,6 +28,7 @@
             android:hint="@string/error_message"
             android:padding="10dp"
             android:textSize="20sp"
+            android:layout_margin="10dp"
             android:visibility="gone" />
 
         <ProgressBar
@@ -44,7 +46,7 @@
         >
 
         <Button
-            android:id="@+id/new_appeal"
+            android:id="@+id/b_new_appeal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#286090"
@@ -55,7 +57,7 @@
             android:text="Новое обращение" />
 
         <Button
-            android:id="@+id/vaccin"
+            android:id="@+id/b_vaccin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#c9302c"
@@ -65,7 +67,7 @@
             android:textColor="#FFFFFF"
             android:text="Запись на вакцинацию" />
         <Button
-            android:id="@+id/portal"
+            android:id="@+id/b_portal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#31b0d5"
@@ -73,6 +75,24 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:textSize="30sp"
-            android:text="Портал врача" />
+            android:text="Портал врача"
+            />
+        <TextView
+            android:id="@+id/et_error_potral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/error_message"
+            android:padding="10dp"
+            android:textSize="30sp"
+            android:layout_margin="10dp"
+            android:background="#fcf8e3"
+            android:gravity="center"
+            android:visibility="gone" />
+        <ProgressBar
+            android:id="@+id/pb_loader_indicator_portal"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

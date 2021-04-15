@@ -2,6 +2,7 @@ package com.example.ssmp_v_1;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -20,6 +21,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +37,7 @@ import static com.example.ssmp_v_1.utils.NetworkAppUtis.getResponseFromURL;
 import static com.example.ssmp_v_1.utils.NetworkGetTheDiary.generateURL;
 import static com.example.ssmp_v_1.utils.NetworkSetAppeal.generateURLSetAppeal;
 
-public class NewAppealActivity extends Activity {
+public class NewAppealActivity extends AppCompatActivity {
 
     private ProgressBar loadingIndicator;
     private TextView tv_result;
@@ -81,7 +84,9 @@ public class NewAppealActivity extends Activity {
     }
     protected void get_the_diary(){
         URL generatedURL = null;
-        String person_id = "3631";
+        // Получение переменной из хранилища
+        SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+        String person_id = auth.getString("person_id", "");
         String client_id = getIntent().getExtras().getString("client_id");
         try {
             generatedURL = generateURL(person_id,client_id);
@@ -203,7 +208,9 @@ public class NewAppealActivity extends Activity {
         String mkb = et_mkb.getText().toString();
         String orgstructure_id = et_orgstructure_id.getText().toString();
         String client_id = getIntent().getExtras().getString("client_id");
-        String person_id = "3631";
+        // Получение переменной из хранилища
+        SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+        String person_id = auth.getString("person_id", "");
 
         URL generatedURL = null;
         try {
@@ -251,6 +258,7 @@ public class NewAppealActivity extends Activity {
                         toast.show();
 
                         startActivity(intent);
+                        finish();
 
 
                     }else {

@@ -1,6 +1,7 @@
 package com.example.ssmp_v_1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -102,31 +103,46 @@ public class SearchClientActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+        String login = auth.getString("login", "");
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem dsd = menu.findItem(R.id.main_login);
+        dsd.setTitle(login);
         return true;
     } // Для меню
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Intent intent;
         switch(id){
             case R.id.main_activity :
-                intent = new Intent(SearchClientActivity.this, MainActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(SearchClientActivity.this, MainActivity.class);
+                startActivity(intent1);
+                finish();
                 return true;
             case R.id.main_search_client:
-                intent = new Intent(SearchClientActivity.this, SearchClientActivity.class);
+                Intent intent2 = new Intent(SearchClientActivity.this, SearchClientActivity.class);
+                startActivity(intent2);
+                finish();
+                return true;
+            case R.id.main_exit:
+                SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+                auth.edit().remove("person_id").commit();
+                String savedText = auth.getString("person_id", "");
+                Intent intent = new Intent(SearchClientActivity.this, AuthActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
         }
         //headerView.setText(item.getTitle());
         return super.onOptionsItemSelected(item);
     } // переход на пункт меню
+
+
 
     protected void getListSearch(){
         URL generatedURL = null;
@@ -233,9 +249,6 @@ public class SearchClientActivity extends AppCompatActivity {
                             String contact = itemHashMap.get("contact").toString();
                             String address = itemHashMap.get("address").toString();
 
-                            Toast.makeText(getApplicationContext(),
-                                    "Вы выбрали " + client_id + ". Он " + fullName, Toast.LENGTH_SHORT)
-                                    .show();
                             Intent intent = new Intent(SearchClientActivity.this, ClientInfoActivity.class);
                             intent.putExtra("client_id", client_id);
                             intent.putExtra("fullName", fullName);

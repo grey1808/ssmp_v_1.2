@@ -34,9 +34,9 @@
                 android:layout_height="wrap_content"
                 android:background="#d9edf7"
                 android:padding="10dp"
+                android:layout_margin="10dp"
                 android:text="@string/tv_ssmp_text_message"
                 android:textSize="25sp"
-
                 />
 
             <TextView
@@ -44,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:layout_margin="10dp"
                 android:text="@string/tv_ssmp_text_error"
                 android:textSize="25sp"
                 android:visibility="gone" />
@@ -72,6 +73,7 @@
                 android:textColor="#f2dede"
                 android:padding="12dp"
                 android:textSize="25sp"
+                android:layout_margin="10dp"
                 android:hint="@string/tv_ssmp_text_error"
                 android:visibility="gone"
                 />
@@ -81,7 +83,21 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#8259b8"
                 android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="30sp"
                 android:text="@string/b_to_accept_call" />
+
+            <Button
+                android:id="@+id/b_new_appeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#286090"
+                android:text="Поиск пациента в базе"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
 
             <Spinner
                 android:id="@+id/s_ssmp_resoult"
@@ -111,8 +127,12 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#530000"
                 android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="30sp"
                 android:text="@string/et_ssmp_add_event_ssmp_local"
                 />
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

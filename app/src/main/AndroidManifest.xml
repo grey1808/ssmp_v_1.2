@@ -51,6 +51,13 @@
             android:windowSoftInputMode="stateHidden"
             >
         </activity>
+        <activity android:name=".PortalDoctorActivity"
+            android:label="@string/portal"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
+        <activity android:name=".AuthActivity"
+            android:label="@string/auth"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

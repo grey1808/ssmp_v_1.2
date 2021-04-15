@@ -99,10 +99,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:textSize="30sp"
                     android:backgroundTint="#449d44"
                     android:text="@string/b_to_send"
-                    android:textColor="#FFFFFF"
-                    android:textSize="30sp" />
+                    android:textColor="#FFFFFF" />
 
             </LinearLayout>
         </LinearLayout>

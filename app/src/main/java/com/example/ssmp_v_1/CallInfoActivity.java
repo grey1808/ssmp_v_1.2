@@ -14,6 +14,8 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.ssmp_v_1.utils.NetworkAddEvent;
 import com.example.ssmp_v_1.utils.NetworkCallInfo;
 import com.example.ssmp_v_1.utils.NetworkUpdEvent;
@@ -28,7 +30,7 @@ import java.net.URL;
 
 import static com.example.ssmp_v_1.utils.NetworkAppUtis.getResponseFromURL;
 
-public class CallInfoActivity extends Activity {
+public class CallInfoActivity extends AppCompatActivity {
 
     private TextView tv_ssmp_text_message;
     private TextView tv_ssmp_text_error;
