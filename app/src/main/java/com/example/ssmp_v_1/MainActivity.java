@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -54,16 +55,20 @@ public class MainActivity extends AppCompatActivity {
     private DatePicker mDatePicker;
     private LinearLayout ll_calendar;
     private Menu menu;
+    private HorizontalScrollView hsv_horizontal;
 
     private void showResultTextView(){
+        hsv_horizontal.setVisibility(View.VISIBLE);
         et_search_result.setVisibility(View.GONE);
         et_search_error.setVisibility(View.GONE);
     } // Скрывает текст с ошибкой, показывает результат запроса
     private void showErrorTextView(){
+        hsv_horizontal.setVisibility(View.GONE);
         et_search_result.setVisibility(View.GONE);
         et_search_error.setVisibility(View.VISIBLE);
     } // Показывает результат запроса, крывает текст с ошибкой
     private void showMessTextView(){
+        hsv_horizontal.setVisibility(View.GONE);
         et_search_result.setVisibility(View.VISIBLE);
         et_search_error.setVisibility(View.GONE);
     } // Скрыватет сообщение ошибки
@@ -232,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
                               intent.putExtra("callNumberId", callNumberId);
                               intent.putExtra("eventId", eventId);
                               startActivity(intent);
-                              finish();
                           }
                       });
                   }
@@ -275,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
         loadingIndicator = findViewById(R.id.pb_loader_indicator);
         mDatePicker = findViewById(R.id.datePicker);
         ll_calendar = findViewById(R.id.ll_calendar);
+        hsv_horizontal = findViewById(R.id.hsv_horizontal);
 
         // Календарь
         et_search_date.setOnClickListener(new View.OnClickListener(){
@@ -309,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*Меню*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -325,15 +331,24 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch(id){
             case R.id.main_activity :
+                new_appeal_clear();
                 Intent intent1 = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent1);
                 finish();
                 return true;
+            case R.id.main_line:
+                new_appeal_clear();
+                Intent intent3 = new Intent(MainActivity.this, LineActivity.class);
+                startActivity(intent3);
+                finish();
+                return true;
             case R.id.main_search_client:
+                new_appeal_clear();
                 Intent intent2 = new Intent(MainActivity.this, SearchClientActivity.class);
                 startActivity(intent2);
                 finish();
                 return true;
+
             case R.id.main_exit:
                 SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
                 auth.edit().remove("person_id").commit();
@@ -347,7 +362,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     } // переход на пункт меню
 
-
+    protected void new_appeal_clear(){
+        SharedPreferences auth = getSharedPreferences("new_appeal", MODE_PRIVATE);
+        auth.edit().clear().commit();
+    } // очистить переход из модуля ССМП
+    /*Меню*/
 
     // получить список
     protected void getList(){

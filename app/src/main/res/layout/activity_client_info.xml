@@ -65,12 +65,14 @@
             android:layout_marginEnd="8dp"
             android:textSize="30sp"
             android:textColor="#FFFFFF"
-            android:text="Запись на вакцинацию" />
+            android:text="Запись на вакцинацию"
+            android:visibility="gone"
+            />
         <Button
             android:id="@+id/b_portal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#31b0d5"
+            android:backgroundTint="#05c2b6"
             android:textColor="#FFFFFF"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"

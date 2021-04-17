@@ -1,6 +1,8 @@
 package com.example.ssmp_v_1;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -40,6 +42,8 @@ public class CallInfoActivity extends AppCompatActivity {
     private ProgressBar loadingIndicator;
     private Button b_to_accept_call;
     private Button b_add_event_ssmp_local;
+    private Button b_new_appeal;
+    private String fio;
 
     private void showResultTextView(){
         tv_ssmp_text_message.setVisibility(View.VISIBLE);
@@ -71,6 +75,7 @@ public class CallInfoActivity extends AppCompatActivity {
         tv_error = findViewById(R.id.tv_error);
         tv_message = findViewById(R.id.tv_message);
         et_ssmp_note = findViewById(R.id.et_ssmp_note);
+        b_new_appeal = findViewById(R.id.b_new_appeal);
 
         Spinner spinner = (Spinner) findViewById(R.id.s_ssmp_resoult);
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -146,6 +151,27 @@ public class CallInfoActivity extends AppCompatActivity {
             }
         });
 
+        // Передать вызов в создание нового обращения
+        b_new_appeal.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                // запсиcь переменной
+                SharedPreferences sPref = getSharedPreferences("new_appeal", MODE_PRIVATE);
+                SharedPreferences.Editor ed = sPref.edit();
+                ed.putString("callNumberId", callNumberId);
+                ed.putString("eventId", eventId);
+                ed.putString("fio", fio);
+                ed.commit();
+                Intent intent = new Intent(CallInfoActivity.this, SearchClientActivity.class);
+//                intent.putExtra("fio", fio);
+                startActivity(intent);
+//                finish();
+            }
+        });
+
+
+
 
     }
 
@@ -213,6 +239,7 @@ public class CallInfoActivity extends AppCompatActivity {
                 result += "<b>Принявший вызов: </b>"  + list.getString("receiver") + "<br>";
                 result += "<b>Контактный телефон: </b>"  + list.getString("contact") + "<br>";
                 result += "<b>Категория срочности: </b>"  + list.getString("urgencyCategory") + "<br>";
+                fio = list.getString("fio");
                 tv_ssmp_text_message.setText(Html.fromHtml(result));
                 showResultTextView();
 

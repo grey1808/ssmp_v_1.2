@@ -12,10 +12,15 @@
         app:showAsAction="always"
         android:title="Поиск" />
     <item
+        android:id="@+id/main_line"
+        android:orderInCategory="4"
+        app:showAsAction="always"
+        android:title="Очередь" />
+    <item
         android:id="@+id/main_login"
         android:orderInCategory="3"
         app:showAsAction="never"
-        android:title="Поиск" />
+        android:title="Ваш логин" />
     <item
         android:id="@+id/main_exit"
         android:orderInCategory="5"

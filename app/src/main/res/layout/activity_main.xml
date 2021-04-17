@@ -2,17 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     tools:context=".MainActivity">
 
 
-    <ProgressBar
-        android:id="@+id/pb_loader_indicator"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center"
-        android:visibility="gone" />
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,13 +24,22 @@
                 android:orientation="vertical">
 
 
+                <ProgressBar
+                    android:id="@+id/pb_loader_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:visibility="visible" />
+
                 <TextView
                     android:id="@+id/et_search_result"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/et_search_result"
                     android:padding="10dp"
+                    android:layout_margin="10dp"
                     android:textSize="25sp"
+                    android:background="#fcf8e3"
                     android:visibility="visible" />
 
                 <TextView
@@ -45,13 +48,19 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/error_message"
                     android:padding="10dp"
+                    android:layout_margin="10dp"
                     android:textSize="25sp"
+                    android:background="#f2dede"
+                    android:textAlignment="center"
                     android:visibility="gone" />
             </LinearLayout>
 
             <HorizontalScrollView
+                android:id="@+id/hsv_horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
 
                 <ScrollView
                     android:layout_width="wrap_content"
@@ -117,8 +126,6 @@
                     android:inputType="date"
                     android:padding="12dp"
                     android:textSize="25sp"
-
-
                     />
 
                 <LinearLayout

@@ -76,13 +76,34 @@ public class ClientInfoActivity extends AppCompatActivity {
         String contact = getIntent().getExtras().getString("contact");
         String snils = getIntent().getExtras().getString("snils");
         String address = getIntent().getExtras().getString("address");
+
+        String time_and_fullName = getIntent().getExtras().getString("time_and_fullName");
+        String registration = getIntent().getExtras().getString("registration");
+        String residence = getIntent().getExtras().getString("residence");
+        String sex = getIntent().getExtras().getString("sex");
+        String directionDate = getIntent().getExtras().getString("directionDate");
+
+
         if (client_id != null){
-            String message =
-                    "<p><b>Карточка номер: </b> " + client_id + "<p>" +
-                    "<p><b>ФИО: </b> " + fullName + "<p>" +
-                    "<p><b>Контактный номер телефона: </b> " + contact + "<p>" +
-                    "<p><b>СНИЛС: </b> " + snils + "<p>" +
-                    "<p><b>Адрес: </b> " + address + "<p>";
+            String message = null;
+            if (time_and_fullName != null){ // Если пршло из Очереди пациентов
+                message =
+                        "<p><b>Карточка номер: </b> " + client_id + "<p>" +
+                                "<p><b>Время записи: </b> " + directionDate + "<p>" +
+                                "<p><b>ФИО: </b> " + fullName + "<p>" +
+                                "<p><b>Контактный номер телефона: </b> " + contact + "<p>" +
+                                "<p><b>СНИЛС: </b> " + snils + "<p>" +
+                                "<p><b>Адрес регистрации: </b> " + registration + "<p>" +
+                                "<p><b>Адрес проживания: </b> " + residence + "<p>"
+                        ;
+            }else { // если пршло из поиска
+                message =
+                        "<p><b>Карточка номер: </b> " + client_id + "<p>" +
+                                "<p><b>ФИО: </b> " + fullName + "<p>" +
+                                "<p><b>Контактный номер телефона: </b> " + contact + "<p>" +
+                                "<p><b>СНИЛС: </b> " + snils + "<p>" +
+                                "<p><b>Адрес: </b> " + address + "<p>";
+            }
             tv_result.setText(Html.fromHtml(message));
 
             b_new_appeal.setOnClickListener(new View.OnClickListener(){
@@ -109,6 +130,8 @@ public class ClientInfoActivity extends AppCompatActivity {
             showResultTextView();
             tv_result.setText("Нет идентификатора пациента, поробуйте еще раз!");
         }
+
+
 
 
 

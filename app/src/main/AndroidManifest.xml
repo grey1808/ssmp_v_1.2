@@ -58,6 +58,10 @@
         <activity android:name=".AuthActivity"
             android:label="@string/auth"
             android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".LineActivity"
+            android:label="@string/title_activity_line"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

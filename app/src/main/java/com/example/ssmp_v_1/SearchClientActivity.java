@@ -61,6 +61,7 @@ public class SearchClientActivity extends AppCompatActivity {
     } // Скрыватет сообщение ошибки
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,19 +84,27 @@ public class SearchClientActivity extends AppCompatActivity {
                 getListSearch(); // получить список пациентов
             }
         });
+        getListSearch(); // получить список пациентов автоматически
 
 
+        // Если было сохранено обращение
+//        if (getIntent().getExtras() != null){
+//            showMessTextView();
+//            String request_message = getIntent().getExtras().getString("request_message");
+//            String addMessage = getIntent().getExtras().getString("addMessage");
+//
+//            SharedPreferences new_appeal = getSharedPreferences("new_appeal", MODE_PRIVATE);
+////            String addMessage = new_appeal.getString("addMessage", "");
+//            new_appeal.edit().clear().commit();
+//            if (addMessage.trim().length() != 0){
+//                tv_result_search.setText(Html.fromHtml(request_message + " <hr><br> " + addMessage));
+//            }else {
+//                tv_result_search.setText(Html.fromHtml(request_message));
+//            }
+//        }
 
-        if (getIntent().getExtras() != null){
-            showMessTextView();
-            String request_message = getIntent().getExtras().getString("request_message");
-            tv_result_search.setText(Html.fromHtml(request_message));
-        }
-
-
-
-
-
+        // проверка на переменную в хранилище из модуля ССМП
+        if_new_appeal();
 
 
 
@@ -103,6 +112,37 @@ public class SearchClientActivity extends AppCompatActivity {
 
     }
 
+    protected void if_new_appeal(){
+
+        // проверка на переменную в хранилище из модуля ССМП
+        SharedPreferences new_appeal = getSharedPreferences("new_appeal", MODE_PRIVATE);
+        String callNumberId = new_appeal.getString("callNumberId", "");
+        String eventId = new_appeal.getString("eventId", "");
+        String fio = new_appeal.getString("fio", "");
+        if (callNumberId != null || !callNumberId.equals("")){
+            if (fio != null || !fio.equals("")){
+                String[] subStr;
+                String delimeter = " ";
+                subStr = fio.split(delimeter);
+                JSONObject obj = new JSONObject();
+                for(int i = 0; i < subStr.length; i++) {
+                    try {
+                        obj.put(""+i,subStr[i]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    et_lastName.setText(obj.get("0").toString());
+                    et_firstName.setText(obj.get("1").toString());
+                    et_patrName.setText(obj.get("2").toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,15 +156,26 @@ public class SearchClientActivity extends AppCompatActivity {
     } // Для меню
 
     @Override
+    // переход на пункт меню
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id){
             case R.id.main_activity :
+                new_appeal_clear();
                 Intent intent1 = new Intent(SearchClientActivity.this, MainActivity.class);
                 startActivity(intent1);
                 finish();
                 return true;
+
+            case R.id.main_line:
+                new_appeal_clear();
+                Intent intent3 = new Intent(SearchClientActivity.this, LineActivity.class);
+                startActivity(intent3);
+                finish();
+                return true;
+
             case R.id.main_search_client:
+                new_appeal_clear();
                 Intent intent2 = new Intent(SearchClientActivity.this, SearchClientActivity.class);
                 startActivity(intent2);
                 finish();
@@ -140,9 +191,13 @@ public class SearchClientActivity extends AppCompatActivity {
         }
         //headerView.setText(item.getTitle());
         return super.onOptionsItemSelected(item);
-    } // переход на пункт меню
+    }
 
-
+    // очистить переход из модуля ССМП
+    protected void new_appeal_clear(){
+        SharedPreferences auth = getSharedPreferences("new_appeal", MODE_PRIVATE);
+        auth.edit().clear().commit();
+    }
 
     protected void getListSearch(){
         URL generatedURL = null;

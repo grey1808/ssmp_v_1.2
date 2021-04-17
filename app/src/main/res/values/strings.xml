@@ -18,7 +18,7 @@
     <string name="b_to_accept_call">Принять вызов</string>
     <string name="b_datePicker_enter">Применить дату</string>
     <string name="search_client_title">Поиск пациента в БД</string>
-    <string name="ssmp">Cписок вызовов ССМП</string>
+    <string name="ssmp">Неотложная помощь | Cписок вызовов ССМП</string>
     <string name="et_birthDate">Дата рожнения</string>
     <string name="et_lastName">Фамилия</string>
     <string name="et_firstName">Имя</string>
@@ -30,4 +30,6 @@
     <string name="b_to_send">Сохранить</string>
     <string name="portal">Портал врача</string>
     <string name="auth">Неотложная помощь | Авторизация</string>
+    <string name="title_activity_line">Неотложная помощь | Очередь</string>
+    <string name="et_search_result_line">На этот день записанных пациентов нет!</string>
 </resources>

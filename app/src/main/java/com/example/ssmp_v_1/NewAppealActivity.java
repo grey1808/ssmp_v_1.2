@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ssmp_v_1.utils.NetworkAddEvent;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +48,7 @@ public class NewAppealActivity extends AppCompatActivity {
     private EditText et_orgstructure_name;
     private TextView text_diary;
     private TextView et_mkb;
+    public String addEvent;
     private Button b_to_send;
 
     private void showResultTextView(){
@@ -71,13 +74,21 @@ public class NewAppealActivity extends AppCompatActivity {
         text_diary = findViewById(R.id.text_diary);
         b_to_send = findViewById(R.id.b_to_send);
         et_mkb = findViewById(R.id.et_mkb);
+        addEvent = null;
 
         get_the_diary(); // Получить дневник
 
         b_to_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                set_appeal();
+                // проверка на переменную в хранилище из модуля ССМП
+                SharedPreferences new_appeal = getSharedPreferences("new_appeal", MODE_PRIVATE);
+                String callNumberId = new_appeal.getString("callNumberId", "");
+                String eventId = new_appeal.getString("eventId", "");
+                if (callNumberId.trim().length() != 0){
+                    addEvent(eventId,callNumberId); // добавить событие к вызову
+                }
+                set_appeal(); // создать обращение
             }
         });
 
@@ -221,7 +232,7 @@ public class NewAppealActivity extends AppCompatActivity {
         new QueryTaskSetAppeal().execute(generatedURL);
     };
 
-
+    // для получения дневника
     class QueryTaskSetAppeal extends AsyncTask<URL, Void, String> {
 
         @Override
@@ -250,13 +261,19 @@ public class NewAppealActivity extends AppCompatActivity {
                     Integer status = (Integer) list.get("status");
                     if(status != 0){
                         String message = list.getString("message");
-                        Intent intent = new Intent(NewAppealActivity.this, SearchClientActivity.class);
-                        intent.putExtra("request_message", message);
 
+                        // проверка на переменную в хранилище из модуля ССМП
+                        SharedPreferences new_appeal = getSharedPreferences("new_appeal", MODE_PRIVATE);
+                        Intent intent = new Intent(NewAppealActivity.this, LineActivity.class);
+
+                        intent.putExtra("request_message", message);
+                        if (addEvent == null){
+                            addEvent = "";
+                        }
+                        intent.putExtra("addMessage", addEvent);
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 Html.fromHtml(message), Toast.LENGTH_SHORT);
                         toast.show();
-
                         startActivity(intent);
                         finish();
 
@@ -291,6 +308,68 @@ public class NewAppealActivity extends AppCompatActivity {
             }
         }
 
-    } // для получения дневника
+    }
+
+
+    // Принять вызов 1
+    protected void addEvent(String eventId,String callNumberId){
+        URL generatedURL = null;
+        try {
+            String ssmpresoult_text = "Вызов выполнен"; // получить значение
+            Integer ssmpresoult = 2; // получить порядковый номер
+            String note = "";
+
+            generatedURL = NetworkAddEvent.generateURLAddEvent(eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+//                tv_ssmp_text_message.setText(generatedURL.toString());
+        new QueryTaskAddEvent().execute(generatedURL);
+    }
+    // Принять вызов 2
+    class QueryTaskAddEvent extends AsyncTask<URL, Void, String> {
+
+        @Override
+        protected void onPreExecute(){
+            loadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            String response = null;
+            try {
+                response = getResponseFromURL(urls[0]);
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response){
+//            tv_ssmp_text_message.setText(response);
+            String message = null;
+            if (response != null && !response.equals("")){
+                try {
+                    JSONObject list = new JSONObject(response);
+                    Integer status = (Integer) list.get("status");
+                    message = (String) list.get("message");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                message = "Ошибка закрытия вызова ССМП! Что то пошло не так..";
+            }
+            addEvent = message;
+            loadingIndicator.setVisibility(View.GONE);
+        }
+
+    }
+
 
 }
