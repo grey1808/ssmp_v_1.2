@@ -219,13 +219,14 @@ public class NewAppealActivity extends AppCompatActivity {
         String mkb = et_mkb.getText().toString();
         String orgstructure_id = et_orgstructure_id.getText().toString();
         String client_id = getIntent().getExtras().getString("client_id");
+        String action_id = getIntent().getExtras().getString("action_id");
         // Получение переменной из хранилища
         SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
         String person_id = auth.getString("person_id", "");
 
         URL generatedURL = null;
         try {
-            generatedURL = generateURLSetAppeal(person_id,client_id,mkb,orgstructure_id,editTextContent.toString());
+            generatedURL = generateURLSetAppeal(person_id,client_id,mkb,orgstructure_id,editTextContent.toString(),action_id);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

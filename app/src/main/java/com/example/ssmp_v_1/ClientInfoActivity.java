@@ -72,6 +72,7 @@ public class ClientInfoActivity extends AppCompatActivity {
         et_error_potral = findViewById(R.id.et_error_potral);
 
         String client_id = getIntent().getExtras().getString("client_id");
+        String action_id = getIntent().getExtras().getString("action_id");
         String fullName = getIntent().getExtras().getString("fullName");
         String contact = getIntent().getExtras().getString("contact");
         String snils = getIntent().getExtras().getString("snils");
@@ -111,6 +112,7 @@ public class ClientInfoActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(ClientInfoActivity.this, NewAppealActivity.class);
                     intent.putExtra("client_id", client_id);
+                    intent.putExtra("action_id", action_id);
                     startActivity(intent);
                 }
             });

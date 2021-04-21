@@ -226,13 +226,20 @@ public class CallInfoActivity extends AppCompatActivity {
         protected void printListTable(String response){
             try {
                 JSONObject list = new JSONObject(response);
+                Integer sex = list.getInt("sex");
+                String sex1 = null;
+                if (sex == 0){
+                    sex1 = "М";
+                }else {
+                    sex1 = "Ж";
+                }
                 String result = "<b>Идентификатор вызова: </b>" + list.getString("callNumberId") + "<br>";
                 result += "<b>ФИО: </b>"  + list.getString("fio") + "<br>";
                 result += "<b>Адрес: </b>"  + list.getString("address") + "<br>";
                 result += "<b>Симптомы: </b>"  + list.getString("occasion") + "<br>";
                 result += "<b>Дата вызова: </b>"  + list.getString("callDate") + "<br>";
                 result += "<b>Время вызова: </b>"  + list.getString("eventTime") + "<br>";
-                result += "<b>Пол: </b>"  + list.getString("sex") + "<br>";
+                result += "<b>Пол: </b>"  + sex1 + "<br>";
                 result += "<b>Вид вызова: </b>"  + list.getString("callKind") + "<br>";
                 result += "<b>Возраст: </b>"  + list.getString("age") + "<br>";
                 result += "<b>ФИО вызывавшего: </b>"  + list.getString("callerName") + "<br>";

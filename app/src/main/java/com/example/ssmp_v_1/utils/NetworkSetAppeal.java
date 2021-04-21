@@ -14,13 +14,15 @@ public class NetworkSetAppeal extends NetworkAppUtis {
     private static final String  MKB = "mkb";
     private static final String  ORGSTRUCTURE_ID = "orgstructure_id";
     private static final String  JSON = "json";
+    private static final String  ACTION_ID = "action_id";
 
     public static URL generateURLSetAppeal(
             String person_id,
             String client_id,
             String mkb,
             String orgstructure_id,
-            String jsonArray
+            String jsonArray,
+            String action_id
     ) throws MalformedURLException {
         Uri builtUri = Uri.parse(BASE_URL + ADDRESS)
                 .buildUpon()
@@ -29,6 +31,7 @@ public class NetworkSetAppeal extends NetworkAppUtis {
                 .appendQueryParameter(MKB,mkb)
                 .appendQueryParameter(ORGSTRUCTURE_ID,orgstructure_id)
                 .appendQueryParameter(JSON,jsonArray)
+                .appendQueryParameter(ACTION_ID,action_id)
                 .build();
         URL url = null;
         try {

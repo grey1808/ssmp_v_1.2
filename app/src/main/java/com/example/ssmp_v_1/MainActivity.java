@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
                       tableRow.addView(textView2);
                       tableRow.addView(textView5);
                       Integer isDone = list.getInt("isDone");
+//                      Integer status = list.getInt("status");
                       if (isDone == 1){
                           textView1.setTextColor(Color.parseColor("#333333"));
                           textView2.setTextColor(Color.parseColor("#333333"));

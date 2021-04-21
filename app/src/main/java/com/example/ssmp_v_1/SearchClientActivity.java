@@ -44,20 +44,24 @@ public class SearchClientActivity extends AppCompatActivity {
     TextView et_snils;
     Button b_search_clear;
     Button b_search_send;
+    ListView listView;
 
 
 
     private void showResultTextView(){
         tv_result_search.setVisibility(View.GONE);
         et_search_error.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
     } // Скрывает текст с ошибкой, показывает результат запроса
     private void showErrorTextView(){
         tv_result_search.setVisibility(View.GONE);
+        listView.setVisibility(View.GONE);
         et_search_error.setVisibility(View.VISIBLE);
     } // Показывает результат запроса, крывает текст с ошибкой
     private void showMessTextView(){
         tv_result_search.setVisibility(View.VISIBLE);
         et_search_error.setVisibility(View.GONE);
+        listView.setVisibility(View.GONE);
     } // Скрыватет сообщение ошибки
 
 
@@ -77,6 +81,7 @@ public class SearchClientActivity extends AppCompatActivity {
         b_search_clear = findViewById(R.id.b_search_clear);
         b_search_send = findViewById(R.id.b_search_send);
         loadingIndicator = findViewById(R.id.pb_loader_indicator);
+        listView = findViewById(R.id.listView);
 
         b_search_send.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -84,7 +89,7 @@ public class SearchClientActivity extends AppCompatActivity {
                 getListSearch(); // получить список пациентов
             }
         });
-        getListSearch(); // получить список пациентов автоматически
+//        getListSearch(); // получить список пациентов автоматически
 
 
         // Если было сохранено обращение
@@ -242,14 +247,13 @@ public class SearchClientActivity extends AppCompatActivity {
                 try {
                     JSONObject list = new JSONObject(response);
                     Integer status = (Integer) list.get("status");
+                    String massage = (String) list.get("message");
                     if(status != 0){
                         String jsonArray = list.getString("result");
                         printListSearch(jsonArray);
                         showResultTextView();
                     }else {
-                        TableLayout tblLayout = null;
-                        tblLayout = (TableLayout) findViewById(R.id.tableLayout);
-                        tblLayout.removeAllViews();
+                        tv_result_search.setText(Html.fromHtml(massage));
                         showMessTextView();
                     }
 

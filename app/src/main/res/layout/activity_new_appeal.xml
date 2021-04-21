@@ -64,7 +64,9 @@
                     android:id="@+id/et_orgstructure_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Идентификатор подразделения" />
+                    android:hint="Идентификатор подразделения"
+                    android:visibility="gone"
+                    />
 
                 <EditText
                     android:id="@+id/et_orgstructure_name"

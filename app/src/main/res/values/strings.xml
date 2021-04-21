@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Неотложная помощь</string>
-    <string name="et_search_result">Нет переданных вызовов. Скорая еще не передала вызовы в неотложную помощь.  </string>
-    <string name="tv_search_name_form">ВЫБЕРИТЕ ПАРАМЕТРЫ</string>
+    <string name="et_search_result">Нет переданных вызовов. Скорая еще не передала вызовы на неотложную помощь.  </string>
+    <string name="tv_search_name_form">ВВЕДИТЕ ДАННЫЕ</string>
     <string name="et_search_number_call">Номер вызова</string>
     <string name="et_search_date">Дата вызова</string>
     <string name="et_search_fio">ФИО</string>
     <string name="et_search_close_event">Законченные события</string>
     <string name="b_search_send">Поиск</string>
     <string name="b_search_clear">Очистить</string>
-    <string name="error_message">Что то пошло не так, поробуйте еще раз!</string>
+    <string name="error_message">Что-то пошло не так, поробуйте еще раз!</string>
     <string name="about_title">Подробности вызова</string>
     <string name="tv_ssmp_text_message">Получение данных о вызове...</string>
     <string name="tv_ssmp_text_error">Что то пошло не так! Попробуйте еще раз!</string>
@@ -18,7 +18,7 @@
     <string name="b_to_accept_call">Принять вызов</string>
     <string name="b_datePicker_enter">Применить дату</string>
     <string name="search_client_title">Поиск пациента в БД</string>
-    <string name="ssmp">Неотложная помощь | Cписок вызовов ССМП</string>
+    <string name="ssmp">Cписок вызовов ССМП</string>
     <string name="et_birthDate">Дата рожнения</string>
     <string name="et_lastName">Фамилия</string>
     <string name="et_firstName">Имя</string>
@@ -29,7 +29,7 @@
     <string name="new_appeal">Создать новое обращение</string>
     <string name="b_to_send">Сохранить</string>
     <string name="portal">Портал врача</string>
-    <string name="auth">Неотложная помощь | Авторизация</string>
-    <string name="title_activity_line">Неотложная помощь | Очередь</string>
+    <string name="auth">Авторизация</string>
+    <string name="title_activity_line">Очередь</string>
     <string name="et_search_result_line">На этот день записанных пациентов нет!</string>
 </resources>

@@ -1,17 +1,24 @@
 package com.example.ssmp_v_1;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -103,7 +110,7 @@ public class LineActivity extends AppCompatActivity {
                 getList();
             }
         });
-        getList(); // получить список очереди автоматически
+
         tv_new_appeal.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -124,6 +131,8 @@ public class LineActivity extends AppCompatActivity {
             }else {
                 tv_new_appeal.setText(Html.fromHtml(request_message));
             }
+        }else {
+            getList(); // получить список очереди автоматически
         }
 
     }
@@ -232,23 +241,30 @@ public class LineActivity extends AppCompatActivity {
                     String residence = list.getString("residence");
                     String contact = list.getString("contact");
                     String time_and_fullName = list.getString("directionDate") + " | " + list.getString("fullName");
-                    if (contact == null || contact.equals("") || contact == "1"){
+                    Integer action_id = list.getInt("action_id");
+                    String status = list.getString("status");
+
+
+
+                    if (contact == null || contact.equals("") || contact == "1" || contact == "null"){
                         contact = "не указан";
                     }
-                    if (snils == null || snils.equals("") || snils == "1"){
+                    if (snils == null || snils.equals("") || snils == "1" || contact == "null"){
                         snils = "не указан";
                     }
                     hashMap = new HashMap<>();
                     hashMap.put("client_id", client_id); // Идентификатор
+                    hashMap.put("action_id", action_id); // Идентификатор очереди
                     hashMap.put("directionDate", directionDate); // Время записи
                     hashMap.put("fullName", fullName); // Полное имя
-                    hashMap.put("birthDate", birthDate); // Описание
+                    hashMap.put("birthDate", birthDate); // дата рождения
                     hashMap.put("sex", sex); // Пол
                     hashMap.put("registration", registration); // Регистрация
                     hashMap.put("residence", residence); // проживаение
                     hashMap.put("contact", "тел: " + contact); // Контакты
                     hashMap.put("time_and_fullName", time_and_fullName); // Время записи + полное имя
                     hashMap.put("snils", snils); // Время записи + полное имя
+                    hashMap.put("status", status); // Статус
                     searchList.add(hashMap);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -265,6 +281,8 @@ public class LineActivity extends AppCompatActivity {
                             String contact = itemHashMap.get("contact").toString();
                             String time_and_fullName = itemHashMap.get("time_and_fullName").toString();
                             String snils = itemHashMap.get("snils").toString();
+                            String action_id = itemHashMap.get("action_id").toString();
+                            String status = itemHashMap.get("status").toString();
 
                             Intent intent = new Intent(LineActivity.this, ClientInfoActivity.class);
                             intent.putExtra("client_id", client_id);
@@ -277,6 +295,8 @@ public class LineActivity extends AppCompatActivity {
                             intent.putExtra("contact", contact);
                             intent.putExtra("time_and_fullName", time_and_fullName);
                             intent.putExtra("snils", snils);
+                            intent.putExtra("action_id", action_id);
+                            intent.putExtra("status", status);
                             startActivity(intent);
                         }
                     });
@@ -296,6 +316,8 @@ public class LineActivity extends AppCompatActivity {
                                 "contact",
                                 "time_and_fullName",
                                 "snils",
+                                "action_id",
+                                "status",
                         },
                         new int[]{
                                 R.id.client_id,
@@ -308,17 +330,39 @@ public class LineActivity extends AppCompatActivity {
                                 R.id.contact,
                                 R.id.time_and_fullName,
                                 R.id.snils,
-                        });
+                                R.id.action_id,
+                                R.id.status,
+                        }){
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        TextView textView = (TextView) view.findViewById(R.id.status);
+                        String status = (String) textView.getText();
+//                        int warning = getResources().getColor(R.color.Warning);
+//                        int success = getResources().getColor(R.color.Success);
+                        if (status == "1"){
+                            LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_row);
+//                            linearLayout.setBackgroundColor(warning);
+                            linearLayout.setBackgroundResource(R.drawable.alert_warning);
+                        }else if (status == "0"){
+                            LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_row);
+//                            linearLayout.setBackgroundColor(success);
+                            linearLayout.setBackgroundResource(R.drawable.alert_sussess);
+                        }
+                        return view;
+                    };
+                };
                 // Устанавливаем адаптер для списка
-                listView.setAdapter(adapter);
 
+                listView.setAdapter(adapter);
 
 
             } catch (JSONException e) {
                 showErrorTextView();
                 e.printStackTrace();
             }
+
         }
+
 
     }
 

@@ -15,7 +15,7 @@
         android:id="@+id/main_line"
         android:orderInCategory="4"
         app:showAsAction="always"
-        android:title="Очередь" />
+        android:title="Вызовы на дом" />
     <item
         android:id="@+id/main_login"
         android:orderInCategory="3"
