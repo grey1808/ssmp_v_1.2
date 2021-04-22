@@ -8,8 +8,7 @@ import java.util.Scanner;
 
 public class NetworkAppUtis {
 
-    //    private static final String BASE_URL = "http://85.172.11.152:9872/ssmp";
-    protected static final String BASE_URL = "http://85.172.11.152:9871/ssmp11";
+    protected static final String BASE_URL = "http://85.172.11.152:9871";
 
 
     public static String getResponseFromURL(URL url) throws IOException {

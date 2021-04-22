@@ -175,6 +175,9 @@ public class LineActivity extends AppCompatActivity {
         }
         new QueryTask().execute(generatedURL);
     }
+    public static class ViewHolder {
+        public TextView textView;
+    }
 
     class QueryTask extends AsyncTask<URL, Void, String> {
 
@@ -241,9 +244,12 @@ public class LineActivity extends AppCompatActivity {
                     String residence = list.getString("residence");
                     String contact = list.getString("contact");
                     String time_and_fullName = list.getString("directionDate") + " | " + list.getString("fullName");
-                    Integer action_id = list.getInt("action_id");
+                    String action_id = list.getString("action_id");
                     String status = list.getString("status");
-
+                    String callNumberId = list.getString("callNumberId");
+                    String eventId = list.getString("eventId");
+                    String type = null;
+                    String isDone = list.getString("isDone");
 
 
                     if (contact == null || contact.equals("") || contact == "1" || contact == "null"){
@@ -251,6 +257,11 @@ public class LineActivity extends AppCompatActivity {
                     }
                     if (snils == null || snils.equals("") || snils == "1" || contact == "null"){
                         snils = "не указан";
+                    }
+                    if (callNumberId == null || callNumberId.equals("") || callNumberId == "1" || callNumberId == "null"){
+                        type = "На дом";
+                    }else {
+                        type = "ССМП";
                     }
                     hashMap = new HashMap<>();
                     hashMap.put("client_id", client_id); // Идентификатор
@@ -260,11 +271,15 @@ public class LineActivity extends AppCompatActivity {
                     hashMap.put("birthDate", birthDate); // дата рождения
                     hashMap.put("sex", sex); // Пол
                     hashMap.put("registration", registration); // Регистрация
-                    hashMap.put("residence", residence); // проживаение
+                    hashMap.put("residence", residence); // Проживаение
                     hashMap.put("contact", "тел: " + contact); // Контакты
                     hashMap.put("time_and_fullName", time_and_fullName); // Время записи + полное имя
                     hashMap.put("snils", snils); // Время записи + полное имя
                     hashMap.put("status", status); // Статус
+                    hashMap.put("callNumberId", callNumberId); // Номер вызова ССМП
+                    hashMap.put("eventId", eventId); // Номер события ССМП
+                    hashMap.put("type", type); // Тип
+                    hashMap.put("isDone", isDone); // Тип
                     searchList.add(hashMap);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -283,28 +298,40 @@ public class LineActivity extends AppCompatActivity {
                             String snils = itemHashMap.get("snils").toString();
                             String action_id = itemHashMap.get("action_id").toString();
                             String status = itemHashMap.get("status").toString();
+                            String callNumberId = itemHashMap.get("callNumberId").toString();
+                            String type = itemHashMap.get("type").toString();
+                            String isDone = itemHashMap.get("isDone").toString();
+                            String eventId = itemHashMap.get("eventId").toString();
+                            if (callNumberId != null && callNumberId != "null" ){
+                                Intent intent = new Intent(LineActivity.this, CallInfoActivity.class);
+                                intent.putExtra("eventId", eventId);
+                                intent.putExtra("callNumberId", callNumberId);
+                                startActivity(intent);
+                            }else {
+                                Intent intent = new Intent(LineActivity.this, ClientInfoActivity.class);
+                                intent.putExtra("client_id", client_id);
+                                intent.putExtra("directionDate", directionDate);
+                                intent.putExtra("fullName", fullName);
+                                intent.putExtra("birthDate", birthDate);
+                                intent.putExtra("sex", sex);
+                                intent.putExtra("registration", registration);
+                                intent.putExtra("residence", residence);
+                                intent.putExtra("contact", contact);
+                                intent.putExtra("time_and_fullName", time_and_fullName);
+                                intent.putExtra("snils", snils);
+                                intent.putExtra("action_id", action_id);
+                                intent.putExtra("status", status);
+                                startActivity(intent);
+                            }
 
-                            Intent intent = new Intent(LineActivity.this, ClientInfoActivity.class);
-                            intent.putExtra("client_id", client_id);
-                            intent.putExtra("directionDate", directionDate);
-                            intent.putExtra("fullName", fullName);
-                            intent.putExtra("birthDate", birthDate);
-                            intent.putExtra("sex", sex);
-                            intent.putExtra("registration", registration);
-                            intent.putExtra("residence", residence);
-                            intent.putExtra("contact", contact);
-                            intent.putExtra("time_and_fullName", time_and_fullName);
-                            intent.putExtra("snils", snils);
-                            intent.putExtra("action_id", action_id);
-                            intent.putExtra("status", status);
-                            startActivity(intent);
+
                         }
                     });
                 }
                 SimpleAdapter adapter = new SimpleAdapter(
                         LineActivity.this,
                         searchList,
-                        R.layout.list_list,
+                        R.layout.list_list_table,
                         new String[]{
                                 "client_id",
                                 "directionDate",
@@ -318,6 +345,10 @@ public class LineActivity extends AppCompatActivity {
                                 "snils",
                                 "action_id",
                                 "status",
+                                "callNumberId",
+                                "eventId",
+                                "type",
+                                "isDone",
                         },
                         new int[]{
                                 R.id.client_id,
@@ -332,21 +363,40 @@ public class LineActivity extends AppCompatActivity {
                                 R.id.snils,
                                 R.id.action_id,
                                 R.id.status,
+                                R.id.callNumberId,
+                                R.id.eventId,
+                                R.id.type,
+                                R.id.isDone,
                         }){
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
+                        ViewHolder holder;
+
+
                         TextView textView = (TextView) view.findViewById(R.id.status);
                         String status = (String) textView.getText();
-//                        int warning = getResources().getColor(R.color.Warning);
-//                        int success = getResources().getColor(R.color.Success);
-                        if (status == "1"){
-                            LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_row);
-//                            linearLayout.setBackgroundColor(warning);
+                        TextView isDoneView = (TextView) view.findViewById(R.id.isDone);
+                        String isDone = (String) isDoneView.getText();
+                        TextView residenceView = (TextView) view.findViewById(R.id.residence);
+                        TextView fullNameView = (TextView) view.findViewById(R.id.fullName);
+                        String fullName = (String) fullNameView.getText();
+                        TextView typeView = (TextView) view.findViewById(R.id.type);
+                        String type = (String) typeView.getText();
+                        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_row);
+
+                        if (status == "1" && isDone == "null" || status == "1" && isDone == "0" ){
                             linearLayout.setBackgroundResource(R.drawable.alert_warning);
-                        }else if (status == "0"){
-                            LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_row);
-//                            linearLayout.setBackgroundColor(success);
+                        }else if (status == "0" && isDone == "null" || status == "1" && isDone == "1" ){
                             linearLayout.setBackgroundResource(R.drawable.alert_sussess);
+                        }else if  (status == "0" && isDone == "0"){
+                            linearLayout.setBackgroundResource(R.drawable.alert_danger);
+                            residenceView.setTextColor(getResources().getColor(R.color.Warning));
+                            fullNameView.setTextColor(getResources().getColor(R.color.Primary_lite));
+                        }
+                        if (type == "ССМП"){
+                            typeView.setTextColor(getResources().getColor(R.color.Danger));
+                        }else {
+                            typeView.setTextColor(getResources().getColor(R.color.Primary));
                         }
                         return view;
                     };

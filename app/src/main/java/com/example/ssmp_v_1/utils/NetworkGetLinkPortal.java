@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class NetworkGetLinkPortal extends NetworkAppUtis {
+    private static final String CONTROLLER = "/ssmp11";
     private static final String ADDRESS = "/get-portal";
     private static final String  CLIENT_ID = "client_id";
     private static final String  PERSON_ID = "person_id";
@@ -14,7 +15,7 @@ public class NetworkGetLinkPortal extends NetworkAppUtis {
             String client_id,
             String person_id
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + ADDRESS)
+        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(CLIENT_ID,client_id)
                 .appendQueryParameter(PERSON_ID,person_id)

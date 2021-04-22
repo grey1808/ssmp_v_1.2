@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class NetworkAuth extends NetworkAppUtis {
+    private static final String CONTROLLER = "/ssmp11";
     private static final String ADDRESS = "/auth";
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
@@ -14,7 +15,7 @@ public class NetworkAuth extends NetworkAppUtis {
             String login,
             String password
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + ADDRESS)
+        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(LOGIN,login)
                 .appendQueryParameter(PASSWORD,password)

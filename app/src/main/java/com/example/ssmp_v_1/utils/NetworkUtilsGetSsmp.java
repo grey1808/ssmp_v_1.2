@@ -7,6 +7,7 @@ import java.net.URL;
 
 public class NetworkUtilsGetSsmp extends NetworkAppUtis {
 
+    private static final String CONTROLLER = "/ssmp11";
     private static final String ADDRESS = "/get-ssmp-list";
     private static final String CALLNUMBERID = "callNumberId";
     private static final String DATE = "date";
@@ -19,7 +20,7 @@ public class NetworkUtilsGetSsmp extends NetworkAppUtis {
             String et_search_fio,
             String et_search_close_event
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + ADDRESS)
+        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(CALLNUMBERID,et_search_number_call)
                 .appendQueryParameter(DATE,et_search_date)

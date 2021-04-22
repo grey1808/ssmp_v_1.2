@@ -37,6 +37,7 @@ public class ClientInfoActivity extends AppCompatActivity {
     private TextView et_error_potral;
     private Button b_new_appeal;
     private Button b_portal;
+    private Button b_appointment;
     private String portal_url;
 
     private void showResultTextView(){
@@ -70,6 +71,7 @@ public class ClientInfoActivity extends AppCompatActivity {
         b_new_appeal = findViewById(R.id.b_new_appeal);
         b_portal = findViewById(R.id.b_portal);
         et_error_potral = findViewById(R.id.et_error_potral);
+        b_appointment = findViewById(R.id.b_appointment);
 
         String client_id = getIntent().getExtras().getString("client_id");
         String action_id = getIntent().getExtras().getString("action_id");
@@ -123,6 +125,14 @@ public class ClientInfoActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(ClientInfoActivity.this, PortalDoctorActivity.class);
                     intent.putExtra("portal_url", portal_url);
+                    startActivity(intent);
+                }
+            });
+            b_appointment.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ClientInfoActivity.this, AppointmentActivity.class);
+//                    intent.putExtra("portal_url", "portal_url");
                     startActivity(intent);
                 }
             });

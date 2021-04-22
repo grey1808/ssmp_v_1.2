@@ -101,6 +101,18 @@
                 android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:visibility="gone" />
+
+            <Button
+                android:id="@+id/b_appointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#0b5ed7"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="30sp"
+                android:text="Запись на прием к врачу"
+                />
         </LinearLayout>
     </LinearLayout>
 

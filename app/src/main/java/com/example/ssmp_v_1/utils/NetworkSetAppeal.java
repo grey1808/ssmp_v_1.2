@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class NetworkSetAppeal extends NetworkAppUtis {
+    private static final String CONTROLLER = "/ssmp11";
     private static final String ADDRESS = "/set-appeal";
     private static final String  PERSON_ID = "person_id";
     private static final String  CLIENT_ID = "client_id";
@@ -24,7 +25,7 @@ public class NetworkSetAppeal extends NetworkAppUtis {
             String jsonArray,
             String action_id
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + ADDRESS)
+        Uri builtUri = Uri.parse(BASE_URL +CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(PERSON_ID,person_id)
                 .appendQueryParameter(CLIENT_ID,client_id)

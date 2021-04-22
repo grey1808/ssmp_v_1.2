@@ -62,6 +62,10 @@
         <activity android:name=".LineActivity"
             android:label="@string/title_activity_line"
             android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".AppointmentActivity"
+            android:label="@string/title_activity_line"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

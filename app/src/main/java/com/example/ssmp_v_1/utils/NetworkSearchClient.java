@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class NetworkSearchClient extends NetworkAppUtis {
+    private static final String CONTROLLER = "/ssmp11";
     private static final String ADDRESS = "/search-client";
     private static final String LASTNAME = "lastName";
     private static final String FIRSTNAME = "firstName";
@@ -22,7 +23,7 @@ public class NetworkSearchClient extends NetworkAppUtis {
             String birthDate,
             String snils
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + ADDRESS)
+        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(LASTNAME,lastName)
                 .appendQueryParameter(FIRSTNAME,firstName)

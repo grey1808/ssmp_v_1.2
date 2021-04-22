@@ -234,6 +234,7 @@ public class CallInfoActivity extends AppCompatActivity {
                     sex1 = "Ж";
                 }
                 String result = "<b>Идентификатор вызова: </b>" + list.getString("callNumberId") + "<br>";
+                result += "<b>Идентификатор события: </b>"  + list.getString("eventId") + "<br>";
                 result += "<b>ФИО: </b>"  + list.getString("fio") + "<br>";
                 result += "<b>Адрес: </b>"  + list.getString("address") + "<br>";
                 result += "<b>Симптомы: </b>"  + list.getString("occasion") + "<br>";
