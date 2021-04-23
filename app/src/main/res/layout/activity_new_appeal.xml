@@ -72,6 +72,9 @@
                     android:id="@+id/et_orgstructure_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:focusableInTouchMode="true"
                     android:hint="Подразделение" />
             </LinearLayout>
 

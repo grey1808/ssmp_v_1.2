@@ -14,6 +14,7 @@
         tools:ignore="MissingConstraints">
 
         <LinearLayout
+            android:id="@+id/ll_main_block"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

@@ -19,13 +19,7 @@
             android:name=".MainActivity"
             android:label="@string/ssmp"
             android:windowSoftInputMode="stateHidden"
-
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".CallInfoActivity"
@@ -61,10 +55,21 @@
 
         <activity android:name=".LineActivity"
             android:label="@string/title_activity_line"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".AppointmentActivity"
-            android:label="@string/title_activity_line"
+            android:label="@string/title_activity_appointment"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".ReportsActivity"
+            android:label="@string/title_reports"
             android:windowSoftInputMode="stateHidden"/>
     </application>
 

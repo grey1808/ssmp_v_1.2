@@ -27,6 +27,8 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ssmp_v_1.utils.NetworkGetList;
 
@@ -54,6 +56,8 @@ public class LineActivity extends AppCompatActivity {
     private TextView tv_new_appeal;
     private ProgressBar pb_loader_indicator;
     private ListView listView;
+    private RecyclerView tweetsRecyclerView;
+    private LinearLayout ll_main_block;
 
     private void showResultTextViewList(){
         listView.setVisibility(View.VISIBLE);
@@ -91,6 +95,7 @@ public class LineActivity extends AppCompatActivity {
         pb_loader_indicator = findViewById(R.id.pb_loader_indicator);
         listView = findViewById(R.id.listView);
         tv_new_appeal = findViewById(R.id.tv_new_appeal);
+        ll_main_block = findViewById(R.id.ll_main_block);
 
 
         // Календарь
@@ -102,6 +107,13 @@ public class LineActivity extends AppCompatActivity {
             }
         });
 
+        // свернуть каледарь
+        ll_main_block.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                datePicker.setVisibility(View.GONE);
+            }
+        });
 
         // Поиск
         b_search_send.setOnClickListener(new View.OnClickListener(){
@@ -370,9 +382,6 @@ public class LineActivity extends AppCompatActivity {
                         }){
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
-                        ViewHolder holder;
-
-
                         TextView textView = (TextView) view.findViewById(R.id.status);
                         String status = (String) textView.getText();
                         TextView isDoneView = (TextView) view.findViewById(R.id.isDone);
@@ -384,15 +393,30 @@ public class LineActivity extends AppCompatActivity {
                         String type = (String) typeView.getText();
                         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_row);
 
-                        if (status == "1" && isDone == "null" || status == "1" && isDone == "0" ){
+//                        if (status == "1" && isDone == "null" || status == "1" && isDone == "0" ){
+//                            linearLayout.setBackgroundResource(R.drawable.alert_warning);
+//                        }else if (status == "0" && isDone == "null" || status == "1" && isDone == "1" ){
+//                            linearLayout.setBackgroundResource(R.drawable.alert_sussess);
+//                        }else if  (status == "0" && isDone == "0"){
+//                            linearLayout.setBackgroundResource(R.drawable.alert_danger);
+//                            residenceView.setTextColor(getResources().getColor(R.color.Warning));
+//                            fullNameView.setTextColor(getResources().getColor(R.color.Primary_lite));
+//                        }
+                        if (status.equals("1") && isDone.equals("null") || status.equals("1")  && isDone.equals("0")){
                             linearLayout.setBackgroundResource(R.drawable.alert_warning);
-                        }else if (status == "0" && isDone == "null" || status == "1" && isDone == "1" ){
+                            fullNameView.setTextColor(getResources().getColor(R.color.Link));
+                            residenceView.setTextColor(getResources().getColor(R.color.Warning_list));
+                        }else if (status.equals("0") && isDone.equals("null") || status.equals("1")  && isDone.equals("1") ){
                             linearLayout.setBackgroundResource(R.drawable.alert_sussess);
-                        }else if  (status == "0" && isDone == "0"){
+                            fullNameView.setTextColor(getResources().getColor(R.color.Link));
+                            residenceView.setTextColor(getResources().getColor(R.color.Warning_list));
+                        }else if  (status.equals("0") && isDone.equals("0")){
                             linearLayout.setBackgroundResource(R.drawable.alert_danger);
-                            residenceView.setTextColor(getResources().getColor(R.color.Warning));
                             fullNameView.setTextColor(getResources().getColor(R.color.Primary_lite));
+                            residenceView.setTextColor(getResources().getColor(R.color.Warning));
                         }
+
+
                         if (type == "ССМП"){
                             typeView.setTextColor(getResources().getColor(R.color.Danger));
                         }else {
@@ -412,6 +436,17 @@ public class LineActivity extends AppCompatActivity {
             }
 
         }
+
+        // RecyclerView,
+        protected void printList(String response){
+            initRecyclerView();
+        }
+
+        private void initRecyclerView() {
+            tweetsRecyclerView = findViewById(R.id.rv_list);
+            tweetsRecyclerView.setLayoutManager(new LinearLayoutManager(LineActivity.this));
+        }
+
 
 
     }
@@ -457,6 +492,12 @@ public class LineActivity extends AppCompatActivity {
                 finish();
                 return true;
 
+            case R.id.main_reports:
+                new_appeal_clear();
+                Intent intent4 = new Intent(LineActivity.this, ReportsActivity.class);
+                startActivity(intent4);
+                finish();
+                return true;
             case R.id.main_exit:
                 SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
                 auth.edit().remove("person_id").commit();

@@ -15,6 +15,8 @@
     <color name="Black">#000000</color>
     <color name="Purpur">#D573AA</color>
 
+    <color name="Link">#337ab7</color>
+    <color name="Warning_list">#8a6d3b</color>
     <color name="Primary_lite">#7bc3f6</color>
     <color name="Primary">#3F51B5</color>
     <color name="Warning">#fff3cd</color>

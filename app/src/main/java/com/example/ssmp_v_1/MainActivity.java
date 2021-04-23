@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar loadingIndicator;
     private DatePicker mDatePicker;
     private LinearLayout ll_calendar;
+    private LinearLayout ll_main_block;
     private Menu menu;
     private HorizontalScrollView hsv_horizontal;
 
@@ -281,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
         mDatePicker = findViewById(R.id.datePicker);
         ll_calendar = findViewById(R.id.ll_calendar);
         hsv_horizontal = findViewById(R.id.hsv_horizontal);
+        ll_main_block = findViewById(R.id.ll_main_block);
 
         // Календарь
         et_search_date.setOnClickListener(new View.OnClickListener(){
@@ -311,7 +313,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        // свернуть каледарь
+        ll_main_block.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                ll_calendar.setVisibility(View.GONE);
+            }
+        });
 
     }
 
@@ -350,6 +358,13 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 return true;
 
+            case R.id.main_reports:
+                new_appeal_clear();
+                Intent intent4 = new Intent(MainActivity.this, ReportsActivity.class);
+                startActivity(intent4);
+                finish();
+                return true;
+
             case R.id.main_exit:
                 SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
                 auth.edit().remove("person_id").commit();
@@ -362,6 +377,7 @@ public class MainActivity extends AppCompatActivity {
         //headerView.setText(item.getTitle());
         return super.onOptionsItemSelected(item);
     } // переход на пункт меню
+
 
     protected void new_appeal_clear(){
         SharedPreferences auth = getSharedPreferences("new_appeal", MODE_PRIVATE);

@@ -185,6 +185,12 @@ public class SearchClientActivity extends AppCompatActivity {
                 startActivity(intent2);
                 finish();
                 return true;
+            case R.id.main_reports:
+                new_appeal_clear();
+                Intent intent4 = new Intent(SearchClientActivity.this, ReportsActivity.class);
+                startActivity(intent4);
+                finish();
+                return true;
             case R.id.main_exit:
                 SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
                 auth.edit().remove("person_id").commit();
