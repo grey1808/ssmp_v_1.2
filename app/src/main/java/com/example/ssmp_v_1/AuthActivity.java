@@ -39,17 +39,16 @@ public class AuthActivity extends AppCompatActivity {
     private ProgressBar pb_loader_indicator;
 
     private void showResultTextView(){
-//        et_search_result.setVisibility(View.GONE);
         tv_error.setVisibility(View.GONE);
     } // Скрывает текст с ошибкой, показывает результат запроса
     private void showErrorTextView(){
-//        et_search_result.setVisibility(View.GONE);
         tv_error.setVisibility(View.VISIBLE);
     } // Показывает результат запроса, крывает текст с ошибкой
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        test_setting();
         setContentView(R.layout.activity_auth);
 
         et_login = findViewById(R.id.et_login);
@@ -165,13 +164,28 @@ public class AuthActivity extends AppCompatActivity {
             ed.putString("firstName", firstName);
             ed.putString("patrName", patrName);
             ed.commit();
-            Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+            Intent intent = new Intent(AuthActivity.this, LineActivity.class);
             startActivity(intent);
             finish();
         }
 
     }
 
-}
+    // проверка настройки подключения
+    private void test_setting(){
+        // проверка переменной
+        SharedPreferences auth = getSharedPreferences("setting", MODE_PRIVATE);
+        String savedText = auth.getString("address", "");
+        if (savedText == null || savedText.equals("")){
+            Intent intent = new Intent(AuthActivity.this, SettingActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+
+
+
+    }
 
 

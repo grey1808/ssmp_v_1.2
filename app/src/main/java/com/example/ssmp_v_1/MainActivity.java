@@ -339,12 +339,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id){
-            case R.id.main_activity :
-                new_appeal_clear();
-                Intent intent1 = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent1);
-                finish();
-                return true;
             case R.id.main_line:
                 new_appeal_clear();
                 Intent intent3 = new Intent(MainActivity.this, LineActivity.class);
@@ -362,6 +356,12 @@ public class MainActivity extends AppCompatActivity {
                 new_appeal_clear();
                 Intent intent4 = new Intent(MainActivity.this, ReportsActivity.class);
                 startActivity(intent4);
+                finish();
+                return true;
+            case R.id.main_setting:
+                new_appeal_clear();
+                Intent intent5 = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent5);
                 finish();
                 return true;
 
@@ -407,11 +407,6 @@ public class MainActivity extends AppCompatActivity {
 
     // проверка авторизации
     private void test_auth(){
-
-
-
-
-
         // проверка переменной
         SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
         String savedText = auth.getString("person_id", "");
@@ -420,10 +415,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
-
-
-
     }
 
 

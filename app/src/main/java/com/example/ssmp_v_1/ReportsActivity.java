@@ -266,12 +266,6 @@ public class ReportsActivity  extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id){
-            case R.id.main_activity :
-                new_appeal_clear();
-                Intent intent1 = new Intent(ReportsActivity.this, MainActivity.class);
-                startActivity(intent1);
-                finish();
-                return true;
             case R.id.main_line:
                 new_appeal_clear();
                 Intent intent3 = new Intent(ReportsActivity.this, LineActivity.class);
@@ -282,6 +276,12 @@ public class ReportsActivity  extends AppCompatActivity {
                 new_appeal_clear();
                 Intent intent2 = new Intent(ReportsActivity.this, SearchClientActivity.class);
                 startActivity(intent2);
+                finish();
+                return true;
+            case R.id.main_setting:
+                new_appeal_clear();
+                Intent intent5 = new Intent(ReportsActivity.this, SettingActivity.class);
+                startActivity(intent5);
                 finish();
                 return true;
 

@@ -111,11 +111,20 @@ public class SearchClientActivity extends AppCompatActivity {
         // проверка на переменную в хранилище из модуля ССМП
         if_new_appeal();
 
+        b_search_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                et_lastName.setText("");
+                et_firstName.setText("");
+                et_patrName.setText("");
+                et_birthDate.setText("");
+                et_snils.setText("");
+            }
+        });
 
 
 
-
-    }
+ }
 
     protected void if_new_appeal(){
 
@@ -165,12 +174,6 @@ public class SearchClientActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id){
-            case R.id.main_activity :
-                new_appeal_clear();
-                Intent intent1 = new Intent(SearchClientActivity.this, MainActivity.class);
-                startActivity(intent1);
-                finish();
-                return true;
 
             case R.id.main_line:
                 new_appeal_clear();
@@ -183,6 +186,12 @@ public class SearchClientActivity extends AppCompatActivity {
                 new_appeal_clear();
                 Intent intent2 = new Intent(SearchClientActivity.this, SearchClientActivity.class);
                 startActivity(intent2);
+                finish();
+                return true;
+            case R.id.main_setting:
+                new_appeal_clear();
+                Intent intent5 = new Intent(SearchClientActivity.this, SettingActivity.class);
+                startActivity(intent5);
                 finish();
                 return true;
             case R.id.main_reports:

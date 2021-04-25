@@ -91,21 +91,21 @@ public class ClientInfoActivity extends AppCompatActivity {
             String message = null;
             if (time_and_fullName != null){ // Если пршло из Очереди пациентов
                 message =
-                        "<p><b>Карточка номер: </b> " + client_id + "<p>" +
-                                "<p><b>Время записи: </b> " + directionDate + "<p>" +
-                                "<p><b>ФИО: </b> " + fullName + "<p>" +
-                                "<p><b>Контактный номер телефона: </b> " + contact + "<p>" +
-                                "<p><b>СНИЛС: </b> " + snils + "<p>" +
-                                "<p><b>Адрес регистрации: </b> " + registration + "<p>" +
-                                "<p><b>Адрес проживания: </b> " + residence + "<p>"
+                        "<b>Карточка номер: </b> " + client_id + "<br>" +
+                                "<b>Время записи: </b> " + directionDate + "<br>" +
+                                "<b>ФИО: </b> " + fullName + "<br>" +
+                                "<b>Контактный номер телефона: </b> " + contact + "<br>" +
+                                "<b>СНИЛС: </b> " + snils + "<br>" +
+                                "<b>Адрес регистрации: </b> " + registration + "<br>" +
+                                "<b>Адрес проживания: </b> " + residence + "<br>"
                         ;
             }else { // если пршло из поиска
                 message =
-                        "<p><b>Карточка номер: </b> " + client_id + "<p>" +
-                                "<p><b>ФИО: </b> " + fullName + "<p>" +
-                                "<p><b>Контактный номер телефона: </b> " + contact + "<p>" +
-                                "<p><b>СНИЛС: </b> " + snils + "<p>" +
-                                "<p><b>Адрес: </b> " + address + "<p>";
+                        "<b>Карточка номер: </b> " + client_id + "<br>" +
+                                "<b>ФИО: </b> " + fullName + "<br>" +
+                                "<b>Контактный номер телефона: </b> " + contact + "<br>" +
+                                "<b>СНИЛС: </b> " + snils + "<br>" +
+                                "<b>Адрес: </b> " + address + "<br>";
             }
             tv_result.setText(Html.fromHtml(message));
 

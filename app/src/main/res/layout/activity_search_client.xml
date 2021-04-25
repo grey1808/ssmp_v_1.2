@@ -67,7 +67,8 @@
                 android:hint="@string/et_birthDate"
                 android:inputType="date"
                 android:padding="12dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone"/>
 
             <EditText
                 android:id="@+id/et_snils"
@@ -79,7 +80,9 @@
                 android:hint="@string/et_snils"
                 android:inputType="number"
                 android:padding="12dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone"
+                />
 
 
             <Button

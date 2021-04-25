@@ -34,4 +34,5 @@
     <string name="et_search_result_line">На этот день записанных пациентов нет!</string>
     <string name="title_reports">Отчет</string>
     <string name="title_activity_appointment">Запись на прием</string>
+    <string name="title_setting">Настройки</string>
 </resources>

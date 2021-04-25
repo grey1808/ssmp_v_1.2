@@ -1,5 +1,11 @@
 package com.example.ssmp_v_1.utils;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+
+import com.example.ssmp_v_1.AuthActivity;
+import com.example.ssmp_v_1.LineActivity;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -8,10 +14,11 @@ import java.util.Scanner;
 
 public class NetworkAppUtis {
 
+
     protected static final String BASE_URL = "http://85.172.11.152:9871";
 
-
     public static String getResponseFromURL(URL url) throws IOException {
+
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();
@@ -28,5 +35,6 @@ public class NetworkAppUtis {
             urlConnection.disconnect();
         }
     } // Запрос с помощью URL
+
 }
 

@@ -85,6 +85,7 @@ public class LineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        test_auth();
         setContentView(R.layout.activity_line);
 
         et_search_date = findViewById(R.id.et_search_date);
@@ -473,12 +474,6 @@ public class LineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id){
-            case R.id.main_activity :
-                new_appeal_clear();
-                Intent intent1 = new Intent(LineActivity.this, MainActivity.class);
-                startActivity(intent1);
-                finish();
-                return true;
             case R.id.main_line:
                 new_appeal_clear();
                 Intent intent3 = new Intent(LineActivity.this, LineActivity.class);
@@ -498,6 +493,13 @@ public class LineActivity extends AppCompatActivity {
                 startActivity(intent4);
                 finish();
                 return true;
+            case R.id.main_setting:
+                new_appeal_clear();
+                Intent intent5 = new Intent(LineActivity.this, SettingActivity.class);
+                startActivity(intent5);
+                finish();
+                return true;
+
             case R.id.main_exit:
                 SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
                 auth.edit().remove("person_id").commit();
@@ -516,5 +518,18 @@ public class LineActivity extends AppCompatActivity {
         auth.edit().clear().commit();
     } // очистить переход из модуля ССМП
     /*Меню*/
+
+    // проверка авторизации
+    private void test_auth(){
+        // проверка переменной
+        SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+        String savedText = auth.getString("person_id", "");
+        if (savedText == null || savedText.equals("")){
+            Intent intent = new Intent(LineActivity.this, AuthActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
 }
 

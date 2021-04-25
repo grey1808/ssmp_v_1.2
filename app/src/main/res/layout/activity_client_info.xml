@@ -23,7 +23,7 @@
                 android:background="#d9edf7"
                 android:padding="10dp"
                 android:layout_margin="10dp"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:visibility="visible" />
 
             <TextView

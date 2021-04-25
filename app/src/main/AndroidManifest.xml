@@ -71,6 +71,10 @@
         <activity android:name=".ReportsActivity"
             android:label="@string/title_reports"
             android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".SettingActivity"
+            android:label="@string/title_setting"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>
