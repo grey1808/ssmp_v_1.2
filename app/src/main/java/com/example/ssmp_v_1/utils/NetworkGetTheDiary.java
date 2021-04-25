@@ -14,10 +14,11 @@ public class NetworkGetTheDiary extends NetworkAppUtis {
     private static final String  CLIENT_ID = "client_id";
 
     public static URL generateURL(
+            String baseURL,
             String person_id,
             String client_id
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
+        Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(PERSON_ID,person_id)
                 .appendQueryParameter(CLIENT_ID,client_id)

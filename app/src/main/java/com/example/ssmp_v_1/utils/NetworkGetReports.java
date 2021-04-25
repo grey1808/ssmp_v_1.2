@@ -13,12 +13,13 @@ public class NetworkGetReports extends NetworkAppUtis {
     private static final String  DATE_TWO = "date_two";
     private static final String  TYPE = "type";
     public static URL generateURL(
+            String baseURL,
             String person_id,
             String date_one,
             String date_two,
             String type
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
+        Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(PERSON_ID,person_id)
                 .appendQueryParameter(DATE_ONE,date_one)

@@ -12,10 +12,11 @@ public class NetworkGetList extends NetworkAppUtis {
     private static final String  SETDATE = "setDate";
 
     public static URL generateURL(
+            String baseURL,
             String person_id,
             String setDate
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
+        Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(PERSON_ID,person_id)
                 .appendQueryParameter(SETDATE,setDate)

@@ -139,7 +139,12 @@ public class ReportsActivity  extends AppCompatActivity {
             String person_id = auth.getString("person_id", "");
             Spinner spinner = (Spinner) findViewById(R.id.s_type);
             String type = ("" + spinner.getSelectedItemPosition());
-            generatedURL = generateURL(person_id,date_one,date_two,type);
+
+            /*Получить абазовый URL */
+            SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+            String baseURL = setting.getString("address", "");
+
+            generatedURL = generateURL(baseURL,person_id,date_one,date_two,type);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

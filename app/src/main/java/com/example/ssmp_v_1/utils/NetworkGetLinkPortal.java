@@ -12,10 +12,11 @@ public class NetworkGetLinkPortal extends NetworkAppUtis {
     private static final String  PERSON_ID = "person_id";
 
     public static URL generateURL(
+            String baseURL,
             String client_id,
             String person_id
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
+        Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(CLIENT_ID,client_id)
                 .appendQueryParameter(PERSON_ID,person_id)

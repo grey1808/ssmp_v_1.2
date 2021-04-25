@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class PortalDoctorActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class PortalDoctorActivity extends AppCompatActivity {
 
 
     private ProgressBar loadingIndicator;
@@ -29,6 +31,8 @@ public class PortalDoctorActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portal_doctor);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         webView = findViewById(R.id.wv_webView);
         // включаем поддержку JavaScript

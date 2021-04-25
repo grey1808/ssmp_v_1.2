@@ -7,7 +7,9 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class AppointmentActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class AppointmentActivity extends AppCompatActivity {
 
 
     private ProgressBar loadingIndicator;
@@ -28,6 +30,8 @@ public class AppointmentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portal_doctor);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         webView = findViewById(R.id.wv_webView);
         // включаем поддержку JavaScript

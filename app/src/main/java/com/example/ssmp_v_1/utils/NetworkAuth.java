@@ -12,10 +12,11 @@ public class NetworkAuth extends NetworkAppUtis {
     private static final String PASSWORD = "password";
 
     public static URL generateURL(
+            String baseURL,
             String login,
             String password
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
+        Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(LOGIN,login)
                 .appendQueryParameter(PASSWORD,password)

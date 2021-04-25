@@ -15,12 +15,13 @@ public class NetworkUtilsGetSsmp extends NetworkAppUtis {
     private static final String STATUS = "status";
 
     public static URL generateURLGetList(
+            String baseURL,
             String et_search_number_call,
             String et_search_date,
             String et_search_fio,
             String et_search_close_event
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
+        Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(CALLNUMBERID,et_search_number_call)
                 .appendQueryParameter(DATE,et_search_date)

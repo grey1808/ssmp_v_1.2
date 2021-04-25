@@ -17,13 +17,14 @@ public class NetworkSearchClient extends NetworkAppUtis {
     private static final String SNILS = "snils";
 
     public static URL generateURLSearchClient(
+            String baseURL,
             String lastName,
             String firstName,
             String patrName,
             String birthDate,
             String snils
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
+        Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(LASTNAME,lastName)
                 .appendQueryParameter(FIRSTNAME,firstName)

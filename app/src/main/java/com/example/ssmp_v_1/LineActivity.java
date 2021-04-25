@@ -88,6 +88,7 @@ public class LineActivity extends AppCompatActivity {
         test_auth();
         setContentView(R.layout.activity_line);
 
+
         et_search_date = findViewById(R.id.et_search_date);
         datePicker = findViewById(R.id.datePicker);
         b_search_send = findViewById(R.id.b_search_send);
@@ -182,7 +183,12 @@ public class LineActivity extends AppCompatActivity {
             // Получаем из хранилища
             SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
             String person_id = auth.getString("person_id", "");
-            generatedURL = generateURL(person_id,setDate);
+
+            /*Получить абазовый URL */
+            SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+            String baseURL = setting.getString("address", "");
+
+            generatedURL = generateURL(baseURL,person_id,setDate);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

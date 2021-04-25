@@ -93,7 +93,12 @@ public class CallInfoActivity extends AppCompatActivity {
         if (callNumberId != null){
             URL generatedURL = null;
             try {
-                generatedURL = NetworkCallInfo.generateURLGetCallInfo(callNumberId);
+
+                /*Получить абазовый URL */
+                SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+                String baseURL = setting.getString("address", "");
+
+                generatedURL = NetworkCallInfo.generateURLGetCallInfo(baseURL,callNumberId);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -110,7 +115,11 @@ public class CallInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 URL generatedURL = null;
                 try {
-                    generatedURL = NetworkUpdEvent.generateURLUpdEvent(eventId);
+                    /*Получить абазовый URL */
+                    SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+                    String baseURL = setting.getString("address", "");
+
+                    generatedURL = NetworkUpdEvent.generateURLUpdEvent(baseURL,eventId);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -138,9 +147,11 @@ public class CallInfoActivity extends AppCompatActivity {
                         toast.show();
                         return;
                     }
+                    /*Получить абазовый URL */
+                    SharedPreferences auth = getSharedPreferences("setting", MODE_PRIVATE);
+                    String baseURL = auth.getString("address", "");
 
-
-                    generatedURL = NetworkAddEvent.generateURLAddEvent(eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
+                    generatedURL = NetworkAddEvent.generateURLAddEvent(baseURL,eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
 
 
                 } catch (MalformedURLException e) {

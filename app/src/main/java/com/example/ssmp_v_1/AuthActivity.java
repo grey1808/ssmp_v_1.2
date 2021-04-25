@@ -81,7 +81,12 @@ public class AuthActivity extends AppCompatActivity {
             String login = et_login.getText().toString();
             String password = et_password.getText().toString();
             String shaHex = md5(password);
-            generatedURL = generateURL(login,shaHex);
+
+            /*Получить абазовый URL */
+            SharedPreferences auth = getSharedPreferences("setting", MODE_PRIVATE);
+            String baseURL = auth.getString("address", "");
+
+            generatedURL = generateURL(baseURL,login,shaHex);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

@@ -398,7 +398,13 @@ public class MainActivity extends AppCompatActivity {
 
 //                    String status = (String)et_search_close_event.getItemAtPosition();
 //                    String status = et_search_close_event.getText().toString();
-            generatedURL = generateURLGetList(number,date,fio,text);
+
+
+            /*Получить абазовый URL */
+            SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+            String baseURL = setting.getString("address", "");
+
+            generatedURL = generateURLGetList(baseURL,number,date,fio,text);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

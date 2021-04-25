@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -62,6 +63,7 @@ public class ClientInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_info);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         tv_result = findViewById(R.id.tv_result);
@@ -159,8 +161,11 @@ public class ClientInfoActivity extends AppCompatActivity {
             // Получение переменной из хранилища
             SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
             String person_id = auth.getString("person_id", "");
-//            String person_id = "3631";
-            generatedURL = NetworkGetLinkPortal.generateURL(client_id,person_id);
+            /*Получить абазовый URL */
+            SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+            String baseURL = setting.getString("address", "");
+
+            generatedURL = NetworkGetLinkPortal.generateURL(baseURL,client_id,person_id);
         } catch (MalformedURLException e) {
             showErrorTextView();
             e.printStackTrace();
@@ -219,5 +224,10 @@ public class ClientInfoActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        return super.onOptionsItemSelected(item);
     }
 }

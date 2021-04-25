@@ -11,9 +11,10 @@ public class NetworkCallInfo extends NetworkAppUtis {
     private static final String CALLNUMBERID = "callNumberId";
 
     public static URL generateURLGetCallInfo(
+            String baseURL,
             String callNumberId
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
+        Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(CALLNUMBERID,callNumberId)
                 .build();

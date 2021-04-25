@@ -21,8 +21,20 @@
             android:windowSoftInputMode="stateHidden"
             >
         </activity>
+
+        <activity android:name=".LineActivity"
+            android:label="@string/title_activity_line"
+            android:windowSoftInputMode="stateHidden"
+            android:configChanges="orientation|screenSize"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".CallInfoActivity"
+            android:parentActivityName=".MainActivity"
             android:label="@string/about_title"
             android:windowSoftInputMode="stateHidden"
             >
@@ -30,41 +42,36 @@
         <activity
             android:name=".SearchClientActivity"
             android:label="@string/search_client_title"
+            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateHidden"
             >
         </activity>
         <activity
             android:name=".ClientInfoActivity"
+            android:parentActivityName=".MainActivity"
             android:label="@string/client_info"
             android:windowSoftInputMode="stateHidden"
             >
         </activity>
         <activity
             android:name=".NewAppealActivity"
+            android:parentActivityName=".MainActivity"
             android:label="@string/new_appeal"
             android:windowSoftInputMode="stateHidden"
             >
         </activity>
         <activity android:name=".PortalDoctorActivity"
+            android:parentActivityName=".MainActivity"
             android:label="@string/portal"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            />
 
         <activity android:name=".AuthActivity"
             android:label="@string/auth"
             android:windowSoftInputMode="stateHidden"/>
 
-        <activity android:name=".LineActivity"
-            android:label="@string/title_activity_line"
-            android:windowSoftInputMode="stateHidden">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <activity android:name=".AppointmentActivity"
+            android:parentActivityName=".MainActivity"
             android:label="@string/title_activity_appointment"
             android:windowSoftInputMode="stateHidden"/>
 

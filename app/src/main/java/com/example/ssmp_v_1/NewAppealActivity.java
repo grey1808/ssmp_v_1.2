@@ -65,7 +65,6 @@ public class NewAppealActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_appeal);
-
         tv_result = findViewById(R.id.tv_result);
         tv_error = findViewById(R.id.tv_error);
         loadingIndicator = findViewById(R.id.pb_loader_indicator);
@@ -100,7 +99,12 @@ public class NewAppealActivity extends AppCompatActivity {
         String person_id = auth.getString("person_id", "");
         String client_id = getIntent().getExtras().getString("client_id");
         try {
-            generatedURL = generateURL(person_id,client_id);
+
+            /*Получить абазовый URL */
+            SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+            String baseURL = setting.getString("address", "");
+
+            generatedURL = generateURL(baseURL,person_id,client_id);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -226,7 +230,11 @@ public class NewAppealActivity extends AppCompatActivity {
 
         URL generatedURL = null;
         try {
-            generatedURL = generateURLSetAppeal(person_id,client_id,mkb,orgstructure_id,editTextContent.toString(),action_id);
+            /*Получить абазовый URL */
+            SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+            String baseURL = setting.getString("address", "");
+
+            generatedURL = generateURLSetAppeal(baseURL,person_id,client_id,mkb,orgstructure_id,editTextContent.toString(),action_id);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -319,8 +327,11 @@ public class NewAppealActivity extends AppCompatActivity {
             String ssmpresoult_text = "Вызов выполнен"; // получить значение
             Integer ssmpresoult = 2; // получить порядковый номер
             String note = "";
+            /*Получить абазовый URL */
+            SharedPreferences auth = getSharedPreferences("setting", MODE_PRIVATE);
+            String baseURL = auth.getString("address", "");
 
-            generatedURL = NetworkAddEvent.generateURLAddEvent(eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
+            generatedURL = NetworkAddEvent.generateURLAddEvent(baseURL,eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
 
 
         } catch (MalformedURLException e) {

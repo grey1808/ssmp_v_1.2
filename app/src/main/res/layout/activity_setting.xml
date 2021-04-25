@@ -11,8 +11,8 @@
         tools:ignore="MissingConstraints">
         <EditText
             android:id="@+id/et_address"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:hint="Введите адрес"
             android:padding="10dp"
@@ -21,7 +21,13 @@
         <TextView
             android:id="@+id/tv_error"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:textSize="25sp"
+            android:background="#f2dede"
+            android:visibility="gone"
+            />
 
         <Button
             android:id="@+id/b_send"

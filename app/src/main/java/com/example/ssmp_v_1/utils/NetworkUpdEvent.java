@@ -11,9 +11,10 @@ public class NetworkUpdEvent extends NetworkAppUtis {
     private static final String EVENTID = "eventId";
 
     public static URL generateURLUpdEvent(
+            String baseURL,
             String eventId
     ) throws MalformedURLException {
-        Uri builtUri = Uri.parse(BASE_URL + CONTROLLER + ADDRESS)
+        Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
                 .appendQueryParameter(EVENTID,eventId)
                 .build();

@@ -69,6 +69,7 @@ public class SearchClientActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        test_auth();
         setContentView(R.layout.activity_search_client);
 
         tv_result_search = findViewById(R.id.tv_result_search);
@@ -227,7 +228,12 @@ public class SearchClientActivity extends AppCompatActivity {
             String patrName = et_patrName.getText().toString();
             String birthDate = et_birthDate.getText().toString();
             String snils = et_snils.getText().toString();
-            generatedURL = generateURLSearchClient(lastName,firstName,patrName,birthDate,snils);
+
+            /*Получить абазовый URL */
+            SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+            String baseURL = setting.getString("address", "");
+
+            generatedURL = generateURLSearchClient(baseURL,lastName,firstName,patrName,birthDate,snils);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -350,6 +356,18 @@ public class SearchClientActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    // проверка авторизации
+    private void test_auth(){
+        // проверка переменной
+        SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+        String savedText = auth.getString("person_id", "");
+        if (savedText == null || savedText.equals("")){
+            Intent intent = new Intent(SearchClientActivity.this, AuthActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
 }
