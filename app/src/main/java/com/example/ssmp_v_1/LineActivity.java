@@ -246,6 +246,9 @@ public class LineActivity extends AppCompatActivity {
                 // создаем массив списков
                 ArrayList<HashMap<String, Object>> searchList = new ArrayList<>();
                 HashMap<String, Object> hashMap;
+                HashMap<String, Object> hashMapAll = new HashMap<>();
+
+                // если вызов ССМП не принят
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject list = jsonArray.getJSONObject(i);
                     String client_id = list.getString("client_id");
@@ -294,13 +297,17 @@ public class LineActivity extends AppCompatActivity {
                     hashMap.put("eventId", eventId); // Номер события ССМП
                     hashMap.put("type", type); // Тип
                     hashMap.put("isDone", isDone); // Тип
-                    if (status.equals("0") && isDone.equals("null") || status.equals("1")  && isDone.equals("1") ){
+                    // если вызов не выполнен
+                    if (status.equals("0") && isDone.equals("null")|| status.equals("1")  && isDone.equals("1")){
 
                     }else {
-
+                        if (type == "ССМП"){
+                            // если не вызов принят
+                            if (status.equals("0") && isDone.equals("0")){
+                                searchList.add(hashMap);
+                            }
+                        }
                     }
-
-                    searchList.add(hashMap);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -348,8 +355,324 @@ public class LineActivity extends AppCompatActivity {
                         }
                     });
 
+                }
+                // если вызов ССМП принят
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject list = jsonArray.getJSONObject(i);
+                    String client_id = list.getString("client_id");
+                    String directionDate = list.getString("directionDate");
+                    String fullName = list.getString("fullName");
+                    String birthDate = list.getString("birthDate");
+                    String sex = list.getString("sex");
+                    String snils = list.getString("snils");
+                    String registration = list.getString("registration");
+                    String residence = list.getString("residence");
+                    String contact = list.getString("contact");
+                    String time_and_fullName = list.getString("directionDate") + " | " + list.getString("fullName");
+                    String action_id = list.getString("action_id");
+                    String status = list.getString("status");
+                    String callNumberId = list.getString("callNumberId");
+                    String eventId = list.getString("eventId");
+                    String type = null;
+                    String isDone = list.getString("isDone");
+
+
+                    if (contact == null || contact.equals("") || contact == "1" || contact == "null"){
+                        contact = "не указан";
+                    }
+                    if (snils == null || snils.equals("") || snils == "1" || contact == "null"){
+                        snils = "не указан";
+                    }
+                    if (callNumberId == null || callNumberId.equals("") || callNumberId == "1" || callNumberId == "null"){
+                        type = "НА ДОМ";
+                    }else {
+                        type = "ССМП";
+                    }
+                    hashMap = new HashMap<>();
+                    hashMap.put("client_id", client_id); // Идентификатор
+                    hashMap.put("action_id", action_id); // Идентификатор очереди
+                    hashMap.put("directionDate", directionDate); // Время записи
+                    hashMap.put("fullName", fullName); // Полное имя
+                    hashMap.put("birthDate", birthDate); // дата рождения
+                    hashMap.put("sex", sex); // Пол
+                    hashMap.put("registration", registration); // Регистрация
+                    hashMap.put("residence", residence); // Проживаение
+                    hashMap.put("contact", "тел: " + contact); // Контакты
+                    hashMap.put("time_and_fullName", time_and_fullName); // Время записи + полное имя
+                    hashMap.put("snils", snils); // Время записи + полное имя
+                    hashMap.put("status", status); // Статус
+                    hashMap.put("callNumberId", callNumberId); // Номер вызова ССМП
+                    hashMap.put("eventId", eventId); // Номер события ССМП
+                    hashMap.put("type", type); // Тип
+                    hashMap.put("isDone", isDone); // Тип
+                    // если вызов не выполнен
+                    if (status.equals("0") && isDone.equals("null")|| status.equals("1")  && isDone.equals("1")){
+
+                    }else {
+                        if (type == "ССМП"){
+                            // если не вызов принят
+                            if (status.equals("0") && isDone.equals("0")){
+
+                            }else {
+                                searchList.add(hashMap);
+                            }
+                        }
+                    }
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            HashMap<String, Object> itemHashMap =
+                                    (HashMap<String, Object>) parent.getItemAtPosition(position);
+                            String client_id = itemHashMap.get("client_id").toString();
+                            String directionDate = itemHashMap.get("directionDate").toString();
+                            String fullName = itemHashMap.get("fullName").toString();
+                            String birthDate = itemHashMap.get("birthDate").toString();
+                            String sex = itemHashMap.get("sex").toString();
+                            String registration = itemHashMap.get("registration").toString();
+                            String residence = itemHashMap.get("residence").toString();
+                            String contact = itemHashMap.get("contact").toString();
+                            String time_and_fullName = itemHashMap.get("time_and_fullName").toString();
+                            String snils = itemHashMap.get("snils").toString();
+                            String action_id = itemHashMap.get("action_id").toString();
+                            String status = itemHashMap.get("status").toString();
+                            String callNumberId = itemHashMap.get("callNumberId").toString();
+                            String type = itemHashMap.get("type").toString();
+                            String isDone = itemHashMap.get("isDone").toString();
+                            String eventId = itemHashMap.get("eventId").toString();
+                            if (callNumberId != null && callNumberId != "null" ){
+                                Intent intent = new Intent(LineActivity.this, CallInfoActivity.class);
+                                intent.putExtra("eventId", eventId);
+                                intent.putExtra("callNumberId", callNumberId);
+                                startActivity(intent);
+                            }else {
+                                Intent intent = new Intent(LineActivity.this, ClientInfoActivity.class);
+                                intent.putExtra("client_id", client_id);
+                                intent.putExtra("directionDate", directionDate);
+                                intent.putExtra("fullName", fullName);
+                                intent.putExtra("birthDate", birthDate);
+                                intent.putExtra("sex", sex);
+                                intent.putExtra("registration", registration);
+                                intent.putExtra("residence", residence);
+                                intent.putExtra("contact", contact);
+                                intent.putExtra("time_and_fullName", time_and_fullName);
+                                intent.putExtra("snils", snils);
+                                intent.putExtra("action_id", action_id);
+                                intent.putExtra("status", status);
+                                startActivity(intent);
+                            }
+
+
+                        }
+                    });
 
                 }
+                // Если обычная очередь через МИС
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject list = jsonArray.getJSONObject(i);
+                    String client_id = list.getString("client_id");
+                    String directionDate = list.getString("directionDate");
+                    String fullName = list.getString("fullName");
+                    String birthDate = list.getString("birthDate");
+                    String sex = list.getString("sex");
+                    String snils = list.getString("snils");
+                    String registration = list.getString("registration");
+                    String residence = list.getString("residence");
+                    String contact = list.getString("contact");
+                    String time_and_fullName = list.getString("directionDate") + " | " + list.getString("fullName");
+                    String action_id = list.getString("action_id");
+                    String status = list.getString("status");
+                    String callNumberId = list.getString("callNumberId");
+                    String eventId = list.getString("eventId");
+                    String type = null;
+                    String isDone = list.getString("isDone");
+
+
+                    if (contact == null || contact.equals("") || contact == "1" || contact == "null"){
+                        contact = "не указан";
+                    }
+                    if (snils == null || snils.equals("") || snils == "1" || contact == "null"){
+                        snils = "не указан";
+                    }
+                    if (callNumberId == null || callNumberId.equals("") || callNumberId == "1" || callNumberId == "null"){
+                        type = "НА ДОМ";
+                    }else {
+                        type = "ССМП";
+                    }
+                    hashMap = new HashMap<>();
+                    hashMap.put("client_id", client_id); // Идентификатор
+                    hashMap.put("action_id", action_id); // Идентификатор очереди
+                    hashMap.put("directionDate", directionDate); // Время записи
+                    hashMap.put("fullName", fullName); // Полное имя
+                    hashMap.put("birthDate", birthDate); // дата рождения
+                    hashMap.put("sex", sex); // Пол
+                    hashMap.put("registration", registration); // Регистрация
+                    hashMap.put("residence", residence); // Проживаение
+                    hashMap.put("contact", "тел: " + contact); // Контакты
+                    hashMap.put("time_and_fullName", time_and_fullName); // Время записи + полное имя
+                    hashMap.put("snils", snils); // Время записи + полное имя
+                    hashMap.put("status", status); // Статус
+                    hashMap.put("callNumberId", callNumberId); // Номер вызова ССМП
+                    hashMap.put("eventId", eventId); // Номер события ССМП
+                    hashMap.put("type", type); // Тип
+                    hashMap.put("isDone", isDone); // Тип
+                    // если вызов не выполнен
+                    if (status.equals("0") && isDone.equals("null")|| status.equals("1")  && isDone.equals("1")){
+
+                    }else {
+                        if (type != "ССМП"){
+                            searchList.add(hashMap);
+                        }
+                    }
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            HashMap<String, Object> itemHashMap =
+                                    (HashMap<String, Object>) parent.getItemAtPosition(position);
+                            String client_id = itemHashMap.get("client_id").toString();
+                            String directionDate = itemHashMap.get("directionDate").toString();
+                            String fullName = itemHashMap.get("fullName").toString();
+                            String birthDate = itemHashMap.get("birthDate").toString();
+                            String sex = itemHashMap.get("sex").toString();
+                            String registration = itemHashMap.get("registration").toString();
+                            String residence = itemHashMap.get("residence").toString();
+                            String contact = itemHashMap.get("contact").toString();
+                            String time_and_fullName = itemHashMap.get("time_and_fullName").toString();
+                            String snils = itemHashMap.get("snils").toString();
+                            String action_id = itemHashMap.get("action_id").toString();
+                            String status = itemHashMap.get("status").toString();
+                            String callNumberId = itemHashMap.get("callNumberId").toString();
+                            String type = itemHashMap.get("type").toString();
+                            String isDone = itemHashMap.get("isDone").toString();
+                            String eventId = itemHashMap.get("eventId").toString();
+                            if (callNumberId != null && callNumberId != "null" ){
+                                Intent intent = new Intent(LineActivity.this, CallInfoActivity.class);
+                                intent.putExtra("eventId", eventId);
+                                intent.putExtra("callNumberId", callNumberId);
+                                startActivity(intent);
+                            }else {
+                                Intent intent = new Intent(LineActivity.this, ClientInfoActivity.class);
+                                intent.putExtra("client_id", client_id);
+                                intent.putExtra("directionDate", directionDate);
+                                intent.putExtra("fullName", fullName);
+                                intent.putExtra("birthDate", birthDate);
+                                intent.putExtra("sex", sex);
+                                intent.putExtra("registration", registration);
+                                intent.putExtra("residence", residence);
+                                intent.putExtra("contact", contact);
+                                intent.putExtra("time_and_fullName", time_and_fullName);
+                                intent.putExtra("snils", snils);
+                                intent.putExtra("action_id", action_id);
+                                intent.putExtra("status", status);
+                                startActivity(intent);
+                            }
+
+
+                        }
+                    });
+
+                }
+                // если вызов обработан, неважно какой ССМП или через МИС
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject list = jsonArray.getJSONObject(i);
+                    String client_id = list.getString("client_id");
+                    String directionDate = list.getString("directionDate");
+                    String fullName = list.getString("fullName");
+                    String birthDate = list.getString("birthDate");
+                    String sex = list.getString("sex");
+                    String snils = list.getString("snils");
+                    String registration = list.getString("registration");
+                    String residence = list.getString("residence");
+                    String contact = list.getString("contact");
+                    String time_and_fullName = list.getString("directionDate") + " | " + list.getString("fullName");
+                    String action_id = list.getString("action_id");
+                    String status = list.getString("status");
+                    String callNumberId = list.getString("callNumberId");
+                    String eventId = list.getString("eventId");
+                    String type = null;
+                    String isDone = list.getString("isDone");
+
+
+                    if (contact == null || contact.equals("") || contact == "1" || contact == "null"){
+                        contact = "не указан";
+                    }
+                    if (snils == null || snils.equals("") || snils == "1" || contact == "null"){
+                        snils = "не указан";
+                    }
+                    if (callNumberId == null || callNumberId.equals("") || callNumberId == "1" || callNumberId == "null"){
+                        type = "НА ДОМ";
+                    }else {
+                        type = "ССМП";
+                    }
+                    hashMap = new HashMap<>();
+                    hashMap.put("client_id", client_id); // Идентификатор
+                    hashMap.put("action_id", action_id); // Идентификатор очереди
+                    hashMap.put("directionDate", directionDate); // Время записи
+                    hashMap.put("fullName", fullName); // Полное имя
+                    hashMap.put("birthDate", birthDate); // дата рождения
+                    hashMap.put("sex", sex); // Пол
+                    hashMap.put("registration", registration); // Регистрация
+                    hashMap.put("residence", residence); // Проживаение
+                    hashMap.put("contact", "тел: " + contact); // Контакты
+                    hashMap.put("time_and_fullName", time_and_fullName); // Время записи + полное имя
+                    hashMap.put("snils", snils); // Время записи + полное имя
+                    hashMap.put("status", status); // Статус
+                    hashMap.put("callNumberId", callNumberId); // Номер вызова ССМП
+                    hashMap.put("eventId", eventId); // Номер события ССМП
+                    hashMap.put("type", type); // Тип
+                    hashMap.put("isDone", isDone); // Тип
+                    // если вызов выполнен
+                    if (status.equals("0") && isDone.equals("null") || status.equals("1")  && isDone.equals("1") ){
+                        searchList.add(hashMap);
+                    }
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            HashMap<String, Object> itemHashMap =
+                                    (HashMap<String, Object>) parent.getItemAtPosition(position);
+                            String client_id = itemHashMap.get("client_id").toString();
+                            String directionDate = itemHashMap.get("directionDate").toString();
+                            String fullName = itemHashMap.get("fullName").toString();
+                            String birthDate = itemHashMap.get("birthDate").toString();
+                            String sex = itemHashMap.get("sex").toString();
+                            String registration = itemHashMap.get("registration").toString();
+                            String residence = itemHashMap.get("residence").toString();
+                            String contact = itemHashMap.get("contact").toString();
+                            String time_and_fullName = itemHashMap.get("time_and_fullName").toString();
+                            String snils = itemHashMap.get("snils").toString();
+                            String action_id = itemHashMap.get("action_id").toString();
+                            String status = itemHashMap.get("status").toString();
+                            String callNumberId = itemHashMap.get("callNumberId").toString();
+                            String type = itemHashMap.get("type").toString();
+                            String isDone = itemHashMap.get("isDone").toString();
+                            String eventId = itemHashMap.get("eventId").toString();
+                            if (callNumberId != null && callNumberId != "null" ){
+                                Intent intent = new Intent(LineActivity.this, CallInfoActivity.class);
+                                intent.putExtra("eventId", eventId);
+                                intent.putExtra("callNumberId", callNumberId);
+                                startActivity(intent);
+                            }else {
+                                Intent intent = new Intent(LineActivity.this, ClientInfoActivity.class);
+                                intent.putExtra("client_id", client_id);
+                                intent.putExtra("directionDate", directionDate);
+                                intent.putExtra("fullName", fullName);
+                                intent.putExtra("birthDate", birthDate);
+                                intent.putExtra("sex", sex);
+                                intent.putExtra("registration", registration);
+                                intent.putExtra("residence", residence);
+                                intent.putExtra("contact", contact);
+                                intent.putExtra("time_and_fullName", time_and_fullName);
+                                intent.putExtra("snils", snils);
+                                intent.putExtra("action_id", action_id);
+                                intent.putExtra("status", status);
+                                startActivity(intent);
+                            }
+
+
+                        }
+                    });
+
+                }
+
                 SimpleAdapter adapter = new SimpleAdapter(
                         LineActivity.this,
                         searchList,
@@ -404,16 +727,18 @@ public class LineActivity extends AppCompatActivity {
                         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_row);
 
                         if (status.equals("1") && isDone.equals("null") || status.equals("1")  && isDone.equals("0")){
-                            linearLayout.setBackgroundResource(R.drawable.cell_shape_new_yellow);
+
                             fullNameView.setTextColor(getResources().getColor(R.color.black));
                             residenceView.setTextColor(getResources().getColor(R.color.Danger));
-
                             if (type == "ССМП"){
+                                linearLayout.setBackgroundResource(R.drawable.cell_shape_new_yellow);
                                 typeView.setTextColor(getResources().getColor(R.color.Red));
                             }else {
+                                linearLayout.setBackgroundResource(R.drawable.alert_primary);
                                 typeView.setTextColor(getResources().getColor(R.color.Primary));
                             }
-                        }else if (status.equals("0") && isDone.equals("null") || status.equals("1")  && isDone.equals("1") ){
+                        }
+                        else if (status.equals("0") && isDone.equals("null") || status.equals("1")  && isDone.equals("1") ){
                             linearLayout.setBackgroundResource(R.drawable.alert_sussess);
                             fullNameView.setTextColor(getResources().getColor(R.color.black));
                             residenceView.setTextColor(getResources().getColor(R.color.Warning));
@@ -423,7 +748,8 @@ public class LineActivity extends AppCompatActivity {
                             }else {
                                 typeView.setTextColor(getResources().getColor(R.color.Primary));
                             }
-                        }else if  (status.equals("0") && isDone.equals("0")){
+                        }
+                        else if  (status.equals("0") && isDone.equals("0")){
                             linearLayout.setBackgroundResource(R.drawable.call_shape_new_red);
                             fullNameView.setTextColor(getResources().getColor(R.color.black));
                             residenceView.setTextColor(getResources().getColor(R.color.Warning));
