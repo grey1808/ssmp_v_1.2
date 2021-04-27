@@ -26,6 +26,7 @@
             android:layout_margin="10dp"
             android:textSize="25sp"
             android:background="#f2dede"
+            android:hint="@string/tv_ssmp_text_error"
             android:visibility="gone"
             />
 

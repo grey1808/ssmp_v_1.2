@@ -1,23 +1,19 @@
 package com.example.ssmp_v_1;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -146,6 +142,7 @@ public class AuthActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }else {
+                tv_error.setText("Что то не так с подключением! Проверьте адрес или повторите попытку позже!");
                 showErrorTextView();
             }
             pb_loader_indicator.setVisibility(View.GONE);
@@ -188,6 +185,37 @@ public class AuthActivity extends AppCompatActivity {
         }
     }
 
+
+    /*Меню*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+        String login = auth.getString("login", "");
+        getMenuInflater().inflate(R.menu.menu_auth, menu);
+        return true;
+    } // Для меню
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id){
+            case R.id.main_setting:
+                new_appeal_clear();
+                Intent intent5 = new Intent(AuthActivity.this, SettingActivity.class);
+                startActivity(intent5);
+                finish();
+                return true;
+        }
+        //headerView.setText(item.getTitle());
+        return super.onOptionsItemSelected(item);
+    } // переход на пункт меню
+
+    protected void new_appeal_clear(){
+        SharedPreferences auth = getSharedPreferences("new_appeal", MODE_PRIVATE);
+        auth.edit().clear().commit();
+    } // очистить переход из модуля ССМП
+    /*Конец меню*/
 
 
 

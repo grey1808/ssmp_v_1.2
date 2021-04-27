@@ -9,6 +9,8 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -50,6 +52,8 @@ public class NewAppealActivity extends AppCompatActivity {
     private TextView et_mkb;
     public String addEvent;
     private Button b_to_send;
+    private AutoCompleteTextView ac_tv_mkb;
+
 
     private void showResultTextView(){
         tv_result.setVisibility(View.VISIBLE);
@@ -73,7 +77,10 @@ public class NewAppealActivity extends AppCompatActivity {
         text_diary = findViewById(R.id.text_diary);
         b_to_send = findViewById(R.id.b_to_send);
         et_mkb = findViewById(R.id.et_mkb);
+        ac_tv_mkb = findViewById(R.id.ac_tv_mkb);
         addEvent = null;
+
+        getMkb();
 
         get_the_diary(); // Получить дневник
 
@@ -86,6 +93,13 @@ public class NewAppealActivity extends AppCompatActivity {
                 String eventId = new_appeal.getString("eventId", "");
                 if (callNumberId.trim().length() != 0){
                     addEvent(eventId,callNumberId); // добавить событие к вызову
+                }
+                String string = ac_tv_mkb.getText().toString();
+                if (string == null || string.equals("")){
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Нет МКБ! Добавьте МКБ и сохраните обращение", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
                 }
                 set_appeal(); // создать обращение
             }
@@ -221,6 +235,10 @@ public class NewAppealActivity extends AppCompatActivity {
             }
         }
         String mkb = et_mkb.getText().toString();
+        String mkb_all = ac_tv_mkb.getText().toString().trim();
+        String[] mkb_arr = mkb_all.split(" ");
+        String mkb_fin = mkb_arr[0].trim();
+
         String orgstructure_id = et_orgstructure_id.getText().toString();
         String client_id = getIntent().getExtras().getString("client_id");
         String action_id = getIntent().getExtras().getString("action_id");
@@ -234,7 +252,7 @@ public class NewAppealActivity extends AppCompatActivity {
             SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
             String baseURL = setting.getString("address", "");
 
-            generatedURL = generateURLSetAppeal(baseURL,person_id,client_id,mkb,orgstructure_id,editTextContent.toString(),action_id);
+            generatedURL = generateURLSetAppeal(baseURL,person_id,client_id,mkb_fin,orgstructure_id,editTextContent.toString(),action_id);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -381,6 +399,20 @@ public class NewAppealActivity extends AppCompatActivity {
             loadingIndicator.setVisibility(View.GONE);
         }
 
+    }
+
+    /*Получить MKB*/
+    protected void getMkb() {
+        final String[] mrb_array = null;
+        SharedPreferences setting = getSharedPreferences("mkb", MODE_PRIVATE);
+        String response = setting.getString("response", "");
+
+        if (response != null || !response.equals("")){
+            String[] tempstr = response.split(",");
+            ac_tv_mkb = findViewById(R.id.ac_tv_mkb);
+            ac_tv_mkb.setAdapter(new ArrayAdapter<>(this,
+                    android.R.layout.simple_dropdown_item_1line, tempstr));
+        }
     }
 
 

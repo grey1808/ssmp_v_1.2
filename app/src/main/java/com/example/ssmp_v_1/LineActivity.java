@@ -1,15 +1,10 @@
 package com.example.ssmp_v_1;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,15 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.ssmp_v_1.utils.NetworkGetList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,7 +75,7 @@ public class LineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        test_auth();
+        Boolean test_auth = test_auth();
         setContentView(R.layout.activity_line);
 
 
@@ -132,10 +122,12 @@ public class LineActivity extends AppCompatActivity {
             }
         });
         // Если было сохранено обращение
-        if (getIntent().getExtras() != null){
+        Bundle extars = getIntent().getExtras();
+        if ((extars != null) && (extars.containsKey("addMessage"))){
             showResultTextViewNewAppeal();
-            String request_message = getIntent().getExtras().getString("request_message");
             String addMessage = getIntent().getExtras().getString("addMessage");
+            String request_message = getIntent().getExtras().getString("request_message");
+
 
             SharedPreferences new_appeal = getSharedPreferences("new_appeal", MODE_PRIVATE);
 //            String addMessage = new_appeal.getString("addMessage", "");
@@ -146,7 +138,9 @@ public class LineActivity extends AppCompatActivity {
                 tv_new_appeal.setText(Html.fromHtml(request_message));
             }
         }else {
-            getList(); // получить список очереди автоматически
+            if (test_auth){
+                getList(); // получить список очереди автоматически
+            }
         }
 
     }
@@ -190,6 +184,7 @@ public class LineActivity extends AppCompatActivity {
 
             generatedURL = generateURL(baseURL,person_id,setDate);
         } catch (MalformedURLException e) {
+            showErrorTextView();
             e.printStackTrace();
         }
         new QueryTask().execute(generatedURL);
@@ -278,7 +273,7 @@ public class LineActivity extends AppCompatActivity {
                         snils = "не указан";
                     }
                     if (callNumberId == null || callNumberId.equals("") || callNumberId == "1" || callNumberId == "null"){
-                        type = "На дом";
+                        type = "НА ДОМ";
                     }else {
                         type = "ССМП";
                     }
@@ -299,6 +294,12 @@ public class LineActivity extends AppCompatActivity {
                     hashMap.put("eventId", eventId); // Номер события ССМП
                     hashMap.put("type", type); // Тип
                     hashMap.put("isDone", isDone); // Тип
+                    if (status.equals("0") && isDone.equals("null") || status.equals("1")  && isDone.equals("1") ){
+
+                    }else {
+
+                    }
+
                     searchList.add(hashMap);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -346,6 +347,8 @@ public class LineActivity extends AppCompatActivity {
 
                         }
                     });
+
+
                 }
                 SimpleAdapter adapter = new SimpleAdapter(
                         LineActivity.this,
@@ -400,39 +403,43 @@ public class LineActivity extends AppCompatActivity {
                         String type = (String) typeView.getText();
                         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_row);
 
-//                        if (status == "1" && isDone == "null" || status == "1" && isDone == "0" ){
-//                            linearLayout.setBackgroundResource(R.drawable.alert_warning);
-//                        }else if (status == "0" && isDone == "null" || status == "1" && isDone == "1" ){
-//                            linearLayout.setBackgroundResource(R.drawable.alert_sussess);
-//                        }else if  (status == "0" && isDone == "0"){
-//                            linearLayout.setBackgroundResource(R.drawable.alert_danger);
-//                            residenceView.setTextColor(getResources().getColor(R.color.Warning));
-//                            fullNameView.setTextColor(getResources().getColor(R.color.Primary_lite));
-//                        }
                         if (status.equals("1") && isDone.equals("null") || status.equals("1")  && isDone.equals("0")){
-                            linearLayout.setBackgroundResource(R.drawable.alert_warning);
-                            fullNameView.setTextColor(getResources().getColor(R.color.Link));
-                            residenceView.setTextColor(getResources().getColor(R.color.Warning_list));
+                            linearLayout.setBackgroundResource(R.drawable.cell_shape_new_yellow);
+                            fullNameView.setTextColor(getResources().getColor(R.color.black));
+                            residenceView.setTextColor(getResources().getColor(R.color.Danger));
+
+                            if (type == "ССМП"){
+                                typeView.setTextColor(getResources().getColor(R.color.Red));
+                            }else {
+                                typeView.setTextColor(getResources().getColor(R.color.Primary));
+                            }
                         }else if (status.equals("0") && isDone.equals("null") || status.equals("1")  && isDone.equals("1") ){
                             linearLayout.setBackgroundResource(R.drawable.alert_sussess);
-                            fullNameView.setTextColor(getResources().getColor(R.color.Link));
-                            residenceView.setTextColor(getResources().getColor(R.color.Warning_list));
-                        }else if  (status.equals("0") && isDone.equals("0")){
-                            linearLayout.setBackgroundResource(R.drawable.alert_danger);
-                            fullNameView.setTextColor(getResources().getColor(R.color.Primary_lite));
+                            fullNameView.setTextColor(getResources().getColor(R.color.black));
                             residenceView.setTextColor(getResources().getColor(R.color.Warning));
+
+                            if (type == "ССМП"){
+                                typeView.setTextColor(getResources().getColor(R.color.Red));
+                            }else {
+                                typeView.setTextColor(getResources().getColor(R.color.Primary));
+                            }
+                        }else if  (status.equals("0") && isDone.equals("0")){
+                            linearLayout.setBackgroundResource(R.drawable.call_shape_new_red);
+                            fullNameView.setTextColor(getResources().getColor(R.color.black));
+                            residenceView.setTextColor(getResources().getColor(R.color.Warning));
+
+                            if (type == "ССМП"){
+                                typeView.setTextColor(getResources().getColor(R.color.Yellow));
+                            }else {
+                                typeView.setTextColor(getResources().getColor(R.color.Primary));
+                            }
                         }
 
-
-                        if (type == "ССМП"){
-                            typeView.setTextColor(getResources().getColor(R.color.Danger));
-                        }else {
-                            typeView.setTextColor(getResources().getColor(R.color.Primary));
-                        }
                         return view;
                     };
                 };
                 // Устанавливаем адаптер для списка
+
 
                 listView.setAdapter(adapter);
 
@@ -443,18 +450,6 @@ public class LineActivity extends AppCompatActivity {
             }
 
         }
-
-        // RecyclerView,
-        protected void printList(String response){
-            initRecyclerView();
-        }
-
-        private void initRecyclerView() {
-            tweetsRecyclerView = findViewById(R.id.rv_list);
-            tweetsRecyclerView.setLayoutManager(new LinearLayoutManager(LineActivity.this));
-        }
-
-
 
     }
 
@@ -523,10 +518,10 @@ public class LineActivity extends AppCompatActivity {
         SharedPreferences auth = getSharedPreferences("new_appeal", MODE_PRIVATE);
         auth.edit().clear().commit();
     } // очистить переход из модуля ССМП
-    /*Меню*/
+    /*Конец меню*/
 
     // проверка авторизации
-    private void test_auth(){
+    private boolean test_auth(){
         // проверка переменной
         SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
         String savedText = auth.getString("person_id", "");
@@ -534,7 +529,9 @@ public class LineActivity extends AppCompatActivity {
             Intent intent = new Intent(LineActivity.this, AuthActivity.class);
             startActivity(intent);
             finish();
+            return false;
         }
+        return true;
     }
 
 }
