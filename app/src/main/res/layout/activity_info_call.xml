@@ -37,6 +37,7 @@
                 android:layout_margin="10dp"
                 android:text="@string/tv_ssmp_text_message"
                 android:textSize="25sp"
+                android:visibility="gone"
                 />
 
             <TextView
@@ -62,6 +63,7 @@
                 android:textColor="#3c763d"
                 android:padding="12dp"
                 android:textSize="25sp"
+                android:layout_margin="10dp"
                 android:visibility="gone"
 
                 />
@@ -77,6 +79,7 @@
                 android:hint="@string/tv_ssmp_text_error"
                 android:visibility="gone"
                 />
+
             <Button
                 android:id="@+id/b_to_accept_call"
                 android:layout_width="match_parent"
@@ -86,52 +89,76 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:textSize="30sp"
-                android:text="@string/b_to_accept_call" />
-
-            <Button
-                android:id="@+id/b_new_appeal"
+                android:text="@string/b_to_accept_call"
+                android:visibility="gone" />
+            <LinearLayout
+                android:id="@+id/ll_block_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:backgroundTint="#286090"
-                android:text="Поиск пациента в базе"
-                android:textColor="#FFFFFF"
-                android:textSize="30sp" />
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+                <Button
+                    android:id="@+id/b_new_appeal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#286090"
+                    android:text="Поиск пациента в базе"
+                    android:textColor="#FFFFFF"
+                    android:textSize="30sp" />
 
-            <Spinner
-                android:id="@+id/s_ssmp_resoult"
-                android:padding="12dp"
-                android:textSize="25sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/s_ssmp_resoult"
+                <View
+                    android:id="@+id/v_demarcatio_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#ececec"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    />
 
-                />
+                <Spinner
+                    android:id="@+id/s_ssmp_resoult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:padding="12dp"
+                    android:textSize="25sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="@string/s_ssmp_resoult"
+                    />
 
-            <EditText
-                android:id="@+id/et_ssmp_note"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/et_ssmp_note"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:textColor="#333333"
-                android:padding="12dp"
-                android:textSize="25sp"
-                android:inputType="text" />
+                <EditText
+                    android:id="@+id/et_ssmp_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/et_ssmp_note"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:textColor="#333333"
+                    android:padding="12dp"
+                    android:textSize="25sp"
+                    android:inputType="text"
+                    android:visibility="gone"
+                    />
 
-            <Button
-                android:id="@+id/b_add_event_ssmp_local"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#530000"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="30sp"
-                android:text="@string/et_ssmp_add_event_ssmp_local"
-                />
+                <Button
+                    android:id="@+id/b_add_event_ssmp_local"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#530000"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textSize="30sp"
+                    android:text="@string/et_ssmp_add_event_ssmp_local"
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
     </LinearLayout>

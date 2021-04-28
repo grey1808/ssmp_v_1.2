@@ -21,8 +21,10 @@
     <color name="Primary">#3F51B5</color>
     <color name="Warning">#fff3cd</color>
     <color name="Warning_black">#bbac7d</color>
+    <color name="Warning_text">#8a6d3b</color>
     <color name="Yellow">#fefc78</color>
     <color name="Success">#d9efe5</color>
+    <color name="Success_text">#3c763d</color>
     <color name="Success_2">#2dcc74</color>
     <color name="Danger">#842029</color>
     <color name="Red">#ff0000</color>

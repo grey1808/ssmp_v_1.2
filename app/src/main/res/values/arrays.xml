@@ -2,10 +2,10 @@
 <resources>
     <string-array name="ssmp_result">
         <item>Выберите статус вызова</item>
-        <item>Отказ от ПНПМ</item>
+        <item>Отказ от НП</item>
         <item>Вызов выполнен </item>
-        <item>Вызов безрезультатный (снят с ПНПМ)</item>
-        <item>Назначен ошибочный ПНМП</item>
+        <item>Вызов безрезультатный (снят с НП)</item>
+        <item>Назначен ошибочный НП</item>
     </string-array>
 
 </resources>

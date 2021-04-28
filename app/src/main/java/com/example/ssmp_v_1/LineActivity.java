@@ -721,7 +721,7 @@ public class LineActivity extends AppCompatActivity {
                         String isDone = (String) isDoneView.getText();
                         TextView residenceView = (TextView) view.findViewById(R.id.residence);
                         TextView fullNameView = (TextView) view.findViewById(R.id.fullName);
-                        String fullName = (String) fullNameView.getText();
+                        TextView tv_status_call = (TextView) view.findViewById(R.id.tv_status_call);
                         TextView typeView = (TextView) view.findViewById(R.id.type);
                         String type = (String) typeView.getText();
                         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_row);
@@ -730,6 +730,8 @@ public class LineActivity extends AppCompatActivity {
 
                             fullNameView.setTextColor(getResources().getColor(R.color.black));
                             residenceView.setTextColor(getResources().getColor(R.color.Danger));
+                            tv_status_call.setText("Ожидание");
+                            tv_status_call.setVisibility(View.VISIBLE);
                             if (type == "ССМП"){
                                 linearLayout.setBackgroundResource(R.drawable.cell_shape_new_yellow);
                                 typeView.setTextColor(getResources().getColor(R.color.Red));
@@ -742,6 +744,8 @@ public class LineActivity extends AppCompatActivity {
                             linearLayout.setBackgroundResource(R.drawable.alert_sussess);
                             fullNameView.setTextColor(getResources().getColor(R.color.black));
                             residenceView.setTextColor(getResources().getColor(R.color.Warning));
+                            tv_status_call.setText("Выполнен");
+                            tv_status_call.setVisibility(View.VISIBLE);
 
                             if (type == "ССМП"){
                                 typeView.setTextColor(getResources().getColor(R.color.Red));
@@ -754,6 +758,8 @@ public class LineActivity extends AppCompatActivity {
                             fullNameView.setTextColor(getResources().getColor(R.color.black));
                             residenceView.setTextColor(getResources().getColor(R.color.Warning));
 
+                            tv_status_call.setText("Новый вызов");
+                            tv_status_call.setVisibility(View.VISIBLE);
                             if (type == "ССМП"){
                                 typeView.setTextColor(getResources().getColor(R.color.Yellow));
                             }else {

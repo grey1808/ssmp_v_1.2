@@ -174,9 +174,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/et_search_close_event"
                         android:padding="12dp"
                         android:textSize="25sp"
+                        android:hint="@string/et_search_close_event"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

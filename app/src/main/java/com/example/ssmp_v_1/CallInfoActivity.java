@@ -3,6 +3,7 @@ package com.example.ssmp_v_1;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -44,6 +46,10 @@ public class CallInfoActivity extends AppCompatActivity {
     private Button b_add_event_ssmp_local;
     private Button b_new_appeal;
     private String fio;
+    private LinearLayout ll_block_button;
+    private View v_demarcatio_line;
+    String[] s_list = { "Выберите статус вызова", "Отказ от НП", "Вызов выполнен", "Вызов безрезультатный (снят с НП)", "Назначен ошибочный вызов НП"}; // Выпадающие список в форме
+
 
     private void showResultTextView(){
         tv_ssmp_text_message.setVisibility(View.VISIBLE);
@@ -76,14 +82,12 @@ public class CallInfoActivity extends AppCompatActivity {
         tv_message = findViewById(R.id.tv_message);
         et_ssmp_note = findViewById(R.id.et_ssmp_note);
         b_new_appeal = findViewById(R.id.b_new_appeal);
+        ll_block_button = findViewById(R.id.ll_block_button);
+        v_demarcatio_line = findViewById(R.id.v_demarcatio_line);
 
         Spinner spinner = (Spinner) findViewById(R.id.s_ssmp_resoult);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.ssmp_result, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.ssmp_result, R.layout.spiner);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
 
@@ -128,8 +132,6 @@ public class CallInfoActivity extends AppCompatActivity {
             }
         });
 
-
-
         // Добавить событие к вызову
         b_add_event_ssmp_local.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -162,7 +164,7 @@ public class CallInfoActivity extends AppCompatActivity {
             }
         });
 
-        // Передать вызов в создание нового обращения
+        // Передать вызов на создание нового обращения
         b_new_appeal.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -260,6 +262,34 @@ public class CallInfoActivity extends AppCompatActivity {
                 result += "<b>Категория срочности: </b>"  + list.getString("urgencyCategory") + "<br>";
                 fio = list.getString("fio");
                 tv_ssmp_text_message.setText(Html.fromHtml(result));
+                String status = list.getString("status");
+                String isDone = list.getString("isDone");
+
+                if (status.equals("1")){
+                    tv_message.setText("Этот вызов уже принят!");
+                    tv_message.setBackgroundResource(R.color.Warning);
+                    tv_message.setTextColor(getResources().getColor(R.color.Warning_text));
+                    tv_message.setVisibility(View.VISIBLE);
+                    b_to_accept_call.setVisibility(View.GONE);
+                    ll_block_button.setVisibility(View.VISIBLE);
+                    v_demarcatio_line.setVisibility(View.VISIBLE);
+                }else {
+                    b_to_accept_call.setVisibility(View.VISIBLE);
+                    ll_block_button.setVisibility(View.GONE);
+                }
+
+                if(isDone.equals("1")){
+
+                    tv_message.setText("Этот вызов завершён!");
+                    tv_message.setBackgroundResource(R.color.Success);
+                    tv_message.setTextColor(getResources().getColor(R.color.Success_text));
+                    Spinner s_ssmp_resoult = findViewById(R.id.s_ssmp_resoult);
+                    s_ssmp_resoult.setVisibility(View.GONE);
+                    et_ssmp_note.setVisibility(View.GONE);
+                    b_add_event_ssmp_local.setVisibility(View.GONE);
+                    v_demarcatio_line.setVisibility(View.GONE);
+                }
+
                 showResultTextView();
 
             } catch (JSONException e) {
@@ -300,7 +330,11 @@ public class CallInfoActivity extends AppCompatActivity {
                     String message = (String) list.get("message");
                     if(status != 0){
                         showResultMessage();
+                        b_to_accept_call.setVisibility(View.GONE);
                         tv_message.setText(Html.fromHtml(message));
+                        Intent intent = new Intent(CallInfoActivity.this, LineActivity.class);
+                        startActivity(intent);
+                        finish();
                     }else {
                         showErrorMessage();
                         tv_error.setText(Html.fromHtml(message));
@@ -318,7 +352,7 @@ public class CallInfoActivity extends AppCompatActivity {
     }
 
 
-    // Принять вызов
+    // Закрыть вызов
     class QueryTaskAddEvent extends AsyncTask<URL, Void, String> {
 
         @Override
@@ -340,7 +374,6 @@ public class CallInfoActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String response){
-//            tv_ssmp_text_message.setText(response);
             if (response != null && !response.equals("")){
                 try {
                     JSONObject list = new JSONObject(response);
@@ -350,6 +383,9 @@ public class CallInfoActivity extends AppCompatActivity {
                         tv_message.setVisibility(View.VISIBLE);
                         tv_error.setVisibility(View.GONE);
                         tv_message.setText(Html.fromHtml(message));
+                        Intent intent = new Intent(CallInfoActivity.this, LineActivity.class);
+                        startActivity(intent);
+                        finish();
                     }else {
                         tv_message.setVisibility(View.GONE);
                         tv_error.setVisibility(View.VISIBLE);
