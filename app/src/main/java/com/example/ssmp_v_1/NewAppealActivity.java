@@ -199,7 +199,9 @@ public class NewAppealActivity extends AppCompatActivity {
                 TextView label = new TextView(NewAppealActivity.this);
                 EditText input = new EditText(NewAppealActivity.this);
                 label.setText(list.getString("label"));
+                label.setTextSize(20);
                 input.setId(list.getInt("id"));
+                input.setTextSize(20);
                 layout.addView(label);
                 layout.addView(input);
             }
@@ -346,10 +348,12 @@ public class NewAppealActivity extends AppCompatActivity {
             Integer ssmpresoult = 2; // получить порядковый номер
             String note = "";
             /*Получить абазовый URL */
-            SharedPreferences auth = getSharedPreferences("setting", MODE_PRIVATE);
-            String baseURL = auth.getString("address", "");
+            SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+            SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+            String baseURL = setting.getString("address", "");
+            String person_id = auth.getString("person_id", "");
 
-            generatedURL = NetworkAddEvent.generateURLAddEvent(baseURL,eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
+            generatedURL = NetworkAddEvent.generateURLAddEvent(baseURL,person_id,eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
 
 
         } catch (MalformedURLException e) {

@@ -8,6 +8,7 @@ import java.net.URL;
 public class NetworkAddEvent extends NetworkAppUtis {
     private static final String CONTROLLER = "/ssmp11";
     private static final String ADDRESS = "/add-event";
+    private static final String PERSON_ID = "person_id";
     private static final String EVENTID = "eventId";
     private static final String CALLNUMBERID = "callNumberId";
     private static final String SSMPRESULT = "ssmpresoult";
@@ -16,6 +17,7 @@ public class NetworkAddEvent extends NetworkAppUtis {
 
     public static URL generateURLAddEvent(
             String baseURL,
+            String person_id,
             String eventId,
             String callNumberId,
             String ssmpresoult,
@@ -24,6 +26,7 @@ public class NetworkAddEvent extends NetworkAppUtis {
     ) throws MalformedURLException {
         Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
+                .appendQueryParameter(PERSON_ID,person_id)
                 .appendQueryParameter(EVENTID,eventId)
                 .appendQueryParameter(CALLNUMBERID,callNumberId)
                 .appendQueryParameter(SSMPRESULT,ssmpresoult)

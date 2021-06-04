@@ -121,9 +121,11 @@ public class CallInfoActivity extends AppCompatActivity {
                 try {
                     /*Получить абазовый URL */
                     SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+                    SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
                     String baseURL = setting.getString("address", "");
+                    String person_id = auth.getString("person_id", "");
 
-                    generatedURL = NetworkUpdEvent.generateURLUpdEvent(baseURL,eventId);
+                    generatedURL = NetworkUpdEvent.generateURLUpdEvent(baseURL,person_id,eventId);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -150,10 +152,11 @@ public class CallInfoActivity extends AppCompatActivity {
                         return;
                     }
                     /*Получить абазовый URL */
-                    SharedPreferences auth = getSharedPreferences("setting", MODE_PRIVATE);
-                    String baseURL = auth.getString("address", "");
-
-                    generatedURL = NetworkAddEvent.generateURLAddEvent(baseURL,eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
+                    SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+                    SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+                    String baseURL = setting.getString("address", "");
+                    String person_id = auth.getString("person_id", "");
+                    generatedURL = NetworkAddEvent.generateURLAddEvent(baseURL,person_id,eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
 
 
                 } catch (MalformedURLException e) {

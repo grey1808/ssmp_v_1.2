@@ -8,14 +8,17 @@ import java.net.URL;
 public class NetworkUpdEvent extends NetworkAppUtis {
     private static final String CONTROLLER = "/ssmp11";
     private static final String ADDRESS = "/upd-event";
+    private static final String PERSON_ID = "person_id";
     private static final String EVENTID = "eventId";
 
     public static URL generateURLUpdEvent(
             String baseURL,
+            String person_id,
             String eventId
     ) throws MalformedURLException {
         Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
                 .buildUpon()
+                .appendQueryParameter(PERSON_ID,person_id)
                 .appendQueryParameter(EVENTID,eventId)
                 .build();
         URL url = null;
