@@ -156,6 +156,7 @@ public class AuthActivity extends AppCompatActivity {
             String lastName = list.getString("lastName");
             String firstName = list.getString("firstName");
             String patrName = list.getString("patrName");
+            String snils = list.getString("SNILS");
 
             // запсиcь переменной
             SharedPreferences sPref = getSharedPreferences("auth", MODE_PRIVATE);
@@ -165,6 +166,7 @@ public class AuthActivity extends AppCompatActivity {
             ed.putString("lastName", lastName);
             ed.putString("firstName", firstName);
             ed.putString("patrName", patrName);
+            ed.putString("snils", snils);
             ed.commit();
             Intent intent = new Intent(AuthActivity.this, LineActivity.class);
             startActivity(intent);

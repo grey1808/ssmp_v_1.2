@@ -841,6 +841,13 @@ public class LineActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 return true;
+
+            case R.id.main_about:
+                new_appeal_clear();
+                Intent intent6 = new Intent(LineActivity.this, AboutActivity.class);
+                startActivity(intent6);
+                finish();
+                return true;
         }
         //headerView.setText(item.getTitle());
         return super.onOptionsItemSelected(item);

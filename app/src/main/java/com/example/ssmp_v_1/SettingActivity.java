@@ -36,6 +36,13 @@ public class SettingActivity  extends AppCompatActivity {
     private Button b_send;
     private ProgressBar pb_loader_indicator;
     private Boolean testConnect;
+    /*Для портала врача*/
+    private TextView tv_title_portal_doctor; // Наименовавние для обозначения настроек для портала врача
+    private TextView et_wsdl_portal; // Адрес портала врача
+    private EditText et_guid; // Гуид разработчика
+    private EditText et_idLPU; // Идентификатор ЛПУ в справочнике 64
+    private EditText et_url_token; // адрес для получаения токена
+    /*Для портала врача*/
 
     private void showResultTextView(){
         tv_error.setVisibility(View.GONE);
@@ -53,18 +60,41 @@ public class SettingActivity  extends AppCompatActivity {
         tv_error = findViewById(R.id.tv_error);
         b_send = findViewById(R.id.b_send);
         pb_loader_indicator = findViewById(R.id.pb_loader_indicator);
+        /*Для портала врача*/
+        tv_title_portal_doctor = findViewById(R.id.tv_title_portal_doctor);
+        et_wsdl_portal = findViewById(R.id.et_wsdl_portal);
+        et_guid = findViewById(R.id.et_guid);
+        et_idLPU = findViewById(R.id.et_idLPU);
+        et_url_token = findViewById(R.id.et_url_token);
+        /*Для портала врача*/
 
         b_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String address = et_address.getText().toString();
+                String wsdl_portal = et_wsdl_portal.getText().toString().trim();
+                String guid = et_guid.getText().toString();
+                String idLPU = et_idLPU.getText().toString();
+                String url_token = et_url_token.getText().toString();
+
                 if (address == "" || address.equals("")){
-                    tv_error.setText("Введите Адрес!");
+                    tv_error.setText("Введите адрес сервиса!");
                     showErrorTextView();
                     return;
                 }
                 if (!URLUtil.isValidUrl(address)){
-                    tv_error.setText(Html.fromHtml("Некорректный адрес! Адрес должен быть такого вида: <b>http://123.123.123.123:1111</b>"));
+                    tv_error.setText(Html.fromHtml("Некорректный адрес основного сервиса! Адрес должен быть такого формата: <b>http://123.123.123.123:1111</b>"));
+                    showErrorTextView();
+                    return;
+                }
+
+                if (wsdl_portal.trim().length() != 0 && !URLUtil.isValidUrl(wsdl_portal)){
+                    tv_error.setText(Html.fromHtml("Некорректный адрес портала врача! Адрес должен быть такого формата: <b>http://10.0.1.179/EMK/PixService.svc?wsdl</b>"));
+                    showErrorTextView();
+                    return;
+                }
+                if (url_token.trim().length() != 0 && !URLUtil.isValidUrl(url_token)){
+                    tv_error.setText(Html.fromHtml("Некорректный адрес токен! Адрес должен быть такого формата: <b>http://10.0.1.179/acs2/acs/connect/token</b>"));
                     showErrorTextView();
                     return;
                 }
@@ -72,6 +102,12 @@ public class SettingActivity  extends AppCompatActivity {
                 SharedPreferences sPref = getSharedPreferences("setting", MODE_PRIVATE);
                 SharedPreferences.Editor ed = sPref.edit();
                 ed.putString("address", address.trim());
+                /*Переменные для портала врача*/
+                ed.putString("wsdl_portal", wsdl_portal.trim());
+                ed.putString("guid", guid.trim());
+                ed.putString("idLPU", idLPU.trim());
+                ed.putString("url_token", url_token.trim());
+                /*Переменные для портала врача*/
                 ed.commit();
 
 
@@ -85,8 +121,26 @@ public class SettingActivity  extends AppCompatActivity {
         // Получить адрес
         SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
         String savedText = setting.getString("address", "");
+
+        String wsdl_portal = setting.getString("wsdl_portal", "");
+        String guid = setting.getString("guid", "");
+        String idLPU = setting.getString("idLPU", "");
+        String url_token = setting.getString("url_token", "");
+
         if (savedText != null || !savedText.equals("")){
             et_address.setText(savedText);
+        }
+        if (wsdl_portal != null || !wsdl_portal.equals("")){
+            et_wsdl_portal.setText(wsdl_portal);
+        }
+        if (guid != null || !guid.equals("")){
+            et_guid.setText(guid);
+        }
+        if (idLPU != null || !idLPU.equals("")){
+            et_idLPU.setText(idLPU);
+        }
+        if (url_token != null || !url_token.equals("")){
+            et_url_token.setText(url_token);
         }
     }
 
@@ -144,6 +198,12 @@ public class SettingActivity  extends AppCompatActivity {
                 String savedText = auth.getString("person_id", "");
                 Intent intent = new Intent(SettingActivity.this, AuthActivity.class);
                 startActivity(intent);
+                finish();
+                return true;
+            case R.id.main_about:
+                new_appeal_clear();
+                Intent intent6 = new Intent(SettingActivity.this, AboutActivity.class);
+                startActivity(intent6);
                 finish();
                 return true;
         }

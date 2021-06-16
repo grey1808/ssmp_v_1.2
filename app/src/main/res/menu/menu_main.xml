@@ -32,4 +32,8 @@
         android:id="@+id/main_exit"
         android:orderInCategory="6"
         android:title="Выйти" />
+    <item
+        android:id="@+id/main_about"
+        android:orderInCategory="7"
+        android:title="О программе" />
 </menu>

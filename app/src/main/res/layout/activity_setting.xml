@@ -9,14 +9,73 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
+
+
+        <TextView
+            android:id="@+id/tv_title_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:text="Основные настройки" />
         <EditText
             android:id="@+id/et_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="Введите адрес"
+            android:hint="Адрес сервиса"
             android:padding="10dp"
             android:textSize="25sp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_title_portal_doctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:text="Настройка для портала врача"
+            android:visibility="gone"
+            />
+
+        <EditText
+            android:id="@+id/et_wsdl_portal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Адрес портала врача"
+            android:padding="10dp"
+            android:textSize="25sp"
+            android:visibility="gone"
+            />
+        <EditText
+            android:id="@+id/et_guid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Guid разработчика"
+            android:padding="10dp"
+            android:textSize="25sp"
+            android:visibility="gone"
+            />
+        <EditText
+            android:id="@+id/et_idLPU"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Id ЛПУ из справочника 64"
+            android:padding="10dp"
+            android:textSize="25sp"
+            android:visibility="gone"
+            />
+        <EditText
+            android:id="@+id/et_url_token"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Адрес получения токена"
+            android:padding="10dp"
+            android:textSize="25sp"
+            android:visibility="gone"
             />
         <TextView
             android:id="@+id/tv_error"

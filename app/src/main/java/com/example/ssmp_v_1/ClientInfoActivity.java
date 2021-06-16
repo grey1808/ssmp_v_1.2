@@ -17,14 +17,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ssmp_v_1.utils.NetworkGetLinkPortal;
+import com.github.kevinsawicki.http.HttpRequest;
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.ssmp_v_1.utils.NetworkAppUtis.getResponseFromURL;
 
@@ -138,8 +142,8 @@ public class ClientInfoActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-
-            getLinkToThePortal(client_id);
+//            getPortal(client_id);
+            getLinkToThePortal(client_id); // старый метод, для получаения готовой ссылки с сервера
         }else {
             showResultTextView();
             tv_result.setText("Нет идентификатора пациента, поробуйте еще раз!");
@@ -154,6 +158,11 @@ public class ClientInfoActivity extends AppCompatActivity {
 
     }
 
+    protected void getPortal(String client_id){
+
+        new QueryTaskPortal().execute();
+
+    }
 
     protected void getLinkToThePortal(String client_id){
         URL generatedURL = null;
@@ -173,6 +182,82 @@ public class ClientInfoActivity extends AppCompatActivity {
 //                tv_ssmp_text_message.setText(generatedURL.toString());
         new QueryTask().execute(generatedURL);
     }
+
+    // получить информацию о вызове
+    class QueryTaskPortal extends AsyncTask<URL, Void, String> {
+
+        @Override
+        protected void onPreExecute(){
+            pb_loader_indicator_portal.setVisibility(View.VISIBLE);
+            b_portal.setVisibility(View.GONE);
+        }
+
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            String response = null;
+            //                response = getResponseFromURL(urls[0]);
+
+            String client_id = getIntent().getExtras().getString("client_id");
+            // Получение переменной из хранилища
+            SharedPreferences auth = getSharedPreferences("setting", MODE_PRIVATE);
+            String wsdl_portal = auth.getString("wsdl_portal", "");
+            String guid = auth.getString("guid", "");
+            String idLPU = auth.getString("idLPU", "");
+            String url_token = auth.getString("url_token", "");
+
+            String xml = "";
+
+//            response = HttpRequest.post(wsdl_portal).send("guid=" + guid,"idLPU=" + idLPU,"url_token=" + url_token).body();
+            Map<String, String> data = new HashMap<String, String>();
+            Map<String, String> patient = new HashMap<String, String>();
+            data.put("guid", guid);
+            data.put("idLPU", idLPU);
+            data.put("idSource", "Reg");
+            patient.put("IdPatientMIS", client_id);
+            data.put("patient", String.valueOf(patient));
+
+            if (HttpRequest.post(wsdl_portal).form(data).created())
+                System.out.println("User was created");
+            System.out.println("Response was: " + response);
+            System.out.println("Response was: " + response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response){
+//            tv_ssmp_text_message.setText(response);
+            if (response != null && !response.equals("")){
+                try {
+                    JSONObject list = new JSONObject(response);
+                    Integer status = (Integer) list.get("status");
+                    String message = (String) list.get("message");
+                    if(status != 0){
+                        portal_url = list.getString("result");
+                        showResultTextViewPortal();
+                    }else {
+                        showErrorTextViewPortal();
+                        et_error_potral.setText(Html.fromHtml(message));
+
+                    }
+
+                } catch (JSONException e) {
+                    showErrorTextViewPortal();
+                    e.printStackTrace();
+                }
+            }else {
+                showErrorTextViewPortal();
+            }
+            pb_loader_indicator_portal.setVisibility(View.GONE);
+
+        }
+
+
+
+    }
+
+
+
     // получить информацию о вызове
     class QueryTask extends AsyncTask<URL, Void, String> {
 
