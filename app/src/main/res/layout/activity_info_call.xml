@@ -19,7 +19,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
-                android:visibility="gone"></ProgressBar>
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -55,6 +55,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <Button
+                android:id="@+id/b_to_add_going"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#268E00"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="30sp"
+                android:text="@string/b_to_add_going"
+                android:visibility="gone" />
+
+
+            <Button
+                android:id="@+id/b_to_delete_going"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#dd5e5e"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="30sp"
+                android:text="@string/b_to_delete_going"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/tv_message"
                 android:layout_width="match_parent"
@@ -90,6 +116,30 @@
                 android:layout_marginEnd="8dp"
                 android:textSize="30sp"
                 android:text="@string/b_to_accept_call"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/b_to_accept_call_and_going"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#268E00"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="30sp"
+                android:text="@string/b_to_accept_call_and_goind"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/b_to_accept_goind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#268E00"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="30sp"
+                android:text="@string/b_to_accept_goind"
                 android:visibility="gone" />
             <LinearLayout
                 android:id="@+id/ll_block_button"

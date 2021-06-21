@@ -98,7 +98,7 @@ public class SettingActivity  extends AppCompatActivity {
                     showErrorTextView();
                     return;
                 }
-                // запсиcь переменной
+                // запиcь переменной
                 SharedPreferences sPref = getSharedPreferences("setting", MODE_PRIVATE);
                 SharedPreferences.Editor ed = sPref.edit();
                 ed.putString("address", address.trim());

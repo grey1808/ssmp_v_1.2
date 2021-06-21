@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import static com.example.ssmp_v_1.utils.NetworkAppUtis.getResponseFromURL;
@@ -72,6 +74,16 @@ public class LineActivity extends AppCompatActivity {
         et_search_error.setVisibility(View.GONE);
     } // Скрывает текст все, показывает результат сохранения обращения
 
+    private void getDateSearch(){
+        // запиcь даты в настройки
+        SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+        String dateSearch = setting.getString("dateSearch", "");
+//        String currentDate = setting.get("currentDate", "");
+        if (dateSearch != null || !dateSearch.equals("")){
+            et_search_date.setText(dateSearch);
+        }
+    } // проверить есть ли сохраненная дата поиска
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,12 +118,20 @@ public class LineActivity extends AppCompatActivity {
                 datePicker.setVisibility(View.GONE);
             }
         });
-
+        getDateSearch(); // проверка даты в хранилище
         // Поиск
         b_search_send.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                // запиcь даты в настройки
+                SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+                SharedPreferences.Editor ed = setting.edit();
+                String setDate = et_search_date.getText().toString();
+                // Текущее время
+                ed.putString("dateSearch", setDate.trim());
+                ed.commit();
                 getList();
+
             }
         });
 
@@ -267,7 +287,7 @@ public class LineActivity extends AppCompatActivity {
                     String eventId = list.getString("eventId");
                     String type = null;
                     String isDone = list.getString("isDone");
-
+                    String active_person_id = list.getString("active_person_id");
 
                     if (contact == null || contact.equals("") || contact == "1" || contact == "null"){
                         contact = "не указан";
@@ -296,7 +316,8 @@ public class LineActivity extends AppCompatActivity {
                     hashMap.put("callNumberId", callNumberId); // Номер вызова ССМП
                     hashMap.put("eventId", eventId); // Номер события ССМП
                     hashMap.put("type", type); // Тип
-                    hashMap.put("isDone", isDone); // Тип
+                    hashMap.put("isDone", isDone); // Закончен или нет
+                    hashMap.put("active_person_id", active_person_id); // Тот кто взялся обслуживать вызов
                     // если вызов не выполнен
                     if (status.equals("0") && isDone.equals("null")|| status.equals("1")  && isDone.equals("1")){
 
@@ -375,7 +396,7 @@ public class LineActivity extends AppCompatActivity {
                     String eventId = list.getString("eventId");
                     String type = null;
                     String isDone = list.getString("isDone");
-
+                    String active_person_id = list.getString("active_person_id");
 
                     if (contact == null || contact.equals("") || contact == "1" || contact == "null"){
                         contact = "не указан";
@@ -404,7 +425,8 @@ public class LineActivity extends AppCompatActivity {
                     hashMap.put("callNumberId", callNumberId); // Номер вызова ССМП
                     hashMap.put("eventId", eventId); // Номер события ССМП
                     hashMap.put("type", type); // Тип
-                    hashMap.put("isDone", isDone); // Тип
+                    hashMap.put("isDone", isDone); // Закончен или нет
+                    hashMap.put("active_person_id", active_person_id); // Тот кто взялся обслуживать вызов
                     // если вызов не выполнен
                     if (status.equals("0") && isDone.equals("null")|| status.equals("1")  && isDone.equals("1")){
 
@@ -485,6 +507,7 @@ public class LineActivity extends AppCompatActivity {
                     String eventId = list.getString("eventId");
                     String type = null;
                     String isDone = list.getString("isDone");
+                    String active_person_id = list.getString("active_person_id");
 
 
                     if (contact == null || contact.equals("") || contact == "1" || contact == "null"){
@@ -514,7 +537,8 @@ public class LineActivity extends AppCompatActivity {
                     hashMap.put("callNumberId", callNumberId); // Номер вызова ССМП
                     hashMap.put("eventId", eventId); // Номер события ССМП
                     hashMap.put("type", type); // Тип
-                    hashMap.put("isDone", isDone); // Тип
+                    hashMap.put("isDone", isDone); // Закончен или нет
+                    hashMap.put("active_person_id", active_person_id); // Тот кто взялся обслуживать вызов
                     // если вызов не выполнен
                     if (status.equals("0") && isDone.equals("null")|| status.equals("1")  && isDone.equals("1")){
 
@@ -590,6 +614,7 @@ public class LineActivity extends AppCompatActivity {
                     String eventId = list.getString("eventId");
                     String type = null;
                     String isDone = list.getString("isDone");
+                    String active_person_id = list.getString("active_person_id");
 
 
                     if (contact == null || contact.equals("") || contact == "1" || contact == "null"){
@@ -619,7 +644,8 @@ public class LineActivity extends AppCompatActivity {
                     hashMap.put("callNumberId", callNumberId); // Номер вызова ССМП
                     hashMap.put("eventId", eventId); // Номер события ССМП
                     hashMap.put("type", type); // Тип
-                    hashMap.put("isDone", isDone); // Тип
+                    hashMap.put("isDone", isDone); // Закончен или нет
+                    hashMap.put("active_person_id", active_person_id); // Тот кто взялся обслуживать вызов
                     // если вызов выполнен
                     if (status.equals("0") && isDone.equals("null") || status.equals("1")  && isDone.equals("1") ){
                         searchList.add(hashMap);
@@ -694,6 +720,7 @@ public class LineActivity extends AppCompatActivity {
                                 "eventId",
                                 "type",
                                 "isDone",
+                                "active_person_id",
                         },
                         new int[]{
                                 R.id.client_id,
@@ -712,6 +739,7 @@ public class LineActivity extends AppCompatActivity {
                                 R.id.eventId,
                                 R.id.type,
                                 R.id.isDone,
+                                R.id.active_person_id,
                         }){
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
@@ -723,6 +751,8 @@ public class LineActivity extends AppCompatActivity {
                         TextView fullNameView = (TextView) view.findViewById(R.id.fullName);
                         TextView tv_status_call = (TextView) view.findViewById(R.id.tv_status_call);
                         TextView typeView = (TextView) view.findViewById(R.id.type);
+                        TextView active_person_idView = (TextView) view.findViewById(R.id.active_person_id);
+                        String active_person_id = (String) active_person_idView.getText();
                         String type = (String) typeView.getText();
                         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_row);
 
@@ -738,6 +768,11 @@ public class LineActivity extends AppCompatActivity {
                             }else {
                                 linearLayout.setBackgroundResource(R.drawable.alert_primary);
                                 typeView.setTextColor(getResources().getColor(R.color.Primary));
+                            }
+                            if (!active_person_id.equals("null")){
+                                linearLayout.setBackgroundResource(R.drawable.cell_shape_new_green);
+                                typeView.setTextColor(getResources().getColor(R.color.Red));
+                                tv_status_call.setText("Врач выехал");
                             }
                         }
                         else if (status.equals("0") && isDone.equals("null") || status.equals("1")  && isDone.equals("1") ){
@@ -856,6 +891,11 @@ public class LineActivity extends AppCompatActivity {
     protected void new_appeal_clear(){
         SharedPreferences auth = getSharedPreferences("new_appeal", MODE_PRIVATE);
         auth.edit().clear().commit();
+
+        // Очистить дату в поиске
+        SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+        SharedPreferences.Editor ed = setting.edit();
+        ed.remove("dateSearch").commit();
     } // очистить переход из модуля ССМП
     /*Конец меню*/
 

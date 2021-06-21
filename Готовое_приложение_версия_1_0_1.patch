@@ -1,0 +1,196 @@
+Index: app/src/main/java/com/example/ssmp_v_1/utils/NetworkUpdEvent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/ssmp_v_1/utils/NetworkUpdEvent.java	(revision 8c5012a4a29d5bf8cc04f12e23b7dd513608d0e5)
++++ app/src/main/java/com/example/ssmp_v_1/utils/NetworkUpdEvent.java	(date 1619766147441)
+@@ -8,14 +8,17 @@
+ public class NetworkUpdEvent extends NetworkAppUtis {
+     private static final String CONTROLLER = "/ssmp11";
+     private static final String ADDRESS = "/upd-event";
++    private static final String PERSON_ID = "person_id";
+     private static final String EVENTID = "eventId";
+ 
+     public static URL generateURLUpdEvent(
+             String baseURL,
++            String person_id,
+             String eventId
+     ) throws MalformedURLException {
+         Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
+                 .buildUpon()
++                .appendQueryParameter(PERSON_ID,person_id)
+                 .appendQueryParameter(EVENTID,eventId)
+                 .build();
+         URL url = null;
+Index: app/src/main/java/com/example/ssmp_v_1/CallInfoActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/ssmp_v_1/CallInfoActivity.java	(revision 8c5012a4a29d5bf8cc04f12e23b7dd513608d0e5)
++++ app/src/main/java/com/example/ssmp_v_1/CallInfoActivity.java	(date 1619766147468)
+@@ -121,9 +121,11 @@
+                 try {
+                     /*Получить абазовый URL */
+                     SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
++                    SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+                     String baseURL = setting.getString("address", "");
++                    String person_id = auth.getString("person_id", "");
+ 
+-                    generatedURL = NetworkUpdEvent.generateURLUpdEvent(baseURL,eventId);
++                    generatedURL = NetworkUpdEvent.generateURLUpdEvent(baseURL,person_id,eventId);
+                 } catch (MalformedURLException e) {
+                     e.printStackTrace();
+                 }
+@@ -150,10 +152,11 @@
+                         return;
+                     }
+                     /*Получить абазовый URL */
+-                    SharedPreferences auth = getSharedPreferences("setting", MODE_PRIVATE);
+-                    String baseURL = auth.getString("address", "");
+-
+-                    generatedURL = NetworkAddEvent.generateURLAddEvent(baseURL,eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
++                    SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
++                    SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
++                    String baseURL = setting.getString("address", "");
++                    String person_id = auth.getString("person_id", "");
++                    generatedURL = NetworkAddEvent.generateURLAddEvent(baseURL,person_id,eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
+ 
+ 
+                 } catch (MalformedURLException e) {
+Index: app/src/main/java/com/example/ssmp_v_1/NewAppealActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/ssmp_v_1/NewAppealActivity.java	(revision 8c5012a4a29d5bf8cc04f12e23b7dd513608d0e5)
++++ app/src/main/java/com/example/ssmp_v_1/NewAppealActivity.java	(date 1619771225150)
+@@ -199,7 +199,9 @@
+                 TextView label = new TextView(NewAppealActivity.this);
+                 EditText input = new EditText(NewAppealActivity.this);
+                 label.setText(list.getString("label"));
++                label.setTextSize(20);
+                 input.setId(list.getInt("id"));
++                input.setTextSize(20);
+                 layout.addView(label);
+                 layout.addView(input);
+             }
+@@ -346,10 +348,12 @@
+             Integer ssmpresoult = 2; // получить порядковый номер
+             String note = "";
+             /*Получить абазовый URL */
+-            SharedPreferences auth = getSharedPreferences("setting", MODE_PRIVATE);
+-            String baseURL = auth.getString("address", "");
++            SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
++            SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
++            String baseURL = setting.getString("address", "");
++            String person_id = auth.getString("person_id", "");
+ 
+-            generatedURL = NetworkAddEvent.generateURLAddEvent(baseURL,eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
++            generatedURL = NetworkAddEvent.generateURLAddEvent(baseURL,person_id,eventId,callNumberId,"" + ssmpresoult,ssmpresoult_text,note);
+ 
+ 
+         } catch (MalformedURLException e) {
+Index: app/src/main/res/layout/activity_new_appeal.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_new_appeal.xml	(revision 8c5012a4a29d5bf8cc04f12e23b7dd513608d0e5)
++++ app/src/main/res/layout/activity_new_appeal.xml	(date 1619697572272)
+@@ -19,7 +19,9 @@
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+-                android:orientation="vertical">
++                android:orientation="vertical"
++                android:padding="10dp"
++                >
+ 
+                 <ProgressBar
+                     android:id="@+id/pb_loader_indicator"
+@@ -33,7 +35,6 @@
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:hint="@string/error_message"
+-                    android:padding="10dp"
+                     android:textSize="25sp"
+                     android:visibility="gone" />
+ 
+@@ -43,13 +44,14 @@
+                 android:id="@+id/addLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+-                android:orientation="vertical">
++                android:orientation="vertical"
++                android:padding="10dp"
++                >
+ 
+                 <TextView
+                     android:id="@+id/tv_result"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+-                    android:padding="10dp"
+                     android:text="СОЗДАНИЕ НОВОГО ОБРАЩЕНИЯ"
+                     android:textColor="#4695d9"
+                     android:textSize="25sp" />
+@@ -59,6 +61,8 @@
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:hint="Введите МКБ"
++                    android:textSize="20sp"
++                    android:padding="10dp"
+                     android:text=""/>
+                 <EditText
+                     android:id="@+id/et_mkb"
+@@ -82,6 +86,7 @@
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:ems="10"
++                    android:textSize="20sp"
+                     android:focusable="false"
+                     android:focusableInTouchMode="true"
+                     android:hint="Подразделение" />
+@@ -105,7 +110,9 @@
+                     android:id="@+id/ll_block_diary"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+-                    android:orientation="vertical"></LinearLayout>
++                    android:orientation="vertical"
++                    android:padding="10dp"
++                    />
+ 
+                 <Button
+                     android:id="@+id/b_to_send"
+Index: app/src/main/java/com/example/ssmp_v_1/utils/NetworkAddEvent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/ssmp_v_1/utils/NetworkAddEvent.java	(revision 8c5012a4a29d5bf8cc04f12e23b7dd513608d0e5)
++++ app/src/main/java/com/example/ssmp_v_1/utils/NetworkAddEvent.java	(date 1619765580096)
+@@ -8,6 +8,7 @@
+ public class NetworkAddEvent extends NetworkAppUtis {
+     private static final String CONTROLLER = "/ssmp11";
+     private static final String ADDRESS = "/add-event";
++    private static final String PERSON_ID = "person_id";
+     private static final String EVENTID = "eventId";
+     private static final String CALLNUMBERID = "callNumberId";
+     private static final String SSMPRESULT = "ssmpresoult";
+@@ -16,6 +17,7 @@
+ 
+     public static URL generateURLAddEvent(
+             String baseURL,
++            String person_id,
+             String eventId,
+             String callNumberId,
+             String ssmpresoult,
+@@ -24,6 +26,7 @@
+     ) throws MalformedURLException {
+         Uri builtUri = Uri.parse(baseURL + CONTROLLER + ADDRESS)
+                 .buildUpon()
++                .appendQueryParameter(PERSON_ID,person_id)
+                 .appendQueryParameter(EVENTID,eventId)
+                 .appendQueryParameter(CALLNUMBERID,callNumberId)
+                 .appendQueryParameter(SSMPRESULT,ssmpresoult)

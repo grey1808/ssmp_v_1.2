@@ -36,4 +36,8 @@
     <string name="title_activity_appointment">Запись на прием</string>
     <string name="title_setting">Настройки</string>
     <string name="title_about">О программе</string>
+    <string name="b_to_accept_call_and_goind">Принять и выехать на вызов</string>
+    <string name="b_to_accept_goind">Выехать на вызов</string>
+    <string name="b_to_add_going">Выехать на вызов</string>
+    <string name="b_to_delete_going">Отменить выезд</string>
 </resources>

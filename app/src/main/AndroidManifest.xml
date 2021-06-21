@@ -42,7 +42,7 @@
         </activity>
         <activity
             android:name=".CallInfoActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".LineActivity"
             android:label="@string/about_title"
             android:windowSoftInputMode="stateHidden"
             >
