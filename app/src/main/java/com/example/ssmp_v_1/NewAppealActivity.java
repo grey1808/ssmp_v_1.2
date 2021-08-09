@@ -81,7 +81,6 @@ public class NewAppealActivity extends AppCompatActivity {
         addEvent = null;
 
         getMkb();
-
         get_the_diary(); // Получить дневник
 
         b_to_send.setOnClickListener(new View.OnClickListener() {

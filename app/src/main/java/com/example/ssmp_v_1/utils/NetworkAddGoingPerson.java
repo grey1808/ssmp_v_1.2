@@ -5,9 +5,9 @@ import android.net.Uri;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class NetworkSetGoingPerson extends NetworkAppUtis {
+public class NetworkAddGoingPerson extends NetworkAppUtis {
     private static final String CONTROLLER = "/ssmp11";
-    private static final String ADDRESS = "/set-going-person";
+    private static final String ADDRESS = "/add-going-person";
     private static final String PERSON_ID = "person_id";
     private static final String EVENTID = "eventId";
 

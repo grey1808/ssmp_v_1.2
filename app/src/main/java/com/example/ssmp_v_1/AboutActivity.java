@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import org.json.JSONException;
@@ -40,12 +41,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class AboutActivity extends AppCompatActivity {
 
     private TextView tv_about_content;
     private TextView tv_error;
     private Button b_download;
     private ProgressBar loader_indicator;
+
+
 
     private void showResultTextView(){
         tv_error.setVisibility(View.GONE);
@@ -91,15 +96,17 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Запросить разрешение на сохранение файла
     public  boolean haveStoragePermission() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.e("Permission error","You have permission");
+                Log.e("Permission error","У вас есть разрешение сохранять файлы");
                 return true;
             } else {
 
-                Log.e("Permission error","You have asked for permission");
+                Log.e("Permission error","Вы уже просили разрешения ");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
             }
@@ -121,6 +128,17 @@ public class AboutActivity extends AppCompatActivity {
         protected Void doInBackground(URL... urls) {
             URL url = urls[0];
             Download(url);
+
+//            int permissionStatus = ContextCompat.checkSelfPermission(AboutActivity.this, Manifest.permission.READ_CONTACTS);
+//            if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
+//                Download(url);
+//            } else {
+//                ActivityCompat.requestPermissions(AboutActivity.this, new String[] {Manifest.permission.READ_CONTACTS},
+//                        Integer.parseInt(WRITE_EXTERNAL_STORAGE));
+//            }
+//            if (PremissionDownload()){
+//            }
+
             return null;
         }
 
@@ -168,7 +186,20 @@ public class AboutActivity extends AppCompatActivity {
             final long downloadId = manager.enqueue(request);
 
 
-
+//            File toInstall = new File(destination);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                Uri apkUri = FileProvider.getUriForFile(AboutActivity.this, BuildConfig.APPLICATION_ID + ".provider", toInstall);
+//                Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+//                intent.setData(apkUri);
+//                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                AboutActivity.this.startActivity(intent);
+//            } else {
+//                Uri apkUri = Uri.fromFile(toInstall);
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                AboutActivity.this.startActivity(intent);
+//            }
 
 
 
@@ -184,15 +215,7 @@ public class AboutActivity extends AppCompatActivity {
                     unregisterReceiver(this);
                     finish();
 
-//                    String destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
-//                    String fileName = "app-debug.apk";
-//                    destination += fileName;
-//
-//                    File apkFile = new File(destination);
-//                    Intent webIntent = new Intent(Intent.ACTION_VIEW);
-//                    webIntent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
-//                    webIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(webIntent);    //ActivityNotFoundException
+
 
                 }
             };
@@ -202,20 +225,78 @@ public class AboutActivity extends AppCompatActivity {
 
             //register receiver for when .apk download is compete зарегистрируйте получателя, когда загрузка .apk будет завершена
             registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//            int permissionStatus = ContextCompat.checkSelfPermission(AboutActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//
+//            if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
+//                registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//            }  else {
+//                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                        );
+//            }
+
         }
 
+        protected void Download1(URL url1){
+            //get destination to update file and set Uri
+            //TODO: First I wanted to store my update .apk file on internal storage for my app but apparently android does not allow you to open and install
+            //aplication with existing package from there. So for me, alternative solution is Download directory in external storage. If there is better
+            //solution, please inform us in comment
+            String destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
+            String fileName = "app-debug.apk";
+            destination += fileName;
+            final Uri uri = Uri.parse("file://" + destination);
 
+            //Delete update file if exists
+            File file = new File(destination);
+            if (file.exists())
+                //file.delete() - test this, I think sometimes it doesnt work
+                file.delete();
 
+            //get url of app on server
+            String url = url1.toString();
 
-        public class GenericFileProvider extends FileProvider {
+            //set downloadmanager
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            request.setDescription(AboutActivity.this.getString(R.string.app_name));
+            request.setTitle(AboutActivity.this.getString(R.string.app_name));
 
+            //set destination
+            request.setDestinationUri(uri);
+
+            // get download service and enqueue file
+            final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            final long downloadId = manager.enqueue(request);
+
+            //set BroadcastReceiver to install app when .apk is downloaded
+            BroadcastReceiver onComplete = new BroadcastReceiver() {
+                public void onReceive(Context ctxt, Intent intent) {
+                    Intent install = new Intent(Intent.ACTION_VIEW);
+                    install.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    install.setDataAndType(uri,
+                            manager.getMimeTypeForDownloadedFile(downloadId));
+                    startActivity(install);
+
+                    unregisterReceiver(this);
+                    finish();
+                }
+            };
+            //register receiver for when .apk download is compete
+            registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        }
+        protected boolean PremissionDownload(){
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.e("Permission error","You have permission");
+                return true;
+            }else {
+                ActivityCompat.requestPermissions(AboutActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},  Integer.parseInt(WRITE_EXTERNAL_STORAGE));
+                return false;
+            }
         }
         protected void onPostExecute(){
 
             loader_indicator.setVisibility(View.GONE);
         }
     }
-
 
 
 

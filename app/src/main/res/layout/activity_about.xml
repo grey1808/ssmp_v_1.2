@@ -27,7 +27,9 @@
             android:backgroundTint="#286090"
             android:text="Загрузить последнюю версию"
             android:textColor="#FFFFFF"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:visibility="gone"
+            />
 
         <ProgressBar
             android:id="@+id/pb_loader_indicator"

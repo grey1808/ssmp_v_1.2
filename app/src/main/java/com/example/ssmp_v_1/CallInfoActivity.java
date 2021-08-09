@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.ssmp_v_1.utils.NetworkAddEvent;
 import com.example.ssmp_v_1.utils.NetworkCallInfo;
 import com.example.ssmp_v_1.utils.NetworkDeleteGoingPerson;
-import com.example.ssmp_v_1.utils.NetworkSetGoingPerson;
+import com.example.ssmp_v_1.utils.NetworkAddGoingPerson;
 import com.example.ssmp_v_1.utils.NetworkUpdEvent;
 
 import org.json.JSONException;
@@ -233,7 +233,7 @@ public class CallInfoActivity extends AppCompatActivity {
                     String baseURL = setting.getString("address", "");
                     String person_id = auth.getString("person_id", "");
                     generatedURL = NetworkUpdEvent.generateURLUpdEvent(baseURL,person_id,eventId);
-                    generatedURLSetGoingPerson = NetworkSetGoingPerson.generateURL(baseURL,person_id,eventId);
+                    generatedURLSetGoingPerson = NetworkAddGoingPerson.generateURL(baseURL,person_id,eventId);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -254,7 +254,7 @@ public class CallInfoActivity extends AppCompatActivity {
                     SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
                     String baseURL = setting.getString("address", "");
                     String person_id = auth.getString("person_id", "");
-                    generatedURLSetGoingPerson = NetworkSetGoingPerson.generateURL(baseURL,person_id,eventId);
+                    generatedURLSetGoingPerson = NetworkAddGoingPerson.generateURL(baseURL,person_id,eventId);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -369,7 +369,7 @@ public class CallInfoActivity extends AppCompatActivity {
 
                 if (status.equals("1")){
 
-                    tv_message.setText("Пока на этот вызов никто не выехал");
+                    tv_message.setText("Пока этот вызов никто не обслуживает");
                     if (!active_person_id.equals("null")){
                         showDeleteGoing(active_person_id);
                         active_person_id = "Этот вызов обслуживает: <b>" + fullname_post + "</b>";

@@ -8,6 +8,7 @@ import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,9 +17,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,6 +86,47 @@ public class LineActivity extends AppCompatActivity {
             et_search_date.setText(dateSearch);
         }
     } // проверить есть ли сохраненная дата поиска
+
+    // Выпадающее меню при удержании
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.inflate(R.menu.popup_list_menu);
+
+        popupMenu
+                .setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.menu1:
+                                Toast.makeText(getApplicationContext(),
+                                        "Вы выбрали PopupMenu 1",
+                                        Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.menu2:
+                                Toast.makeText(getApplicationContext(),
+                                        "Вы выбрали PopupMenu 2",
+                                        Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.menu3:
+                                Toast.makeText(getApplicationContext(),
+                                        "Вы выбрали PopupMenu 3",
+                                        Toast.LENGTH_SHORT).show();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                Toast.makeText(getApplicationContext(), "onDismiss",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        popupMenu.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -375,6 +419,41 @@ public class LineActivity extends AppCompatActivity {
 
                         }
                     });
+
+//                    listView.setOnTouchListener(new View.OnTouchListener(){
+//
+//                        long startTime;
+//
+////                        @Override
+////                        public boolean onTouch(View v, MotionEvent event) {
+////                            showPopupMenu(v);
+////                            return false;
+////                        }
+//
+//                        @Override
+//                        public boolean onTouch(View v, MotionEvent event) {
+//                            switch (event.getAction()) {
+//                                case MotionEvent.ACTION_DOWN: // нажатие
+//                                    startTime = System.currentTimeMillis();
+//                                    break;
+//                                case MotionEvent.ACTION_MOVE: // движение
+//                                    break;
+//                                case MotionEvent.ACTION_UP: // отпускание
+//                                case MotionEvent.ACTION_CANCEL:
+//                                    long totalTime = System.currentTimeMillis() - startTime;
+//                                    long totalSecunds = totalTime / 1000;
+//                                    if( totalSecunds >= 3 )
+//                                    {
+//                                        //ВОТ тут прошло 3 или больше секунды с начала нажатия
+//                                        //можно что-то запустить
+//                                        System.out.println("Три секунды прошло с нажатия!");
+//                                    }
+//                                    break;
+//                            }
+//                            return true;
+//                        }
+//                    });
+//
 
                 }
                 // если вызов ССМП принят

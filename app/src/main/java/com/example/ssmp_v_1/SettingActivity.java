@@ -10,7 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -33,6 +36,7 @@ public class SettingActivity  extends AppCompatActivity {
 
     private EditText et_address;
     private TextView tv_error;
+    private TextView tv_title_main;
     private Button b_send;
     private ProgressBar pb_loader_indicator;
     private Boolean testConnect;
@@ -43,6 +47,16 @@ public class SettingActivity  extends AppCompatActivity {
     private EditText et_idLPU; // Идентификатор ЛПУ в справочнике 64
     private EditText et_url_token; // адрес для получаения токена
     /*Для портала врача*/
+
+    /*Для лицензионного соглашения*/
+    private LinearLayout ll_setting;
+    private LinearLayout ll_licenses;
+    private TextView tv_licenses;
+    private TextView b_send_licenses;
+    private TextView tv_licenses_warning;
+    private CheckBox checkBoxBold ;
+    boolean isFlag = false;
+    /*Для лицензионного соглашения*/
 
     private void showResultTextView(){
         tv_error.setVisibility(View.GONE);
@@ -57,6 +71,7 @@ public class SettingActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         et_address = findViewById(R.id.et_address);
+        tv_title_main = findViewById(R.id.tv_title_main);
         tv_error = findViewById(R.id.tv_error);
         b_send = findViewById(R.id.b_send);
         pb_loader_indicator = findViewById(R.id.pb_loader_indicator);
@@ -67,6 +82,35 @@ public class SettingActivity  extends AppCompatActivity {
         et_idLPU = findViewById(R.id.et_idLPU);
         et_url_token = findViewById(R.id.et_url_token);
         /*Для портала врача*/
+
+
+
+        /*Для лицензионного соглашения*/
+        tv_licenses = findViewById(R.id.tv_licenses);
+        b_send_licenses = findViewById(R.id.b_send_licenses);
+        checkBoxBold = findViewById(R.id.checkBoxBold);
+        tv_licenses_warning = findViewById(R.id.tv_licenses_warning);
+        /*Для лицензионного соглашения*/
+        // Проверить лизензию
+        ll_setting = findViewById(R.id.ll_setting);
+        ll_licenses = findViewById(R.id.ll_licenses);
+
+
+        isLicenses();
+        String lisenses = " <p>Повседневная практика показывает, что консультация с широким активом играет важную роль в формировании форм развития. Таким образом постоянный количественный рост и сфера нашей активности требуют от нас анализа дальнейших направлений развития. С другой стороны новая модель организационной деятельности представляет собой интересный эксперимент проверки новых предложений. Разнообразный и богатый опыт постоянный количественный рост и сфера нашей активности требуют определения и уточнения модели развития. Равным образом сложившаяся структура организации позволяет оценить значение систем массового участия.</p>\n" +
+                "\n" +
+                "<p>Значимость этих проблем настолько очевидна, что начало повседневной работы по формированию позиции способствует подготовки и реализации направлений прогрессивного развития. Равным образом укрепление и развитие структуры позволяет оценить значение системы обучения кадров, соответствует насущным потребностям.</p>\n" +
+                "\n" +
+                "<p>Товарищи! сложившаяся структура организации позволяет оценить значение новых предложений. Повседневная практика показывает, что начало повседневной работы по формированию позиции позволяет оценить значение существенных финансовых и административных условий.</p>\n" +
+                "\n" +
+                "<p>Повседневная практика показывает, что постоянное информационно-пропагандистское обеспечение нашей деятельности обеспечивает широкому кругу (специалистов) участие в формировании соответствующий условий активизации. Таким образом укрепление и развитие структуры обеспечивает широкому кругу (специалистов) участие в формировании форм развития. Повседневная практика показывает, что рамки и место обучения кадров влечет за собой процесс внедрения и модернизации соответствующий условий активизации. Таким образом сложившаяся структура организации представляет собой интересный эксперимент проверки направлений прогрессивного развития. Товарищи! рамки и место обучения кадров представляет собой интересный эксперимент проверки форм развития. Товарищи! начало повседневной работы по формированию позиции представляет собой интересный эксперимент проверки соответствующий условий активизации.</p>\n" +
+                "\n" +
+                "<p>С другой стороны консультация с широким активом представляет собой интересный эксперимент проверки существенных финансовых и административных условий. С другой стороны постоянный количественный рост и сфера нашей активности требуют от нас анализа соответствующий условий активизации. Товарищи! укрепление и развитие структуры в значительной степени обуславливает создание форм развития. Значимость этих проблем настолько очевидна, что начало повседневной работы по формированию позиции позволяет выполнять важные задания по разработке соответствующий условий активизации. Таким образом консультация с широким активом требуют от нас анализа системы обучения кадров, соответствует насущным потребностям. Разнообразный и богатый опыт постоянный количественный рост и сфера нашей активности требуют определения и уточнения модели развития. </p>";
+        tv_licenses.setText(Html.fromHtml(lisenses));
+        // Принять лицензию
+        acceptLicenses();
+
+
 
         b_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +186,59 @@ public class SettingActivity  extends AppCompatActivity {
         if (url_token != null || !url_token.equals("")){
             et_url_token.setText(url_token);
         }
+    }
+
+    // проверка на лицензию
+    public void isLicenses(){
+        // Получить адрес
+        SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+        String isLicenses = setting.getString("isLicenses", "");
+//        setting.edit().remove("isLicenses").commit(); // очистить отметку о лицензии
+
+        if (isLicenses.equals("true")){
+            ll_setting.setVisibility(View.VISIBLE);
+            ll_licenses.setVisibility(View.GONE);
+            tv_title_main.setText("Основные настройки");
+        }else {
+            ll_setting.setVisibility(View.GONE);
+            ll_licenses.setVisibility(View.VISIBLE);
+            tv_title_main.setText("Лицензионное соглашение");
+        }
+    }
+
+    // Принять лицензию
+    public void acceptLicenses(){
+
+        checkBoxBold.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    // Флажок выбран
+                    isFlag = true;
+                }else {
+                    // Флажок не выбран
+                    isFlag = false;
+                }
+            }
+        });
+
+        b_send_licenses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // запиcь переменной
+                SharedPreferences sPref = getSharedPreferences("setting", MODE_PRIVATE);
+                SharedPreferences.Editor ed = sPref.edit();
+                if (isFlag){
+                    ed.putString("isLicenses", "true");
+                }else {
+                    tv_licenses_warning.setText("Вы должны принять лицензионное соглашение!");
+                    tv_licenses_warning.setVisibility(View.VISIBLE);
+                    ed.putString("isLicenses", "false");
+                }
+                ed.commit(); // Записать в хранилище
+                isLicenses(); // Проверить лицензию
+            }
+        });
     }
 
 
