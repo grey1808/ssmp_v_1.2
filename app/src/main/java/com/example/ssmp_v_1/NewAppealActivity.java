@@ -411,7 +411,7 @@ public class NewAppealActivity extends AppCompatActivity {
         String response = setting.getString("response", "");
 
         if (response != null || !response.equals("")){
-            String[] tempstr = response.split(",");
+            String[] tempstr = response.split("/n");
             ac_tv_mkb = findViewById(R.id.ac_tv_mkb);
             ac_tv_mkb.setAdapter(new ArrayAdapter<>(this,
                     android.R.layout.simple_dropdown_item_1line, tempstr));

@@ -307,13 +307,41 @@ public class SearchClientActivity extends AppCompatActivity {
                     JSONObject list = jsonArray.getJSONObject(i);
                     String fullName = list.getString("lastName") + " " + list.getString("firstName") + " " + list.getString("patrName");
                     String contact = list.getString("contact");
+                    String street_type = list.getString("street_type"); // тип улицы
+                    String street_name = list.getString("street_name"); // улица
+                    String corpus = list.getString("corpus"); // Корпус
+                    String flat = list.getString("flat"); // Квартира
+
+                    if (street_type  == null || street_type.equals("")  || street_type.equals("null") || street_type == "1" ){
+                        street_type = "";
+                    }else{
+                        street_type = list.getString("street_type");
+                    }
+                    if (street_name  == null || street_name.equals("") || street_name.equals("null")  || street_name == "1" ){
+                        street_name = "";
+                    }else{
+                        street_name = list.getString("street_name");
+                    }
+                    if (corpus  == null || corpus.equals("") || corpus.equals("null") || corpus == "1" ){
+                        corpus = "";
+                    }else{
+                        corpus = "корпус " + list.getString("corpus");
+                    }
+
+                    if (flat  == null || flat.equals("") || flat.equals("null")  || flat == "1" ){
+                        flat = "";
+                    }else{
+                        flat = "кв. " + list.getString("flat");
+                    }
+
                     String address =
                             list.getString("name_type") + ". " +
                             list.getString("name_city") + " " +
-                            list.getString("street_type") + " " +
-                            list.getString("street_name") + " " +
+                            street_type + " " +
+                            street_name + " д. " +
                             list.getString("number") + " " +
-                            list.getString("corpus");
+                            flat + " " +
+                            corpus;
                     if (contact == null || contact.equals("") || contact == "1"){
                         contact = "не указан";
                     }
