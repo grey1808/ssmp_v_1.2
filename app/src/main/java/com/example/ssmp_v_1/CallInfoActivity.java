@@ -238,8 +238,9 @@ public class CallInfoActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 //                tv_ssmp_text_message.setText(generatedURL.toString());
-                new QueryTaskUpdEvent().execute(generatedURL);
-                new QueryTaskSetGoingPerson().execute(generatedURLSetGoingPerson);
+//                new QueryTaskUpdEvent().execute(generatedURL);
+                new QueryTaskUpdEventAndAddGoing().execute(generatedURL);
+//                new QueryTaskSetGoingPerson().execute(generatedURLSetGoingPerson);
             }
         });
 
@@ -450,6 +451,69 @@ public class CallInfoActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
+                    }else {
+                        showErrorMessage();
+                        tv_error.setText(Html.fromHtml(message));
+                    }
+
+                } catch (JSONException e) {
+                    showErrorMessage();
+                    e.printStackTrace();
+                }
+            }else {
+                showErrorMessage();
+            }
+            loadingIndicator.setVisibility(View.GONE);
+        }
+    }
+
+
+    // Принять вызов и выехать
+    class QueryTaskUpdEventAndAddGoing extends AsyncTask<URL, Void, String> {
+
+        @Override
+        protected void onPreExecute(){
+            loadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            String response = null;
+            try {
+                response = getResponseFromURL(urls[0]);
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response){
+//            tv_ssmp_text_message.setText(response);
+            if (response != null && !response.equals("")){
+                try {
+                    JSONObject list = new JSONObject(response);
+                    Integer status = (Integer) list.get("status");
+                    String message = (String) list.get("message");
+                    if(status != 0){
+                        showResultMessage();
+                        b_to_accept_call.setVisibility(View.GONE);
+                        b_to_accept_call_and_going.setVisibility(View.GONE);
+                        tv_message.setText(Html.fromHtml(message));
+                        /*Получить абазовый URL */
+                        SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+                        SharedPreferences auth = getSharedPreferences("auth", MODE_PRIVATE);
+                        String baseURL = setting.getString("address", "");
+                        String person_id = auth.getString("person_id", "");
+                        String eventId = getIntent().getExtras().getString("eventId");
+                        URL generatedURLSetGoingPerson = null;
+                        try {
+                            generatedURLSetGoingPerson = NetworkAddGoingPerson.generateURL(baseURL, person_id, eventId);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        new QueryTaskSetGoingPerson().execute(generatedURLSetGoingPerson);
                     }else {
                         showErrorMessage();
                         tv_error.setText(Html.fromHtml(message));

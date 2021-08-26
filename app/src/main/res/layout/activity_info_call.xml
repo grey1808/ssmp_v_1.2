@@ -44,10 +44,11 @@
                 android:id="@+id/tv_ssmp_text_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/tv_ssmp_text_error"
                 android:padding="10dp"
                 android:layout_margin="10dp"
-                android:text="@string/tv_ssmp_text_error"
                 android:textSize="25sp"
+                android:background="#f2dede"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -97,11 +98,10 @@
                 android:id="@+id/tv_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#f8d7da"
-                android:textColor="#f2dede"
-                android:padding="12dp"
-                android:textSize="25sp"
+                android:padding="10dp"
                 android:layout_margin="10dp"
+                android:textSize="25sp"
+                android:background="#f2dede"
                 android:hint="@string/tv_ssmp_text_error"
                 android:visibility="gone"
                 />
